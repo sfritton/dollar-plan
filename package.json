@@ -1,0 +1,15 @@
+{
+  "name": "spiderman",
+  "version": "1.0.0",
+  "description": "A budgeting tool",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/",
+  "keywords": [],
+  "author": "Sam Fritton",
+  "devDependencies": {
+    "electron": "~1.6.2"
+  }
+}
