@@ -5,14 +5,18 @@ require('../less/main.less');
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-var Entry = React.createClass({
+var App = React.createClass({
   render: function(){
     return (
       <div className="myDiv">
-        Hello Electron!
+        {helloWorld()}
       </div>
     )
   }
 });
 
-ReactDOM.render(<Entry />, document.getElementById('content'));
+function helloWorld() {
+  return 'Hello Electron!';
+}
+
+ReactDOM.render(<App />, document.getElementById('content'));
