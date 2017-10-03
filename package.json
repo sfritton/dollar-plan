@@ -1,5 +1,6 @@
 {
-  "name": "spiderman",
+  "name": "dollar-plan",
+  "author": "Sam Fritton",
   "version": "0.1.0",
   "description": "A simple budgeting app for desktop.",
   "main": "main.js",
