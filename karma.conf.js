@@ -12,9 +12,11 @@ module.exports = function (config) {
     reporters: ['dots'],
     webpack: {
       module: {
-        loaders: [
-          {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader'}
-        ]
+        loaders: [{
+          test: /\.jsx?$/,
+          exclude: /node_modules/,
+          loader: 'babel-loader'
+        }]
       },
       watch: true
     },

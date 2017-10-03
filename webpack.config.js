@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var path = require('path');
 
 module.exports = {
   entry: {
@@ -6,7 +7,7 @@ module.exports = {
   },
 
   output: {
-    path: './public/built',
+    path: path.resolve(__dirname, 'public/built'),
     filename: 'bundle.js',
     publicPath: 'http://localhost:8080/built/'
   },
@@ -23,7 +24,7 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
-          presets: ['react', 'es2015']
+          presets: ['react', 'env']
         }
       },
       { test: /\.css$/, loader: 'style-loader!css-loader' },
