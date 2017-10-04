@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+require('./month-dropdown.less');
 
 'use strict';
 
 class MonthDropdown extends React.Component {
   render() {
     return (
-      <select>
-        {MonthDropdown.months.map((month, i) => <option key={i} value={month.id}>{month.name}</option>)}
+      <select className='months'>
+        {MonthDropdown.months.map((month, i) => <option key={i} className='months' value={month.id}>{month.name}</option>)}
       </select>
     );
   }
