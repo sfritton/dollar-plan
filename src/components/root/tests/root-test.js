@@ -8,6 +8,6 @@ import Root from '../root';
 describe('root', function() {
   it('renders without problems', function() {
     var root = TestUtils.renderIntoDocument(<Root/>);
-    expect(root).toExist();
+    expect(root).toBeTruthy();
   });
 });
