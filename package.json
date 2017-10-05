@@ -26,6 +26,7 @@
     "lodash": "^4.17.4",
     "mocha": "^3.5.3",
     "node-libs-browser": "^2.0.0",
+    "react-bootstrap": "^0.31.3",
     "style-loader": "^0.18.2",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.9.1"
