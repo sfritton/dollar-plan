@@ -5,6 +5,7 @@ import expect from 'expect';
 
 import Welcome from './welcome';
 import MonthDropdown from '../month-dropdown/month-dropdown';
+import YearDropdown from '../year-dropdown/year-dropdown';
 
 describe('Welcome', function() {
   beforeEach(function() {
@@ -18,5 +19,10 @@ describe('Welcome', function() {
   it('renders the MonthDropdown component', function() {
     var monthDropdowns = TestUtils.scryRenderedComponentsWithType(this.welcome, MonthDropdown);
     expect(monthDropdowns.length).toEqual(1);
+  });
+
+  it('renders the YearDropdown component', function() {
+    var yearDropdowns = TestUtils.scryRenderedComponentsWithType(this.welcome, YearDropdown);
+    expect(yearDropdowns.length).toEqual(1);
   });
 });
