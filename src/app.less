@@ -1,10 +1,60 @@
-@body-bg: #000;
-@myDiv-fg: #f00;
+/*****************************************************************************
+ * Colors
+ *****************************************************************************/
+@primary-text: #fff;
 
+@primary-light: #58a5ef;
+@primary-light-text: #000;
+
+@primary-dark: #004c8b;
+@primary-dark-text: #fff;
+
+@secondary: #c6ff00;
+@secondary-text: #000;
+
+@secondary-light: #fdff58;
+@secondary-light-text: #000;
+
+@secondary-dark: #90cc00;
+@secondary-dark-text: #000;
+
+/*****************************************************************************
+ * Elements
+ *****************************************************************************/
 body {
-  background-color: @body-bg;
+  background-color: @primary;
+  font-family: 'Raleway', sans-serif;
+  font-size: 150%;
+  color: @primary-text;
+  margin: 0px;
 }
 
-div.myDiv {
-  color: @myDiv-fg;
+select {
+  background-color: #fff;
+  color: @primary-dark;
+  border-radius: 10px;
+  font-size: 1.5em;
+  margin: 2%;
+  padding: 5px;
+  border-width: 0px;
+}
+
+/*****************************************************************************
+ * Classes
+ *****************************************************************************/
+.header {
+  font-size: 3em;
+  text-align: center;
+  background-color: @primary-dark;
+  color: @primary-dark-text;
+  padding: 10px;
+  margin-bottom: 5px;
+}
+
+.header-accent {
+  color: @secondary;
+}
+
+.page {
+  margin: 15px;
 }

@@ -9,11 +9,13 @@ import YearDropdown from '../year-dropdown/year-dropdown';
 class Welcome extends React.Component {
   render() {
     return (
-      <div className="myDiv">
-        <h1>Welcome to $Plan</h1>
-        <p>{'It looks like you don\'t have any budgets. Would you like to create one?'}</p>
-        <MonthDropdown />
-        <YearDropdown />
+      <div>
+        <div className="header">Welcome to <span className="header-accent">$</span>Plan</div>
+        <div className="page">
+          {'It looks like you don\'t have any budgets. Would you like to create one?'}
+          <MonthDropdown />
+          <YearDropdown />
+        </div>
       </div>
     );
   }
