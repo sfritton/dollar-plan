@@ -8,7 +8,7 @@ class Page extends React.Component {
   render() {
     return (
       <div>
-        <div className="header">{this.props.title}</div>
+        <div className="header">{this.props.header}</div>
         <div className="page-body">
           {this.props.children}
         </div>

@@ -11,7 +11,7 @@ import Page from '../page/page';
 class Welcome extends React.Component {
   render() {
     return (
-      <Page title={Welcome.title}>
+      <Page header={Welcome.title}>
         <div className="padding-10"></div>
         <Grid>
           <Row>

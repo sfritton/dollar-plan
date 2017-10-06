@@ -9,7 +9,7 @@ describe('Page', function() {
   beforeEach(function() {
     this.title = 'I AM A TITLE';
     this.bodyText = 'I am text in the body';
-    this.page = TestUtils.renderIntoDocument(<Page title={this.title}>{this.bodyText}</Page>);
+    this.page = TestUtils.renderIntoDocument(<Page header={this.title}>{this.bodyText}</Page>);
   });
 
   it('renders without problems', function() {
