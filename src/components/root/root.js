@@ -8,7 +8,7 @@ import Welcome from '../welcome/welcome';
 class Root extends React.Component {
   render() {
     return (
-      <div className="myDiv">
+      <div>
         <Welcome />
       </div>
     );

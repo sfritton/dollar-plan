@@ -4,16 +4,16 @@ import { Grid, Row, Col} from 'react-bootstrap';
 import _ from 'lodash';
 
 import Dropdown from '../dropdown/dropdown';
+import Page from '../page/page';
 
 'use strict';
 
 class Welcome extends React.Component {
   render() {
     return (
-      <div>
-        <div className="header">Welcome to <span className="header-accent">$</span>Plan</div>
+      <Page title={Welcome.title}>
         <div className="padding-10"></div>
-        <Grid className="page">
+        <Grid>
           <Row>
             {'It looks like you don\'t have any budgets. Would you like to create one?'}
           </Row>
@@ -23,10 +23,11 @@ class Welcome extends React.Component {
             <button className="submit">Create</button>
           </Row>
         </Grid>
-      </div>
+      </Page>
     );
   }
 }
+Welcome.title = <span>Welcome to <span className="header-accent">$</span>Plan</span>;
 
 Welcome.months = [
  	{id: 1, name: 'January'},

@@ -5,6 +5,7 @@ import expect from 'expect';
 
 import Welcome from './welcome';
 import Dropdown from '../dropdown/dropdown';
+import Page from '../page/page';
 
 describe('Welcome', function() {
   beforeEach(function() {
@@ -13,6 +14,11 @@ describe('Welcome', function() {
 
   it('renders without problems', function() {
     expect(this.welcome).toBeTruthy();
+  });
+
+  it('renders a Page component', function() {
+    var pages = TestUtils.scryRenderedComponentsWithType(this.welcome, Page);
+    expect(pages.length).toEqual(1);
   });
 
   it('renders 2 Dropdown components', function() {
