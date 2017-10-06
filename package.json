@@ -14,6 +14,7 @@
     "electron-packager": "^9.1.0",
     "electron-rebuild": "^1.6.0",
     "expect": "^21.2.1",
+    "file-loader": "^1.1.5",
     "jsx-loader": "^0.13.2",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -27,7 +28,9 @@
     "mocha": "^3.5.3",
     "node-libs-browser": "^2.0.0",
     "react-bootstrap": "^0.31.3",
+    "react-fa": "^5.0.0",
     "style-loader": "^0.18.2",
+    "url-loader": "^0.6.2",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.9.1"
   },

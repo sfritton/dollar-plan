@@ -22,6 +22,10 @@
 /*****************************************************************************
  * Elements
  *****************************************************************************/
+:focus {
+  outline: 0px;
+}
+
 body {
   background-color: @primary;
   font-family: 'Raleway', sans-serif;
@@ -35,11 +39,13 @@ select {
   background-color: #fff;
   color: @primary-dark;
   border-radius: 10px;
+  height: 50px;
   font-size: 1.5em;
   margin-top: 10px;
   margin-right: 10px;
   padding: 5px;
   border-width: 0px;
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
 }
 
 /*****************************************************************************
@@ -58,6 +64,34 @@ select {
   color: @secondary;
 }
 
+.padding-10 {
+  padding-top: 10%;
+}
+
 .page {
-  margin: 15px;
+  padding: 15px;
+  width: 100%;
+}
+
+.submit {
+  background-color: @secondary;
+  color: @secondary-text;
+  border-radius: 10px;
+  height: 50px;
+  font-size: 1.5em;
+  margin-top: 10px;
+  margin-right: 10px;
+  padding: 5px 10px;
+  border-width: 0px;
+}
+
+.submit:hover {
+  background-color: @secondary-light;
+  color: @secondary-light-text;
+}
+
+.submit:active {
+  background-color: @secondary-dark;
+  color: @secondary-dark-text;
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
 }

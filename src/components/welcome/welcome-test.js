@@ -19,4 +19,9 @@ describe('Welcome', function() {
     var dropdowns = TestUtils.scryRenderedComponentsWithType(this.welcome, Dropdown);
     expect(dropdowns.length).toEqual(2);
   });
+
+  it('renders a button', function() {
+    var buttons = TestUtils.scryRenderedDOMComponentsWithTag(this.welcome, 'button');
+    expect(buttons.length).toEqual(1);
+  });
 });

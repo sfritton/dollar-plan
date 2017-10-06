@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col} from 'react-bootstrap';
 import _ from 'lodash';
 
 import Dropdown from '../dropdown/dropdown';
@@ -12,6 +12,7 @@ class Welcome extends React.Component {
     return (
       <div>
         <div className="header">Welcome to <span className="header-accent">$</span>Plan</div>
+        <div className="padding-10"></div>
         <Grid className="page">
           <Row>
             {'It looks like you don\'t have any budgets. Would you like to create one?'}
@@ -19,6 +20,7 @@ class Welcome extends React.Component {
           <Row>
             <Dropdown options={Welcome.months} />
             <Dropdown options={Welcome.years} />
+            <button className="submit">Create</button>
           </Row>
         </Grid>
       </div>
