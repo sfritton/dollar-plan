@@ -10,7 +10,13 @@ class Home extends React.Component {
   render() {
     return (
       <Page header={'November 2017, 15 days left'}>
-        <ProgressBar/>
+        <ProgressBar percent={.1}/>
+        <ProgressBar percent={.05}/>
+        <ProgressBar percent={.01}/>
+        <ProgressBar percent={0}/>
+        <ProgressBar percent={.75}/>
+        <ProgressBar percent={1}/>
+        <ProgressBar percent={1.5}/>
       </Page>
     );
   }

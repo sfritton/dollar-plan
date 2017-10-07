@@ -3,21 +3,24 @@
  *****************************************************************************/
 @primary: #0277bc;
 @primary-text: #fff;
-
 @primary-light: #58a5ef;
 @primary-light-text: #000;
-
 @primary-dark: #004c8b;
 @primary-dark-text: #fff;
 
 @secondary: #c6ff00;
 @secondary-text: #000;
-
 @secondary-light: #fdff58;
 @secondary-light-text: #000;
-
 @secondary-dark: #90cc00;
 @secondary-dark-text: #000;
+
+@danger: #ff1744;
+@danger-text: #000;
+@danger-light: #ff616f;
+@danger-light-text: #000;
+@danger-dark: #c4001d;
+@danger-dark-text: #fff;
 
 /*****************************************************************************
  * Elements
@@ -79,9 +82,12 @@ select {
   border-radius: 20px;
 }
 
+.pb_danger {
+  background-color: @danger;
+}
+
 .pb_inner {
   background-color: @secondary;
-  width: 50%;
 }
 
 .pb_outer {
