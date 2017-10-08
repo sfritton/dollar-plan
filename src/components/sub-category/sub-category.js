@@ -6,7 +6,7 @@ import ProgressBar from '../progress-bar/progress-bar';
 
 'use strict';
 
-class SpendingCategory extends React.Component {
+class SubCategory extends React.Component {
   generateMessage() {
     if (this.props.actualAmount < this.props.plannedAmount) {
       return `$${this.props.plannedAmount - this.props.actualAmount} left to spend`;
@@ -20,19 +20,19 @@ class SpendingCategory extends React.Component {
   }
   render() {
     return (
-      <Grid className="category">
+      <Grid className="sub-category">
         <Row>
           <Col className="height-100" xs={3} md={2}>
-            <div className="category-title">{this.props.title}</div>
+            <div className="sub-category-title">{this.props.title}</div>
           </Col>
           <Col className="height-100" xs={1} md={1}>
-            <div className="category-amount">{'$' + this.props.plannedAmount}</div>
+            <div className="sub-category-amount">{'$' + this.props.plannedAmount}</div>
           </Col>
           <Col className="height-100" xs={4} md={6}>
             <ProgressBar percent={this.props.actualAmount/this.props.plannedAmount}/>
           </Col>
           <Col className="height-100" xs={4} md={3}>
-            <div className="category-message">{this.generateMessage()}</div>
+            <div className="sub-category-message">{this.generateMessage()}</div>
           </Col>
         </Row>
       </Grid>
@@ -40,4 +40,4 @@ class SpendingCategory extends React.Component {
   }
 }
 
-export default SpendingCategory;
+export default SubCategory;
