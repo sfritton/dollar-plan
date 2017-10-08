@@ -10,18 +10,12 @@ import Category from '../category/category';
 class Home extends React.Component {
   render() {
     return (
-      <Page header={'November 2017, 15 days left'}>
-        <Category title='Expenses' subCategories={Home.subCategories}/>
+      <Page header={`${this.props.budget.month}/${this.props.budget.year}`}>
+        {this.props.budget.expenses.map((expense, i) =>
+          <Category key={i} title={expense.title} subCategories={expense.subCategories}/>)}
       </Page>
     );
   }
 }
-
-Home.subCategories = [
-  {title: 'Groceries', plannedAmount: 230,  actualAmount: 100},
-  {title: 'Rent',      plannedAmount: 1320, actualAmount: 1320},
-  {title: 'Treats',    plannedAmount: 80,   actualAmount: 100},
-  {title: 'Clothing',  plannedAmount: 60,   actualAmount: 10}
-]
 
 export default Home;
