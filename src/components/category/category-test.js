@@ -4,15 +4,17 @@ import TestUtils from 'react-dom/test-utils';
 import expect from 'expect';
 
 import Category from './category';
+import SubCategory from '../sub-category/sub-category';
 import ProgressBar from '../progress-bar/progress-bar';
 
-xdescribe('Category', function() {
+describe('Category', function() {
   beforeEach(function() {
-    this.title = 'Groceries';
-    this.plannedAmount = 230;
-    this.actualAmount = 100;
+    this.title = 'Apartment';
+    this.subCategories = [
+      {title: 'Groceries', plannedAmount: 230,  actualAmount: 100},
+      {title: 'Clothing', plannedAmount: 10,  actualAmount: 5}];
     this.category = TestUtils.renderIntoDocument(
-      <Category title={this.title} plannedAmount={this.plannedAmount} actualAmount={this.actualAmount}/>
+      <Category title={this.title} subCategories={this.subCategories}/>
     );
   });
 
@@ -29,40 +31,16 @@ xdescribe('Category', function() {
   it('renders exactly 1 category-amount', function() {
     var amounts = TestUtils.scryRenderedDOMComponentsWithClass(this.category, 'category-amount');
     expect(amounts.length).toEqual(1);
-    expect(amounts[0].textContent).toContain(this.plannedAmount);
+    expect(amounts[0].textContent).toContain(this.subCategories.reduce((sum, sub) => {return sum + sub.plannedAmount;}, 0));
   });
 
-  it('renders exactly 1 ProgressBar component', function() {
+  it('renders exactly 3 ProgressBar component', function() {
     var bars = TestUtils.scryRenderedComponentsWithType(this.category, ProgressBar);
-    expect(bars.length).toEqual(1);
+    expect(bars.length).toEqual(3);
   });
 
-  it('renders exactly 1 category-message', function() {
-    var messages = TestUtils.scryRenderedDOMComponentsWithClass(this.category, 'category-message');
-    expect(messages.length).toEqual(1);
-  });
-
-  it('renders the correct message when the actual amount is less than the planned amount', function() {
-    var message = TestUtils.findRenderedDOMComponentWithClass(this.category, 'category-message').textContent;
-    expect(message).toEqual(`$${this.plannedAmount - this.actualAmount} left to spend`);
-  });
-
-  it('renders the correct message when the actual amount is the same as the planned amount', function() {
-    var amount = 100;
-    var category = TestUtils.renderIntoDocument(
-      <SpendingCategory title={this.title} plannedAmount={amount} actualAmount={amount}/>
-    );
-    var message = TestUtils.findRenderedDOMComponentWithClass(category, 'category-message').textContent;
-    expect(message).toEqual('nothing left to spend');
-  });
-
-  it('renders the correct message when the actual amount is greater than the planned amount', function() {
-    var plannedAmount = 100;
-    var actualAmount = 230;
-    var category = TestUtils.renderIntoDocument(
-      <SpendingCategory title={this.title} plannedAmount={plannedAmount} actualAmount={actualAmount}/>
-    );
-    var message = TestUtils.findRenderedDOMComponentWithClass(category, 'category-message').textContent;
-    expect(message).toEqual(`$${actualAmount - plannedAmount} overbudget!`);
+  it('renders exactly 2 sub-categories', function() {
+    var subCats = TestUtils.scryRenderedComponentsWithType(this.category, SubCategory);
+    expect(subCats.length).toEqual(2);
   });
 });
