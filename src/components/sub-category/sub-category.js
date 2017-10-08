@@ -22,13 +22,13 @@ class SubCategory extends React.Component {
     return (
       <Grid className="sub-category">
         <Row>
-          <Col className="height-100" xs={3} md={2}>
+          <Col className="height-100" xs={4} md={3}>
             <div className="sub-category-title">{this.props.title}</div>
           </Col>
           <Col className="height-100" xs={1} md={1}>
             <div className="sub-category-amount">{'$' + this.props.plannedAmount}</div>
           </Col>
-          <Col className="height-100" xs={4} md={6}>
+          <Col className="height-100" xs={3} md={5}>
             <ProgressBar percent={this.props.actualAmount/this.props.plannedAmount}/>
           </Col>
           <Col className="height-100" xs={4} md={3}>

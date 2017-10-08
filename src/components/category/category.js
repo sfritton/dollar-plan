@@ -23,13 +23,13 @@ class Category extends React.Component {
       <div>
         <Grid className="category">
           <Row>
-            <Col className="height-100" xs={3} md={2}>
+            <Col className="height-100" xs={4} md={3}>
               <div className="category-title">{this.props.title}</div>
             </Col>
             <Col className="height-100" xs={1} md={1}>
               <div className="category-amount">{'$' + this.getPlannedAmount()}</div>
             </Col>
-            <Col className="height-100" xs={8} md={9}>
+            <Col className="height-100" xs={7} md={8}>
               <ProgressBar percent={this.getActualAmount()/this.getPlannedAmount()}/>
             </Col>
           </Row>
