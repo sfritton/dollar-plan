@@ -25,24 +25,33 @@
 /*****************************************************************************
  * Classes
  *****************************************************************************/
- .category {
-   background-color: @primary-light;
-   color: @primary-light-text;
-   font-weight: bold;
-   padding: 10px;
-   width: 100%;
- }
+.category {
+  background-color: @primary-light;
+  color: @primary-light-text;
+  font-family: 'Roboto', sans-serif;
+  padding: 10px;
+  width: 100%;
+}
 
- .category-amount {
-   padding-top: 5px;
-   text-align: right;
- }
+.category:hover {
+  font-weight: bold;
+  cursor: pointer;
+}
 
- .category-title {
-   text-align: left;
-   padding-top: 5px;
-   padding-left: 10px;
- }
+.category:active {
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+}
+
+.category-amount {
+  padding-top: 5px;
+  text-align: right;
+}
+
+.category-title {
+  text-align: left;
+  padding-top: 5px;
+  padding-left: 10px;
+}
 
 .header {
   font-size: 3em;
@@ -97,6 +106,17 @@
   width: 100%;
 }
 
+.sub-category:hover {
+  background-color: @primary;
+  color: @primary-text;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.sub-category:active {
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+}
+
 .sub-category-amount {
   padding-top: 5px;
   text-align: right;
@@ -110,7 +130,7 @@
 .sub-category-title {
   text-align: left;
   padding-top: 5px;
-  padding-left: 10px;
+  padding-left: 20px;
 }
 
 .submit {
