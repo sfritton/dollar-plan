@@ -14,7 +14,7 @@ describe('Category', function() {
       {title: 'Groceries', plannedAmount: 230,  actualAmount: 100},
       {title: 'Clothing', plannedAmount: 10,  actualAmount: 5}];
     this.category = TestUtils.renderIntoDocument(
-      <Category title={this.title} subCategories={this.subCategories}/>
+      <Category title={this.title} defaultOpen={true} subCategories={this.subCategories}/>
     );
   });
 
@@ -40,6 +40,17 @@ describe('Category', function() {
   });
 
   it('renders exactly 2 sub-categories', function() {
+    var subCats = TestUtils.scryRenderedComponentsWithType(this.category, SubCategory);
+    expect(subCats.length).toEqual(2);
+  });
+
+  it('toggles the visibility the sub-categories when the header is clicked', function() {
+    var categoryHeader = TestUtils.findRenderedDOMComponentWithClass(this.category, 'category');
+    TestUtils.Simulate.click(categoryHeader);
+    var subCats = TestUtils.scryRenderedComponentsWithType(this.category, SubCategory);
+    expect(subCats.length).toEqual(0);
+
+    TestUtils.Simulate.click(categoryHeader);
     var subCats = TestUtils.scryRenderedComponentsWithType(this.category, SubCategory);
     expect(subCats.length).toEqual(2);
   });

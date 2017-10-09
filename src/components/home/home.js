@@ -12,7 +12,7 @@ class Home extends React.Component {
     return (
       <Page header={`${this.props.budget.month}/${this.props.budget.year}`}>
         {this.props.budget.expenses.map((expense, i) =>
-          <Category key={i} title={expense.title} subCategories={expense.subCategories}/>)}
+          <Category key={i} title={expense.title} defaultOpen={true} subCategories={expense.subCategories}/>)}
       </Page>
     );
   }

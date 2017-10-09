@@ -8,6 +8,11 @@ import SubCategory from '../sub-category/sub-category';
 'use strict';
 
 class Category extends React.Component {
+  constructor(props) {
+    super(props);
+    this.toggleVisible = this.toggleVisible.bind(this);
+    this.state = {open: props.defaultOpen};
+  }
   getPlannedAmount() {
     return this.props.subCategories.reduce((sum, subCategory) => {
       return sum + subCategory.plannedAmount;
@@ -18,15 +23,27 @@ class Category extends React.Component {
       return sum + subCategory.actualAmount;
     }, 0);
   }
+  toggleVisible() {
+    this.setState(prevState => ({open: !prevState.open}));
+  }
+  renderSubCategories() {
+    if (this.state.open) {
+      return this.props.subCategories.map((sub, i) =>
+        <SubCategory key={i} title={sub.title} plannedAmount={sub.plannedAmount} actualAmount={sub.actualAmount}/>
+      );
+    }
+
+    return null;
+  }
   render() {
     return (
       <div>
-        <Grid className="category">
+        <Grid className="category" onClick={this.toggleVisible}>
           <Row>
-            <Col className="height-100" xs={4} md={3}>
+            <Col className="height-100" xs={3} md={3}>
               <div className="category-title">{this.props.title}</div>
             </Col>
-            <Col className="height-100" xs={1} md={1}>
+            <Col className="height-100" xs={2} md={1}>
               <div className="category-amount">{'$' + this.getPlannedAmount()}</div>
             </Col>
             <Col className="height-100" xs={7} md={8}>
@@ -34,9 +51,7 @@ class Category extends React.Component {
             </Col>
           </Row>
         </Grid>
-        {this.props.subCategories.map((sub, i) =>
-          <SubCategory key={i} title={sub.title} plannedAmount={sub.plannedAmount} actualAmount={sub.actualAmount}/>
-        )}
+        {this.renderSubCategories()}
       </div>
     );
   }
