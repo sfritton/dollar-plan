@@ -17,17 +17,17 @@ describe('Welcome', function() {
   });
 
   it('renders a Page component', function() {
-    var pages = TestUtils.scryRenderedComponentsWithType(this.welcome, Page);
+    const pages = TestUtils.scryRenderedComponentsWithType(this.welcome, Page);
     expect(pages.length).toEqual(1);
   });
 
   it('renders 2 Dropdown components', function() {
-    var dropdowns = TestUtils.scryRenderedComponentsWithType(this.welcome, Dropdown);
+    const dropdowns = TestUtils.scryRenderedComponentsWithType(this.welcome, Dropdown);
     expect(dropdowns.length).toEqual(2);
   });
 
   it('renders a button', function() {
-    var buttons = TestUtils.scryRenderedDOMComponentsWithTag(this.welcome, 'button');
+    const buttons = TestUtils.scryRenderedDOMComponentsWithTag(this.welcome, 'button');
     expect(buttons.length).toEqual(1);
   });
 });

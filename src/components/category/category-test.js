@@ -23,35 +23,35 @@ describe('Category', function() {
   });
 
   it('renders exactly 1 category-title', function() {
-    var titles = TestUtils.scryRenderedDOMComponentsWithClass(this.category, 'category-title');
+    const titles = TestUtils.scryRenderedDOMComponentsWithClass(this.category, 'category-title');
     expect(titles.length).toEqual(1);
     expect(titles[0].textContent).toEqual(this.title);
   });
 
   it('renders exactly 1 category-amount', function() {
-    var amounts = TestUtils.scryRenderedDOMComponentsWithClass(this.category, 'category-amount');
+    const amounts = TestUtils.scryRenderedDOMComponentsWithClass(this.category, 'category-amount');
     expect(amounts.length).toEqual(1);
     expect(amounts[0].textContent).toContain(this.subCategories.reduce((sum, sub) => {return sum + sub.plannedAmount;}, 0));
   });
 
   it('renders exactly 3 ProgressBar component', function() {
-    var bars = TestUtils.scryRenderedComponentsWithType(this.category, ProgressBar);
+    const bars = TestUtils.scryRenderedComponentsWithType(this.category, ProgressBar);
     expect(bars.length).toEqual(3);
   });
 
   it('renders exactly 2 sub-categories', function() {
-    var subCats = TestUtils.scryRenderedComponentsWithType(this.category, SubCategory);
+    const subCats = TestUtils.scryRenderedComponentsWithType(this.category, SubCategory);
     expect(subCats.length).toEqual(2);
   });
 
   it('toggles the visibility the sub-categories when the header is clicked', function() {
-    var categoryHeader = TestUtils.findRenderedDOMComponentWithClass(this.category, 'category');
+    const categoryHeader = TestUtils.findRenderedDOMComponentWithClass(this.category, 'category');
     TestUtils.Simulate.click(categoryHeader);
-    var subCats = TestUtils.scryRenderedComponentsWithType(this.category, SubCategory);
+    let subCats = TestUtils.scryRenderedComponentsWithType(this.category, SubCategory);
     expect(subCats.length).toEqual(0);
 
     TestUtils.Simulate.click(categoryHeader);
-    var subCats = TestUtils.scryRenderedComponentsWithType(this.category, SubCategory);
+    subCats = TestUtils.scryRenderedComponentsWithType(this.category, SubCategory);
     expect(subCats.length).toEqual(2);
   });
 });

@@ -1,4 +1,4 @@
-var budget = {
+const budget = {
   month: 10,
   year: 2017,
   income: [],

@@ -16,12 +16,12 @@ describe('Dropdown', function() {
   });
 
   it('renders 2 options', function() {
-    var options = TestUtils.scryRenderedDOMComponentsWithTag(this.dropdown, 'option');
+    const options = TestUtils.scryRenderedDOMComponentsWithTag(this.dropdown, 'option');
     expect(options.length).toEqual(2);
   });
 
   it('renders the names of the options', function() {
-    var options = TestUtils.scryRenderedDOMComponentsWithTag(this.dropdown, 'option');
+    const options = TestUtils.scryRenderedDOMComponentsWithTag(this.dropdown, 'option');
     expect(options[0].textContent).toEqual(this.options[0].name);
   });
 });

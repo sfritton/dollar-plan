@@ -17,13 +17,13 @@ describe('Page', function() {
   });
 
   it('renders a single header with a title', function() {
-    var headers = TestUtils.scryRenderedDOMComponentsWithClass(this.page, 'header');
+    const headers = TestUtils.scryRenderedDOMComponentsWithClass(this.page, 'header');
     expect(headers.length).toEqual(1);
     expect(headers[0].textContent).toEqual(this.title);
   });
 
   it('renders a single page-body with text', function() {
-    var bodies = TestUtils.scryRenderedDOMComponentsWithClass(this.page, 'page-body');
+    const bodies = TestUtils.scryRenderedDOMComponentsWithClass(this.page, 'page-body');
     expect(bodies.length).toEqual(1);
     expect(bodies[0].textContent).toEqual(this.bodyText);
   })
