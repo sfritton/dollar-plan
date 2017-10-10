@@ -27,7 +27,7 @@ class Welcome extends React.Component {
     );
   }
 }
-Welcome.title = <span>Welcome to <span className="header-accent">$</span>Plan</span>;
+Welcome.title = <span>Welcome to <span className="accent">$</span>Plan</span>;
 
 Welcome.months = [
  	{id: 1, name: 'January'},

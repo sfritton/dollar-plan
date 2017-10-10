@@ -8,15 +8,11 @@ import ProgressBar from '../progress-bar/progress-bar';
 
 class SubCategory extends React.Component {
   generateMessage() {
-    if (this.props.actualAmount < this.props.plannedAmount) {
-      return `$${this.props.plannedAmount - this.props.actualAmount} left to spend`;
+    if (this.props.actualAmount <= this.props.plannedAmount) {
+      return `$${this.props.plannedAmount - this.props.actualAmount} left`;
     }
 
-    if (this.props.actualAmount == this.props.plannedAmount) {
-      return 'nothing left to spend';
-    }
-
-    return `$${this.props.actualAmount - this.props.plannedAmount} overbudget!`;
+    return `$${this.props.actualAmount - this.props.plannedAmount} over`;
   }
   render() {
     return (
@@ -25,13 +21,13 @@ class SubCategory extends React.Component {
           <Col className="height-100" xs={3} md={3}>
             <div className="sub-category-title">{this.props.title}</div>
           </Col>
-          <Col className="height-100" xs={2} md={1}>
-            <div className="sub-category-amount">{'$' + this.props.plannedAmount}</div>
+          <Col className="height-100" xs={3} md={2}>
+            <div className="sub-category-amount">{`$${this.props.actualAmount} of $${this.props.plannedAmount}`}</div>
           </Col>
           <Col className="height-100" xs={3} md={5}>
             <ProgressBar percent={this.props.actualAmount/this.props.plannedAmount}/>
           </Col>
-          <Col className="height-100" xs={4} md={3}>
+          <Col className="height-100" xs={3} md={2}>
             <div className="sub-category-message">{this.generateMessage()}</div>
           </Col>
         </Row>

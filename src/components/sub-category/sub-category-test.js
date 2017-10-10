@@ -30,6 +30,7 @@ describe('SubCategory', function() {
     const amounts = TestUtils.scryRenderedDOMComponentsWithClass(this.category, 'sub-category-amount');
     expect(amounts.length).toEqual(1);
     expect(amounts[0].textContent).toContain(this.plannedAmount);
+    expect(amounts[0].textContent).toContain(this.actualAmount);
   });
 
   it('renders exactly 1 ProgressBar component', function() {
@@ -44,7 +45,7 @@ describe('SubCategory', function() {
 
   it('renders the correct message when the actual amount is less than the planned amount', function() {
     const message = TestUtils.findRenderedDOMComponentWithClass(this.category, 'sub-category-message').textContent;
-    expect(message).toEqual(`$${this.plannedAmount - this.actualAmount} left to spend`);
+    expect(message).toEqual(`$${this.plannedAmount - this.actualAmount} left`);
   });
 
   it('renders the correct message when the actual amount is the same as the planned amount', function() {
@@ -53,7 +54,7 @@ describe('SubCategory', function() {
       <SubCategory title={this.title} plannedAmount={amount} actualAmount={amount}/>
     );
     const message = TestUtils.findRenderedDOMComponentWithClass(category, 'sub-category-message').textContent;
-    expect(message).toEqual('nothing left to spend');
+    expect(message).toEqual('$0 left');
   });
 
   it('renders the correct message when the actual amount is greater than the planned amount', function() {
@@ -63,6 +64,6 @@ describe('SubCategory', function() {
       <SubCategory title={this.title} plannedAmount={plannedAmount} actualAmount={actualAmount}/>
     );
     const message = TestUtils.findRenderedDOMComponentWithClass(category, 'sub-category-message').textContent;
-    expect(message).toEqual(`$${actualAmount - plannedAmount} overbudget!`);
+    expect(message).toEqual(`$${actualAmount - plannedAmount} over`);
   });
 });

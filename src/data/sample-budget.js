@@ -44,7 +44,7 @@ const budget = {
       subCategories: [
         {title: 'Merchandise', plannedAmount: 22, actualAmount: 0},
         {title: 'Restaurants & Treats', plannedAmount: 80, actualAmount: 7},
-        {title: 'Gifts', plannedAmount: 50, actualAmount: 0},
+        {title: 'Gifts', plannedAmount: 50, actualAmount: 57},
         {title: 'Recreation', plannedAmount: 0, actualAmount: 0}
       ]
     }
