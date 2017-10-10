@@ -32,6 +32,7 @@ describe('Category', function() {
     const amounts = TestUtils.scryRenderedDOMComponentsWithClass(this.category, 'category-amount');
     expect(amounts.length).toEqual(1);
     expect(amounts[0].textContent).toContain(this.subCategories.reduce((sum, sub) => {return sum + sub.plannedAmount;}, 0));
+    expect(amounts[0].textContent).toContain(this.subCategories.reduce((sum, sub) => {return sum + sub.actualAmount;}, 0));
   });
 
   it('renders exactly 3 ProgressBar component', function() {

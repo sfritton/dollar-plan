@@ -43,10 +43,10 @@ class Category extends React.Component {
             <Col className="height-100" xs={3} md={3}>
               <div className="category-title">{this.props.title}</div>
             </Col>
-            <Col className="height-100" xs={2} md={1}>
-              <div className="category-amount">{'$' + this.getPlannedAmount()}</div>
+            <Col className="height-100" xs={3} md={2}>
+              <div className="category-amount">{`$${this.getActualAmount()} of $${this.getPlannedAmount()}`}</div>
             </Col>
-            <Col className="height-100" xs={7} md={8}>
+            <Col className="height-100" xs={6} md={7}>
               <ProgressBar percent={this.getActualAmount()/this.getPlannedAmount()}/>
             </Col>
           </Row>
