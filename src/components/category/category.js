@@ -26,14 +26,15 @@ class Category extends React.Component {
   toggleVisible() {
     this.setState(prevState => ({open: !prevState.open}));
   }
+  getClass() {
+    return this.state.open ? "open" : "closed";
+  }
   renderSubCategories() {
-    if (this.state.open) {
-      return this.props.subCategories.map((sub, i) =>
-        <SubCategory key={i} title={sub.title} plannedAmount={sub.plannedAmount} actualAmount={sub.actualAmount}/>
-      );
-    }
-
-    return null;
+    return this.props.subCategories.map((sub, i) =>
+      <div className={this.getClass()} key={i}>
+        <SubCategory title={sub.title} plannedAmount={sub.plannedAmount} actualAmount={sub.actualAmount}/>
+      </div>
+    );
   }
   render() {
     return (

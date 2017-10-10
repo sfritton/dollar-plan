@@ -48,11 +48,15 @@ describe('Category', function() {
   it('toggles the visibility the sub-categories when the header is clicked', function() {
     const categoryHeader = TestUtils.findRenderedDOMComponentWithClass(this.category, 'category');
     TestUtils.Simulate.click(categoryHeader);
-    let subCats = TestUtils.scryRenderedComponentsWithType(this.category, SubCategory);
-    expect(subCats.length).toEqual(0);
+    let open = TestUtils.scryRenderedDOMComponentsWithClass(this.category, 'open');
+    let closed = TestUtils.scryRenderedDOMComponentsWithClass(this.category, 'closed');
+    expect(open.length).toEqual(0);
+    expect(closed.length).toEqual(2);
 
     TestUtils.Simulate.click(categoryHeader);
-    subCats = TestUtils.scryRenderedComponentsWithType(this.category, SubCategory);
-    expect(subCats.length).toEqual(2);
+    open = TestUtils.scryRenderedDOMComponentsWithClass(this.category, 'open');
+    closed = TestUtils.scryRenderedDOMComponentsWithClass(this.category, 'closed');
+    expect(open.length).toEqual(2);
+    expect(closed.length).toEqual(0);
   });
 });
