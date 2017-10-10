@@ -41,13 +41,13 @@ class Category extends React.Component {
       <div>
         <Grid className="category" onClick={this.toggleVisible}>
           <Row>
-            <Col className="height-100" xs={3} md={3}>
+            <Col xs={3} md={3}>
               <div className="category-title">{this.props.title}</div>
             </Col>
-            <Col className="height-100" xs={3} md={2}>
+            <Col xs={3} md={2}>
               <div className="category-amount">{`$${this.getActualAmount()} of $${this.getPlannedAmount()}`}</div>
             </Col>
-            <Col className="height-100" xs={6} md={7}>
+            <Col xs={6} md={7}>
               <ProgressBar percent={this.getActualAmount()/this.getPlannedAmount()}/>
             </Col>
           </Row>
