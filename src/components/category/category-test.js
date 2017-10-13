@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-dom/test-utils';
 import expect from 'expect';
+import { Glyphicon } from 'react-bootstrap';
 
 import Category from './category';
 import SubCategory from '../sub-category/sub-category';
@@ -43,5 +44,55 @@ describe('Category', function() {
   it('renders exactly 2 sub-categories', function() {
     const subCats = TestUtils.scryRenderedComponentsWithType(this.category, SubCategory);
     expect(subCats.length).toEqual(2);
+  });
+
+  it('renders exactly one chevron', function() {
+    const glyphs = TestUtils.scryRenderedComponentsWithType(this.category, Glyphicon);
+    expect(glyphs.length).toEqual(1);
+  });
+
+  it('starts open when defaultOpen is true', function() {
+    const chevronOpens = TestUtils.scryRenderedDOMComponentsWithClass(this.category, 'chevron-open');
+    const chevronCloseds = TestUtils.scryRenderedDOMComponentsWithClass(this.category, 'chevron-closed');
+
+    expect(chevronOpens.length).toEqual(1);
+    expect(chevronCloseds.length).toEqual(0);
+  });
+
+  it('starts closed when defaultOpen is false', function() {
+    const cat = TestUtils.renderIntoDocument(
+      <Category title={this.title} defaultOpen={false} subCategories={this.subCategories}/>
+    );
+
+    const chevronOpens = TestUtils.scryRenderedDOMComponentsWithClass(cat, 'chevron-open');
+    const chevronCloseds = TestUtils.scryRenderedDOMComponentsWithClass(cat, 'chevron-closed');
+
+    expect(chevronOpens.length).toEqual(0);
+    expect(chevronCloseds.length).toEqual(1);
+  });
+
+  it('opens or closes when the header is clicked', function() {
+    const header = TestUtils.findRenderedDOMComponentWithClass(this.category, 'category');
+    let chevronOpens = TestUtils.scryRenderedDOMComponentsWithClass(this.category, 'chevron-open');
+    let chevronCloseds = TestUtils.scryRenderedDOMComponentsWithClass(this.category, 'chevron-closed');
+
+    expect(chevronOpens.length).toEqual(1);
+    expect(chevronCloseds.length).toEqual(0);
+
+    TestUtils.Simulate.click(header);
+
+    chevronOpens = TestUtils.scryRenderedDOMComponentsWithClass(this.category, 'chevron-open');
+    chevronCloseds = TestUtils.scryRenderedDOMComponentsWithClass(this.category, 'chevron-closed');
+
+    expect(chevronOpens.length).toEqual(0);
+    expect(chevronCloseds.length).toEqual(1);
+
+    TestUtils.Simulate.click(header);
+
+    chevronOpens = TestUtils.scryRenderedDOMComponentsWithClass(this.category, 'chevron-open');
+    chevronCloseds = TestUtils.scryRenderedDOMComponentsWithClass(this.category, 'chevron-closed');
+
+    expect(chevronOpens.length).toEqual(1);
+    expect(chevronCloseds.length).toEqual(0);
   });
 });

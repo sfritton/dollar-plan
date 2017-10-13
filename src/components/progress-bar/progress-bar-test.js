@@ -8,13 +8,13 @@ import ProgressBar from './progress-bar';
 describe('ProgressBar', function() {
 
   it('renders without problems', function() {
-    const progressBar = TestUtils.renderIntoDocument(<ProgressBar/>);
+    const progressBar = TestUtils.renderIntoDocument(<ProgressBar income={false} percent={1}/>);
     expect(progressBar).toBeTruthy();
   });
 
   it('renders a number between 1 and 0 correctly', function() {
     const percent = .25;
-    const progressBar = TestUtils.renderIntoDocument(<ProgressBar percent={percent}/>);
+    const progressBar = TestUtils.renderIntoDocument(<ProgressBar income={false} percent={percent}/>);
     const outers = TestUtils.scryRenderedDOMComponentsWithClass(progressBar, 'pb_outer');
     const inners = TestUtils.scryRenderedDOMComponentsWithClass(progressBar, 'pb_inner');
     const dangers = TestUtils.scryRenderedDOMComponentsWithClass(progressBar, 'pb_danger');
@@ -26,7 +26,7 @@ describe('ProgressBar', function() {
 
   it('renders a number below 0 correctly', function() {
     const percent = 0;
-    const progressBar = TestUtils.renderIntoDocument(<ProgressBar percent={percent}/>);
+    const progressBar = TestUtils.renderIntoDocument(<ProgressBar income={false} percent={percent}/>);
     const outers = TestUtils.scryRenderedDOMComponentsWithClass(progressBar, 'pb_outer');
     const inners = TestUtils.scryRenderedDOMComponentsWithClass(progressBar, 'pb_inner');
     const dangers = TestUtils.scryRenderedDOMComponentsWithClass(progressBar, 'pb_danger');
@@ -36,9 +36,9 @@ describe('ProgressBar', function() {
     expect(dangers.length).toEqual(0);
   });
 
-  it('renders a number above 1 correctly', function() {
+  it('renders a number above 1 correctly for expenses', function() {
     const percent = 1.5;
-    const progressBar = TestUtils.renderIntoDocument(<ProgressBar percent={percent}/>);
+    const progressBar = TestUtils.renderIntoDocument(<ProgressBar income={false} percent={percent}/>);
     const outers = TestUtils.scryRenderedDOMComponentsWithClass(progressBar, 'pb_outer');
     const inners = TestUtils.scryRenderedDOMComponentsWithClass(progressBar, 'pb_inner');
     const dangers = TestUtils.scryRenderedDOMComponentsWithClass(progressBar, 'pb_danger');
@@ -46,5 +46,17 @@ describe('ProgressBar', function() {
     expect(outers.length).toEqual(0);
     expect(inners.length).toEqual(0);
     expect(dangers.length).toEqual(1);
+  });
+
+  it('renders a number above 1 correctly for income', function() {
+    const percent = 1.5;
+    const progressBar = TestUtils.renderIntoDocument(<ProgressBar income={true} percent={percent}/>);
+    const outers = TestUtils.scryRenderedDOMComponentsWithClass(progressBar, 'pb_outer');
+    const inners = TestUtils.scryRenderedDOMComponentsWithClass(progressBar, 'pb_inner');
+    const dangers = TestUtils.scryRenderedDOMComponentsWithClass(progressBar, 'pb_danger');
+
+    expect(outers.length).toEqual(0);
+    expect(inners.length).toEqual(1);
+    expect(dangers.length).toEqual(0);
   });
 });

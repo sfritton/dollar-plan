@@ -1,7 +1,12 @@
 const budget = {
   month: 10,
   year: 2017,
-  income: [],
+  incomes: [
+    {title: 'Sam', plannedAmount: 6000, actualAmount: 3000},
+    {title: 'Ellen', plannedAmount: 600, actualAmount: 800},
+    {title: 'Interest', plannedAmount: 100, actualAmount: 0},
+    {title: 'Miscellaneous', plannedAmount: 0, actualAmount: 0}
+  ],
   expenses: [
     {
       title: 'Investments & Savings',

@@ -12,7 +12,7 @@ describe('SubCategory', function() {
     this.plannedAmount = 230;
     this.actualAmount = 100;
     this.category = TestUtils.renderIntoDocument(
-      <SubCategory title={this.title} plannedAmount={this.plannedAmount} actualAmount={this.actualAmount}/>
+      <SubCategory title={this.title} income={false} plannedAmount={this.plannedAmount} actualAmount={this.actualAmount}/>
     );
   });
 
@@ -43,27 +43,38 @@ describe('SubCategory', function() {
     expect(messages.length).toEqual(1);
   });
 
-  it('renders the correct message when the actual amount is less than the planned amount', function() {
+  it('renders the correct message when the actual expense is less than the planned expense', function() {
     const message = TestUtils.findRenderedDOMComponentWithClass(this.category, 'sub-category-message').textContent;
     expect(message).toEqual(`$${this.plannedAmount - this.actualAmount} left`);
   });
 
-  it('renders the correct message when the actual amount is the same as the planned amount', function() {
-    const amount = 100;
-    const category = TestUtils.renderIntoDocument(
-      <SubCategory title={this.title} plannedAmount={amount} actualAmount={amount}/>
-    );
-    const message = TestUtils.findRenderedDOMComponentWithClass(category, 'sub-category-message').textContent;
-    expect(message).toEqual('$0 left');
-  });
-
-  it('renders the correct message when the actual amount is greater than the planned amount', function() {
+  it('renders the correct message when the actual expense is greater than the planned expense', function() {
     const plannedAmount = 100;
     const actualAmount = 230;
     const category = TestUtils.renderIntoDocument(
-      <SubCategory title={this.title} plannedAmount={plannedAmount} actualAmount={actualAmount}/>
+      <SubCategory title={this.title} income={false} plannedAmount={plannedAmount} actualAmount={actualAmount}/>
     );
     const message = TestUtils.findRenderedDOMComponentWithClass(category, 'sub-category-message').textContent;
     expect(message).toEqual(`$${actualAmount - plannedAmount} over`);
+  });
+
+  it('renders the correct message when the actual income is less than the planned income', function() {
+    const plannedAmount = 230;
+    const actualAmount = 100;
+    const category = TestUtils.renderIntoDocument(
+      <SubCategory title={this.title} income={true} plannedAmount={plannedAmount} actualAmount={actualAmount}/>
+    );
+    const message = TestUtils.findRenderedDOMComponentWithClass(category, 'sub-category-message').textContent;
+    expect(message).toEqual(`$${plannedAmount - actualAmount} to go`);
+  });
+
+  it('renders the correct message when the actual income is greater than the planned income', function() {
+    const plannedAmount = 100;
+    const actualAmount = 230;
+    const category = TestUtils.renderIntoDocument(
+      <SubCategory title={this.title} income={true} plannedAmount={plannedAmount} actualAmount={actualAmount}/>
+    );
+    const message = TestUtils.findRenderedDOMComponentWithClass(category, 'sub-category-message').textContent;
+    expect(message).toEqual(`$${actualAmount - plannedAmount} extra`);
   });
 });

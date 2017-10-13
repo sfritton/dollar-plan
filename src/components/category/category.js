@@ -31,7 +31,11 @@ class Category extends React.Component {
   }
   renderSubCategories() {
     return this.props.subCategories.map((sub, i) =>
-      <SubCategory key={i} title={sub.title} plannedAmount={sub.plannedAmount} actualAmount={sub.actualAmount}/>
+      <SubCategory key={i}
+                   title={sub.title}
+                   income={this.props.income}
+                   plannedAmount={sub.plannedAmount}
+                   actualAmount={sub.actualAmount}/>
     );
   }
   render() {

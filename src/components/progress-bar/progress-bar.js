@@ -20,6 +20,12 @@ class ProgressBar extends React.Component {
     );
   }
   renderAbove100() {
+    if (this.props.income) {
+      return (
+        <div className="pb pb_inner"></div>
+      );
+    }
+    
     return (
       <div className="pb pb_danger"></div>
     );
