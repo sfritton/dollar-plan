@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Grid, Row, Col, Panel } from 'react-bootstrap';
+import { Grid, Row, Col, Glyphicon, Panel } from 'react-bootstrap';
 
 import ProgressBar from '../progress-bar/progress-bar';
 import SubCategory from '../sub-category/sub-category';
@@ -26,6 +26,9 @@ class Category extends React.Component {
   toggleVisible() {
     this.setState(prevState => ({open: !prevState.open}));
   }
+  getChevronClass() {
+    return 'chevron chevron-' + (this.state.open ? 'open' : 'closed');
+  }
   renderSubCategories() {
     return this.props.subCategories.map((sub, i) =>
       <SubCategory key={i} title={sub.title} plannedAmount={sub.plannedAmount} actualAmount={sub.actualAmount}/>
@@ -42,8 +45,11 @@ class Category extends React.Component {
             <Col xs={3} md={2}>
               <div className="category-amount">{`$${this.getActualAmount()} of $${this.getPlannedAmount()}`}</div>
             </Col>
-            <Col xs={6} md={7}>
+            <Col xs={5} md={6}>
               <ProgressBar percent={this.getActualAmount()/this.getPlannedAmount()}/>
+            </Col>
+            <Col xs={1} md={1}>
+              <Glyphicon className={this.getChevronClass()} glyph="chevron-down" />
             </Col>
           </Row>
         </Grid>
