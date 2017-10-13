@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col, Panel } from 'react-bootstrap';
 
 import ProgressBar from '../progress-bar/progress-bar';
 import SubCategory from '../sub-category/sub-category';
@@ -26,14 +26,9 @@ class Category extends React.Component {
   toggleVisible() {
     this.setState(prevState => ({open: !prevState.open}));
   }
-  getClass() {
-    return this.state.open ? "open" : "closed";
-  }
   renderSubCategories() {
     return this.props.subCategories.map((sub, i) =>
-      <div className={this.getClass()} key={i}>
-        <SubCategory title={sub.title} plannedAmount={sub.plannedAmount} actualAmount={sub.actualAmount}/>
-      </div>
+      <SubCategory key={i} title={sub.title} plannedAmount={sub.plannedAmount} actualAmount={sub.actualAmount}/>
     );
   }
   render() {
@@ -52,7 +47,9 @@ class Category extends React.Component {
             </Col>
           </Row>
         </Grid>
-        {this.renderSubCategories()}
+        <Panel collapsible expanded={this.state.open}>
+          {this.renderSubCategories()}
+        </Panel>
       </div>
     );
   }
