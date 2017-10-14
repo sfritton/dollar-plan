@@ -1,34 +1,36 @@
-import React from 'react'; // eslint-disable-line no-unused-vars
-import TestUtils from 'react-dom/test-utils';
-import expect from 'expect';
+import React from "react"; // eslint-disable-line no-unused-vars
+import TestUtils from "react-dom/test-utils";
+import expect from "expect";
 
-import Page from './page';
+import Page from "./page";
 
-describe('Page', function() {
+describe("Page", function() {
   beforeEach(function() {
-    this.title = 'I AM A TITLE';
-    this.bodyText = 'I am text in the body';
+    this.title = "I AM A TITLE";
+    this.bodyText = "I am text in the body";
     this.page = TestUtils.renderIntoDocument(
-      <Page header={this.title}>
-        {this.bodyText}
-      </Page>
+      <Page header={this.title}>{this.bodyText}</Page>
     );
   });
 
-  it('renders without problems', function() {
+  it("renders without problems", function() {
     expect(this.page).toBeTruthy();
   });
 
-  it('renders a single header with a title', function() {
+  it("renders a single header with a title", function() {
     const headers = TestUtils.scryRenderedDOMComponentsWithClass(
-      this.page, 'header');
+      this.page,
+      "header"
+    );
     expect(headers.length).toEqual(1);
     expect(headers[0].textContent).toEqual(this.title);
   });
 
-  it('renders a single page-body with text', function() {
+  it("renders a single page-body with text", function() {
     const bodies = TestUtils.scryRenderedDOMComponentsWithClass(
-      this.page, 'page-body');
+      this.page,
+      "page-body"
+    );
     expect(bodies.length).toEqual(1);
     expect(bodies[0].textContent).toEqual(this.bodyText);
   });

@@ -1,18 +1,24 @@
 {
   "parserOptions": {
-        "ecmaVersion": 6,
-        "sourceType": "module",
-        "ecmaFeatures": {
-            "jsx": true
-        }
-    },
-    "extends": "google",
-    "rules": {
-      "linebreak-style": ["error", "windows"],
-      "comma-dangle": ["error", "never"],
-      "react/jsx-uses-vars": 2,
-      "no-invalid-this": "off",
-      "require-jsdoc": "off"
-    },
-    "plugins": ["react"]
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": [
+    "prettier",
+    "prettier/react"
+  ],
+  "rules": {
+    "prettier/prettier": "error",
+    "linebreak-style": ["error", "windows"],
+    "react/jsx-uses-vars": 2,
+    "no-invalid-this": "off",
+    "require-jsdoc": "off"
+  },
+  "plugins": [
+    "react",
+    "prettier"
+  ]
 }

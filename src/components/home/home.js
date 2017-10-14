@@ -1,59 +1,65 @@
-import React from 'react';
+import React from "react";
 
-import Page from '../page/page';
-import SubCategory from '../sub-category/sub-category';
-import Category from '../category/category';
+import Page from "../page/page";
+import SubCategory from "../sub-category/sub-category";
+import Category from "../category/category";
 
-'use strict';
+("use strict");
 
 class Home extends React.Component {
   getMonthName() {
     switch (this.props.budget.month) {
       case 1:
-        return 'January';
+        return "January";
       case 2:
-        return 'February';
+        return "February";
       case 3:
-        return 'March';
+        return "March";
       case 4:
-        return 'April';
+        return "April";
       case 5:
-        return 'May';
+        return "May";
       case 6:
-        return 'June';
+        return "June";
       case 7:
-        return 'July';
+        return "July";
       case 8:
-        return 'August';
+        return "August";
       case 9:
-        return 'September';
+        return "September";
       case 10:
-        return 'October';
+        return "October";
       case 11:
-        return 'November';
+        return "November";
       case 12:
-        return 'December';
+        return "December";
       default:
-        return 'Frittembruary';
+        return "Frittembruary";
     }
   }
   render() {
     return (
       <Page header={`${this.getMonthName()} ${this.props.budget.year}`}>
-        <div className='section-header'>Income</div>
-        {this.props.budget.incomes.map((income, i) =>
-          <SubCategory key={i}
-                       title={income.title}
-                       income={true}
-                       plannedAmount={income.plannedAmount}
-                       actualAmount={income.actualAmount}/>)}
-        <div className='section-header'>Expenses</div>
-        {this.props.budget.expenses.map((expense, i) =>
-          <Category key={i}
-                    title={expense.title}
-                    income={false}
-                    defaultOpen={true}
-                    subCategories={expense.subCategories}/>)}
+        <div className="section-header">Income</div>
+        {this.props.budget.incomes.map((income, i) => (
+          <SubCategory
+            key={i}
+            title={income.title}
+            income={true}
+            plannedAmount={income.plannedAmount}
+            actualAmount={income.actualAmount}
+          />
+        ))}
+        <div className="section-header">Expenses</div>
+        {this.props.budget.expenses.map((expense, i) => (
+          <Category
+            key={i}
+            title={expense.title}
+            income={false}
+            defaultOpen={true}
+            subCategories={expense.subCategories}
+          />
+        ))}
       </Page>
     );
   }

@@ -1,7 +1,7 @@
-import React from 'react'; // eslint-disable-line no-unused-vars
-import ReactDOM from 'react-dom';
+import React from "react"; // eslint-disable-line no-unused-vars
+import ReactDOM from "react-dom";
 
-import Root from './components/root/root';
-require('./app.less');
+import Root from "./components/root/root";
+require("./app.less");
 
-ReactDOM.render(<Root />, document.getElementById('content'));
+ReactDOM.render(<Root />, document.getElementById("content"));

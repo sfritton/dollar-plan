@@ -1,13 +1,16 @@
-import React from 'react';
+import React from "react";
 
-'use strict';
+("use strict");
 
 class Dropdown extends React.Component {
   render() {
     return (
       <select>
-        {this.props.options.map((item, i) =>
-          <option key={i} value={item.id}>{item.name}</option>)}
+        {this.props.options.map((item, i) => (
+          <option key={i} value={item.id}>
+            {item.name}
+          </option>
+        ))}
       </select>
     );
   }
