@@ -41,6 +41,7 @@
     "build": "webpack",
     "start": "electron .",
     "test": "karma start",
+    "lint": "eslint \"src/**\" --fix",
     "watch": "./node_modules/.bin/webpack-dev-server",
     "electron-rebuild": "./node_modules/.bin/electron-rebuild"
   },

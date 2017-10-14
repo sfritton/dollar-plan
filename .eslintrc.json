@@ -9,7 +9,10 @@
     "extends": "google",
     "rules": {
       "linebreak-style": ["error", "windows"],
-      "comma-dangle": ["error", "never"]
+      "comma-dangle": ["error", "never"],
+      "react/jsx-uses-vars": 2,
+      "no-invalid-this": "off",
+      "require-jsdoc": "off"
     },
     "plugins": ["react"]
 }

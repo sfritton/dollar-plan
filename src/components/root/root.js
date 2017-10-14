@@ -1,7 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
-import Welcome from '../welcome/welcome';
 import Home from '../home/home';
 import budget from '../../../data/2017-11';
 

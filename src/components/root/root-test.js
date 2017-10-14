@@ -1,5 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'; // eslint-disable-line no-unused-vars
 import TestUtils from 'react-dom/test-utils';
 import expect from 'expect';
 
@@ -17,7 +16,8 @@ describe('root', function() {
 
   // temporarily deactivated while creating/testing new pages
   xit('renders the Welcome component', function() {
-    const welcomes = TestUtils.scryRenderedComponentsWithType(this.root, Welcome);
+    const welcomes = TestUtils.scryRenderedComponentsWithType(
+      this.root, Welcome);
     expect(welcomes.length).toEqual(1);
   });
 });

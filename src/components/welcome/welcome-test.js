@@ -1,5 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'; // eslint-disable-line no-unused-vars
 import TestUtils from 'react-dom/test-utils';
 import expect from 'expect';
 
@@ -22,12 +21,14 @@ describe('Welcome', function() {
   });
 
   it('renders 2 Dropdown components', function() {
-    const dropdowns = TestUtils.scryRenderedComponentsWithType(this.welcome, Dropdown);
+    const dropdowns = TestUtils.scryRenderedComponentsWithType(
+      this.welcome, Dropdown);
     expect(dropdowns.length).toEqual(2);
   });
 
   it('renders a button', function() {
-    const buttons = TestUtils.scryRenderedDOMComponentsWithTag(this.welcome, 'button');
+    const buttons = TestUtils.scryRenderedDOMComponentsWithTag(
+      this.welcome, 'button');
     expect(buttons.length).toEqual(1);
   });
 });

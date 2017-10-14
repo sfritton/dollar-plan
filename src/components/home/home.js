@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import Page from '../page/page';
 import SubCategory from '../sub-category/sub-category';
@@ -9,7 +8,7 @@ import Category from '../category/category';
 
 class Home extends React.Component {
   getMonthName() {
-    switch(this.props.budget.month) {
+    switch (this.props.budget.month) {
       case 1:
         return 'January';
       case 2:

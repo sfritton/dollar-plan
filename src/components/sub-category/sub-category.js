@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Grid, Row, Col } from 'react-bootstrap';
+import {Grid, Row, Col} from 'react-bootstrap';
 
 import ProgressBar from '../progress-bar/progress-bar';
 
@@ -9,10 +8,12 @@ import ProgressBar from '../progress-bar/progress-bar';
 class SubCategory extends React.Component {
   generateMessage() {
     if (this.props.actualAmount <= this.props.plannedAmount) {
-      return '$' + (this.props.plannedAmount - this.props.actualAmount) + (this.props.income ? ' to go' : ' left');
+      return '$' + (this.props.plannedAmount - this.props.actualAmount)
+                 + (this.props.income ? ' to go' : ' left');
     }
 
-    return '$' + (this.props.actualAmount - this.props.plannedAmount) + (this.props.income ? ' extra' : ' over');
+    return '$' + (this.props.actualAmount - this.props.plannedAmount)
+               + (this.props.income ? ' extra' : ' over');
   }
   render() {
     return (
@@ -22,10 +23,13 @@ class SubCategory extends React.Component {
             <div className="sub-category-title">{this.props.title}</div>
           </Col>
           <Col xs={3} md={2}>
-            <div className="sub-category-amount">{`$${this.props.actualAmount} of $${this.props.plannedAmount}`}</div>
+            <div className="sub-category-amount">
+              {`$${this.props.actualAmount} of $${this.props.plannedAmount}`}
+            </div>
           </Col>
           <Col xs={3} md={5}>
-            <ProgressBar income={this.props.income} percent={this.props.actualAmount/this.props.plannedAmount}/>
+            <ProgressBar income={this.props.income}
+              percent={this.props.actualAmount/this.props.plannedAmount}/>
           </Col>
           <Col xs={3} md={2}>
             <div className="sub-category-message">{this.generateMessage()}</div>

@@ -1,5 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'; // eslint-disable-line no-unused-vars
 import TestUtils from 'react-dom/test-utils';
 import expect from 'expect';
 
@@ -33,7 +32,7 @@ describe('Home', function() {
           ]
         }
       ]
-    }
+    };
     this.home = TestUtils.renderIntoDocument(<Home budget={this.budget}/>);
   });
 
@@ -42,12 +41,14 @@ describe('Home', function() {
   });
 
   it('renders exactly 2 Category components', function() {
-    const categories = TestUtils.scryRenderedComponentsWithType(this.home, Category);
+    const categories = TestUtils.scryRenderedComponentsWithType(
+      this.home, Category);
     expect(categories.length).toEqual(2);
   });
 
   it('renders exactly 6 SubCategory components', function() {
-    const subCats = TestUtils.scryRenderedComponentsWithType(this.home, SubCategory);
+    const subCats = TestUtils.scryRenderedComponentsWithType(
+      this.home, SubCategory);
     expect(subCats.length).toEqual(6);
   });
 
@@ -57,12 +58,14 @@ describe('Home', function() {
   });
 
   it('renders exactly 2 section headers', function() {
-    const headers = TestUtils.scryRenderedDOMComponentsWithClass(this.home, 'section-header');
+    const headers = TestUtils.scryRenderedDOMComponentsWithClass(
+      this.home, 'section-header');
     expect(headers.length).toEqual(2);
   });
 
   it('renders the correct year', function() {
-    const header = TestUtils.findRenderedDOMComponentWithClass(this.home, 'header');
+    const header = TestUtils.findRenderedDOMComponentWithClass(
+      this.home, 'header');
     expect(header.textContent).toContain(this.budget.year);
   });
 
@@ -84,7 +87,8 @@ describe('Home', function() {
       {input: 13, expectedMonth: 'Frittembruary'}
     ];
     months.map((month) => {
-      let h = TestUtils.renderIntoDocument(<Home budget={{month: month.input, year: 2017, incomes: [], expenses: []}} />);
+      let h = TestUtils.renderIntoDocument(<Home budget=
+        {{month: month.input, year: 2017, incomes: [], expenses: []}} />);
       let header = TestUtils.findRenderedDOMComponentWithClass(h, 'header');
       expect(header.textContent).toContain(month.expectedMonth);
     });

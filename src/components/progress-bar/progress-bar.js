@@ -1,11 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 'use strict';
 
 class ProgressBar extends React.Component {
   style() {
-    return { width: (this.props.percent * 100) + '%' };
+    return {width: (this.props.percent * 100) + '%'};
   }
   render0() {
     return (
@@ -25,7 +24,7 @@ class ProgressBar extends React.Component {
         <div className="pb pb_inner"></div>
       );
     }
-    
+
     return (
       <div className="pb pb_danger"></div>
     );
