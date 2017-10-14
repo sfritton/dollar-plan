@@ -1,6 +1,6 @@
 import React from "react";
 
-import Home from "../home/home";
+import Budget from "../budget/budget";
 import budget from "../../../data/2017-11";
 
 ("use strict");
@@ -9,7 +9,11 @@ class Root extends React.Component {
   render() {
     return (
       <div>
-        <Home budget={budget} />
+        <Budget
+          date={budget.date}
+          incomes={budget.incomes}
+          expenses={budget.expenses}
+        />
       </div>
     );
   }

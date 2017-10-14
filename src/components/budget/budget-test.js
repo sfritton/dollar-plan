@@ -2,47 +2,53 @@ import React from "react"; // eslint-disable-line no-unused-vars
 import TestUtils from "react-dom/test-utils";
 import expect from "expect";
 
-import Home from "./home";
+import Budget from "./budget";
 import Category from "../category/category";
 import SubCategory from "../sub-category/sub-category";
 import Page from "../page/page";
 
-describe("Home", function() {
+describe("Budget", function() {
   beforeEach(function() {
-    this.budget = {
+    this.date = {
       month: 10,
-      year: 2017,
-      incomes: [
-        { title: "Sam", plannedAmount: 6000, actualAmount: 3000 },
-        { title: "Ellen", plannedAmount: 700, actualAmount: 900 }
-      ],
-      expenses: [
-        {
-          title: "Investments & Savings",
-          subCategories: [
-            { title: "Donations", plannedAmount: 100, actualAmount: 0 },
-            { title: "Roth IRA", plannedAmount: 600, actualAmount: 0 }
-          ]
-        },
-        {
-          title: "Apartment",
-          subCategories: [
-            { title: "Rent & Water", plannedAmount: 1320, actualAmount: 1320 },
-            { title: "Electric", plannedAmount: 49, actualAmount: 49 }
-          ]
-        }
-      ]
+      year: 2017
     };
-    this.home = TestUtils.renderIntoDocument(<Home budget={this.budget} />);
+    this.incomes = [
+      { title: "Sam", plannedAmount: 6000, actualAmount: 3000 },
+      { title: "Ellen", plannedAmount: 700, actualAmount: 900 }
+    ];
+    this.expenses = [
+      {
+        title: "Investments & Savings",
+        subCategories: [
+          { title: "Donations", plannedAmount: 100, actualAmount: 0 },
+          { title: "Roth IRA", plannedAmount: 600, actualAmount: 0 }
+        ]
+      },
+      {
+        title: "Apartment",
+        subCategories: [
+          { title: "Rent & Water", plannedAmount: 1320, actualAmount: 1320 },
+          { title: "Electric", plannedAmount: 49, actualAmount: 49 }
+        ]
+      }
+    ];
+    this.budget = TestUtils.renderIntoDocument(
+      <Budget
+        date={this.date}
+        incomes={this.incomes}
+        expenses={this.expenses}
+      />
+    );
   });
 
   it("renders without problems", function() {
-    expect(this.home).toBeTruthy();
+    expect(this.budget).toBeTruthy();
   });
 
   it("renders exactly 2 Category components", function() {
     const categories = TestUtils.scryRenderedComponentsWithType(
-      this.home,
+      this.budget,
       Category
     );
     expect(categories.length).toEqual(2);
@@ -50,20 +56,20 @@ describe("Home", function() {
 
   it("renders exactly 6 SubCategory components", function() {
     const subCats = TestUtils.scryRenderedComponentsWithType(
-      this.home,
+      this.budget,
       SubCategory
     );
     expect(subCats.length).toEqual(6);
   });
 
   it("renders exactly 1 Page component", function() {
-    const pages = TestUtils.scryRenderedComponentsWithType(this.home, Page);
+    const pages = TestUtils.scryRenderedComponentsWithType(this.budget, Page);
     expect(pages.length).toEqual(1);
   });
 
   it("renders exactly 2 section headers", function() {
     const headers = TestUtils.scryRenderedDOMComponentsWithClass(
-      this.home,
+      this.budget,
       "section-header"
     );
     expect(headers.length).toEqual(2);
@@ -71,10 +77,10 @@ describe("Home", function() {
 
   it("renders the correct year", function() {
     const header = TestUtils.findRenderedDOMComponentWithClass(
-      this.home,
+      this.budget,
       "header"
     );
-    expect(header.textContent).toContain(this.budget.year);
+    expect(header.textContent).toContain(this.date.year);
   });
 
   it("returns the correct month in all cases", function() {
@@ -96,12 +102,18 @@ describe("Home", function() {
     ];
     months.map(month => {
       let h = TestUtils.renderIntoDocument(
-        <Home
-          budget={{ month: month.input, year: 2017, incomes: [], expenses: [] }}
+        <Budget
+          date={{ month: month.input, year: 2017 }}
+          incomes={[]}
+          expenses={[]}
         />
       );
       let header = TestUtils.findRenderedDOMComponentWithClass(h, "header");
       expect(header.textContent).toContain(month.expectedMonth);
     });
+  });
+
+  it("renders the balance", function() {
+    // TODO: implement
   });
 });

@@ -1,6 +1,8 @@
 const budget = {
-  month: 11,
-  year: 2017,
+  date: {
+    month: 11,
+    year: 2017
+  },
   incomes: [
     {title: 'Sam', plannedAmount: 9000, actualAmount: 3000},
     {title: 'Ellen', plannedAmount: 600, actualAmount: 800},

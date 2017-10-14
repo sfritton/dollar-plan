@@ -6,9 +6,9 @@ import Category from "../category/category";
 
 ("use strict");
 
-class Home extends React.Component {
+class Budget extends React.Component {
   getMonthName() {
-    switch (this.props.budget.month) {
+    switch (this.props.date.month) {
       case 1:
         return "January";
       case 2:
@@ -37,11 +37,37 @@ class Home extends React.Component {
         return "Frittembruary";
     }
   }
+  getIncome() {
+    return this.props.incomes.reduce((sum, income) => {
+      return sum + income.actualAmount;
+    }, 0);
+  }
+  getExpenses() {
+    return this.props.expenses.reduce((sum, expense) => {
+      return (
+        sum +
+        expense.subCategories.reduce((sum, subCat) => {
+          return sum + subCat.actualAmount;
+        }, 0)
+      );
+    }, 0);
+  }
+  getBalance() {
+    let balance = this.getIncome() - this.getExpenses();
+    if (balance < 0) {
+      return "-$" + balance * -1;
+    }
+
+    return "$" + balance;
+  }
   render() {
     return (
-      <Page header={`${this.getMonthName()} ${this.props.budget.year}`}>
+      <Page
+        header={`${this.getMonthName()} ${this.props.date.year}`}
+        footer={"Balance: " + this.getBalance()}
+      >
         <div className="section-header">Income</div>
-        {this.props.budget.incomes.map((income, i) => (
+        {this.props.incomes.map((income, i) => (
           <SubCategory
             key={i}
             title={income.title}
@@ -51,7 +77,7 @@ class Home extends React.Component {
           />
         ))}
         <div className="section-header">Expenses</div>
-        {this.props.budget.expenses.map((expense, i) => (
+        {this.props.expenses.map((expense, i) => (
           <Category
             key={i}
             title={expense.title}
@@ -65,4 +91,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default Budget;
