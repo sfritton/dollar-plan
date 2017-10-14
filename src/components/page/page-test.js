@@ -8,8 +8,11 @@ describe("Page", function() {
   beforeEach(function() {
     this.title = "I AM A TITLE";
     this.bodyText = "I am text in the body";
+    this.footer = "I am a footer";
     this.page = TestUtils.renderIntoDocument(
-      <Page header={this.title}>{this.bodyText}</Page>
+      <Page header={this.title} footer={this.footer}>
+        {this.bodyText}
+      </Page>
     );
   });
 
@@ -33,5 +36,14 @@ describe("Page", function() {
     );
     expect(bodies.length).toEqual(1);
     expect(bodies[0].textContent).toEqual(this.bodyText);
+  });
+
+  it("renders a single footer with text", function() {
+    const footers = TestUtils.scryRenderedDOMComponentsWithClass(
+      this.page,
+      "footer"
+    );
+    expect(footers.length).toEqual(1);
+    expect(footers[0].textContent).toEqual(this.footer);
   });
 });
