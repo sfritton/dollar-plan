@@ -23,16 +23,16 @@ describe("Page", function() {
   it("renders a single header with a title", function() {
     const headers = TestUtils.scryRenderedDOMComponentsWithClass(
       this.page,
-      "page-header"
+      "pg-header"
     );
     expect(headers.length).toEqual(1);
     expect(headers[0].textContent).toEqual(this.title);
   });
 
-  it("renders a single page-body with text", function() {
+  it("renders a single pg-body with text", function() {
     const bodies = TestUtils.scryRenderedDOMComponentsWithClass(
       this.page,
-      "page-body"
+      "pg-body"
     );
     expect(bodies.length).toEqual(1);
     expect(bodies[0].textContent).toEqual(this.bodyText);
@@ -41,7 +41,7 @@ describe("Page", function() {
   it("renders a single footer with text", function() {
     const footers = TestUtils.scryRenderedDOMComponentsWithClass(
       this.page,
-      "page-footer"
+      "pg-footer"
     );
     expect(footers.length).toEqual(1);
     expect(footers[0].textContent).toEqual(this.footer);

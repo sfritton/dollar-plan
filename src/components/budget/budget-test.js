@@ -78,7 +78,7 @@ describe("Budget", function() {
   it("renders the correct year", function() {
     const header = TestUtils.findRenderedDOMComponentWithClass(
       this.budget,
-      "page-header"
+      "pg-header"
     );
     expect(header.textContent).toContain(this.date.year);
   });
@@ -101,22 +101,71 @@ describe("Budget", function() {
       { input: 13, expectedMonth: "Frittembruary" }
     ];
     months.map(month => {
-      let h = TestUtils.renderIntoDocument(
+      let b = TestUtils.renderIntoDocument(
         <Budget
           date={{ month: month.input, year: 2017 }}
           incomes={[]}
           expenses={[]}
         />
       );
-      let header = TestUtils.findRenderedDOMComponentWithClass(
-        h,
-        "page-header"
-      );
+      let header = TestUtils.findRenderedDOMComponentWithClass(b, "pg-header");
       expect(header.textContent).toContain(month.expectedMonth);
     });
   });
 
   it("renders the balance", function() {
-    // TODO: implement
+    const footers = TestUtils.scryRenderedDOMComponentsWithClass(
+      this.budget,
+      "pg-footer"
+    );
+
+    expect(footers.length).toEqual(1);
+    expect(footers[0].textContent).toContain("Balance:");
+  });
+
+  it("renders a negative balance correctly", function() {
+    const bgt = TestUtils.renderIntoDocument(
+      <Budget
+        date={{ month: 10, year: 2017 }}
+        incomes={[{ title: "Work", plannedAmount: 100, actualAmount: 0 }]}
+        expenses={[
+          {
+            title: "Apartment",
+            subCategories: [
+              { title: "Rent", plannedAmount: 200, actualAmount: 150 }
+            ]
+          }
+        ]}
+      />
+    );
+
+    const balance = TestUtils.findRenderedDOMComponentWithClass(
+      bgt,
+      "pg-footer"
+    );
+    expect(balance.textContent).toContain("-$150");
+  });
+
+  it("renders a positive balance correctly", function() {
+    const bgt = TestUtils.renderIntoDocument(
+      <Budget
+        date={{ month: 10, year: 2017 }}
+        incomes={[{ title: "Work", plannedAmount: 100, actualAmount: 150 }]}
+        expenses={[
+          {
+            title: "Apartment",
+            subCategories: [
+              { title: "Rent", plannedAmount: 200, actualAmount: 0 }
+            ]
+          }
+        ]}
+      />
+    );
+
+    const balance = TestUtils.findRenderedDOMComponentWithClass(
+      bgt,
+      "pg-footer"
+    );
+    expect(balance.textContent).toContain("$150");
   });
 });
