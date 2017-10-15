@@ -1,8 +1,9 @@
-import React from "react"; // eslint-disable-line no-unused-vars
+import React from "react";
 import TestUtils from "react-dom/test-utils";
 import expect from "expect";
 
 import Budget from "./budget";
+import BudgetFooter from "./budget-footer/budget-footer";
 import Category from "../category/category";
 import SubCategory from "../sub-category/sub-category";
 import Page from "../page/page";
@@ -67,6 +68,14 @@ describe("Budget", function() {
     expect(pages.length).toEqual(1);
   });
 
+  it("renders exactly 1 BudgetFooter component", function() {
+    const footers = TestUtils.scryRenderedComponentsWithType(
+      this.budget,
+      BudgetFooter
+    );
+    expect(footers.length).toEqual(1);
+  });
+
   it("renders exactly 2 section headers", function() {
     const headers = TestUtils.scryRenderedDOMComponentsWithClass(
       this.budget,
@@ -111,61 +120,5 @@ describe("Budget", function() {
       let header = TestUtils.findRenderedDOMComponentWithClass(b, "pg-header");
       expect(header.textContent).toContain(month.expectedMonth);
     });
-  });
-
-  it("renders the balance", function() {
-    const footers = TestUtils.scryRenderedDOMComponentsWithClass(
-      this.budget,
-      "pg-footer"
-    );
-
-    expect(footers.length).toEqual(1);
-    expect(footers[0].textContent).toContain("Balance:");
-  });
-
-  it("renders a negative balance correctly", function() {
-    const bgt = TestUtils.renderIntoDocument(
-      <Budget
-        date={{ month: 10, year: 2017 }}
-        incomes={[{ title: "Work", plannedAmount: 100, actualAmount: 0 }]}
-        expenses={[
-          {
-            title: "Apartment",
-            subCategories: [
-              { title: "Rent", plannedAmount: 200, actualAmount: 150 }
-            ]
-          }
-        ]}
-      />
-    );
-
-    const balance = TestUtils.findRenderedDOMComponentWithClass(
-      bgt,
-      "pg-footer"
-    );
-    expect(balance.textContent).toContain("-$150");
-  });
-
-  it("renders a positive balance correctly", function() {
-    const bgt = TestUtils.renderIntoDocument(
-      <Budget
-        date={{ month: 10, year: 2017 }}
-        incomes={[{ title: "Work", plannedAmount: 100, actualAmount: 150 }]}
-        expenses={[
-          {
-            title: "Apartment",
-            subCategories: [
-              { title: "Rent", plannedAmount: 200, actualAmount: 0 }
-            ]
-          }
-        ]}
-      />
-    );
-
-    const balance = TestUtils.findRenderedDOMComponentWithClass(
-      bgt,
-      "pg-footer"
-    );
-    expect(balance.textContent).toContain("$150");
   });
 });

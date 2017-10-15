@@ -3,6 +3,7 @@ import React from "react";
 import Page from "../page/page";
 import SubCategory from "../sub-category/sub-category";
 import Category from "../category/category";
+import BudgetFooter from "./budget-footer/budget-footer";
 
 ("use strict");
 
@@ -52,19 +53,13 @@ class Budget extends React.Component {
       );
     }, 0);
   }
-  getBalance() {
-    let balance = this.getIncome() - this.getExpenses();
-    if (balance < 0) {
-      return "-$" + balance * -1;
-    }
-
-    return "$" + balance;
-  }
   render() {
     return (
       <Page
         header={`${this.getMonthName()} ${this.props.date.year}`}
-        footer={"Balance: " + this.getBalance()}
+        footer={
+          <BudgetFooter balance={this.getIncome() - this.getExpenses()} />
+        }
       >
         <div className="section-header">Income</div>
         {this.props.incomes.map((income, i) => (
