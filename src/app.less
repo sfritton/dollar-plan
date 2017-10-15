@@ -75,30 +75,6 @@
   color: @danger;
 }
 
-.footer {
-  position: fixed;
-  bottom: 0;
-  z-index: 2;
-  width: 100%;
-  font-size: 2em;
-  text-align: center;
-  background-color: @primary-dark;
-  color: @primary-dark-text;
-  padding: 10px;
-}
-
-.header {
-  position: fixed;
-  z-index: 2;
-  width: 100%;
-  font-size: 3em;
-  text-align: center;
-  background-color: @primary-dark;
-  color: @primary-dark-text;
-  padding: 10px;
-  margin-bottom: 5px;
-}
-
 .padding-10 {
   padding-top: 10%;
 }
@@ -106,6 +82,34 @@
 .page-body {
   padding: 100px 15px;
   width: 100%;
+}
+
+.page-footer {
+  position: fixed;
+  bottom: 0;
+  z-index: 2;
+  width: 100%;
+  font-size: 2em;
+  text-align: left;
+  background-color: @primary-dark;
+  color: @primary-dark-text;
+  padding: 10px 15px;
+  box-shadow: 0 -3px 5px rgba(0, 0, 0, 0.125);
+}
+
+.page-header {
+  position: fixed;
+  z-index: 2;
+  width: 100%;
+  font-size: 3em;
+  text-align: center;
+  background-color: @primary-dark;
+  color: @primary-dark-text;
+  padding: 10px 15px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125);
+  // overriding built-in styles:
+  margin: 0px;
+  border-bottom: 0px;
 }
 
 .panel {

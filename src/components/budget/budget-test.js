@@ -78,7 +78,7 @@ describe("Budget", function() {
   it("renders the correct year", function() {
     const header = TestUtils.findRenderedDOMComponentWithClass(
       this.budget,
-      "header"
+      "page-header"
     );
     expect(header.textContent).toContain(this.date.year);
   });
@@ -108,7 +108,10 @@ describe("Budget", function() {
           expenses={[]}
         />
       );
-      let header = TestUtils.findRenderedDOMComponentWithClass(h, "header");
+      let header = TestUtils.findRenderedDOMComponentWithClass(
+        h,
+        "page-header"
+      );
       expect(header.textContent).toContain(month.expectedMonth);
     });
   });

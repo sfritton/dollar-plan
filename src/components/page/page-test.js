@@ -23,7 +23,7 @@ describe("Page", function() {
   it("renders a single header with a title", function() {
     const headers = TestUtils.scryRenderedDOMComponentsWithClass(
       this.page,
-      "header"
+      "page-header"
     );
     expect(headers.length).toEqual(1);
     expect(headers[0].textContent).toEqual(this.title);
@@ -41,7 +41,7 @@ describe("Page", function() {
   it("renders a single footer with text", function() {
     const footers = TestUtils.scryRenderedDOMComponentsWithClass(
       this.page,
-      "footer"
+      "page-footer"
     );
     expect(footers.length).toEqual(1);
     expect(footers[0].textContent).toEqual(this.footer);
