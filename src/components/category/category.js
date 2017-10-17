@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Row, Col, Glyphicon, Panel } from "react-bootstrap";
+import { Grid, Row, Col, Glyphicon, Collapse } from "react-bootstrap";
 
 import ProgressBar from "../progress-bar/progress-bar";
 import SubCategory from "../sub-category/sub-category";
@@ -29,15 +29,19 @@ class Category extends React.Component {
     return "chevron chevron-" + (this.state.open ? "open" : "closed");
   }
   renderSubCategories() {
-    return this.props.subCategories.map((sub, i) => (
-      <SubCategory
-        key={i}
-        title={sub.title}
-        income={this.props.income}
-        plannedAmount={sub.plannedAmount}
-        actualAmount={sub.actualAmount}
-      />
-    ));
+    return (
+      <div>
+        {this.props.subCategories.map((sub, i) => (
+          <SubCategory
+            key={i}
+            title={sub.title}
+            income={this.props.income}
+            plannedAmount={sub.plannedAmount}
+            actualAmount={sub.actualAmount}
+          />
+        ))}
+      </div>
+    );
   }
   render() {
     return (
@@ -65,9 +69,7 @@ class Category extends React.Component {
             </Col>
           </Row>
         </Grid>
-        <Panel collapsible expanded={this.state.open}>
-          {this.renderSubCategories()}
-        </Panel>
+        <Collapse in={this.state.open}>{this.renderSubCategories()}</Collapse>
       </div>
     );
   }
