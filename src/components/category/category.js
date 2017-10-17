@@ -44,20 +44,20 @@ class Category extends React.Component {
       <div>
         <Grid className="category" onClick={this.toggleVisible}>
           <Row>
-            <Col xs={3} md={3}>
+            <Col xs={3} md={3} lg={2}>
               <div className="category-title">{this.props.title}</div>
             </Col>
-            <Col xs={3} md={2}>
+            <Col xs={3} md={2} lg={2}>
               <div className="category-amount">
                 {`$${this.getActualAmount()} of $${this.getPlannedAmount()}`}
               </div>
             </Col>
-            <Col xs={5} md={6}>
+            <Col xs={5} md={6} lg={7}>
               <ProgressBar
                 percent={this.getActualAmount() / this.getPlannedAmount()}
               />
             </Col>
-            <Col xs={1} md={1}>
+            <Col xs={1} md={1} lg={1}>
               <Glyphicon
                 className={this.getChevronClass()}
                 glyph="chevron-down"
