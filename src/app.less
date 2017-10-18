@@ -105,15 +105,6 @@
   padding-top: 10%;
 }
 
-.panel {
-  margin-bottom: 0px;
-  border: 0px solid transparent;
-}
-
-.panel-body {
-  padding: 0px;
-}
-
 .pb {
   height: 40px;
   width: 100%;
@@ -135,32 +126,36 @@
 }
 
 .pg-body {
-  padding: 100px 15px;
+  height: 80%;
   width: 100%;
+  z-index: 0;
+  padding: 15px 15px 30px 15px;
+  overflow-y: auto;
 }
 
 .pg-footer {
-  position: fixed;
-  bottom: 0;
-  z-index: 2;
+  height: 10%;
   width: 100%;
+  z-index: 2;
+  padding: 10px 15px;
   font-size: 2em;
   text-align: left;
   background-color: @primary-dark;
   color: @primary-dark-text;
-  padding: 10px 15px;
   box-shadow: 0 -3px 5px rgba(0, 0, 0, 0.125);
 }
 
 .pg-header {
-  position: fixed;
-  z-index: 2;
+  height: 10%;
   width: 100%;
+  z-index: 2;
+
+  position: relative;
+  padding: 10px 15px;
   font-size: 3em;
   text-align: center;
   background-color: @primary-dark;
   color: @primary-dark-text;
-  padding: 10px 15px;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 

@@ -25,21 +25,21 @@ class SubCategory extends React.Component {
     return (
       <Grid className="sub-category">
         <Row>
-          <Col xs={3} md={3}>
+          <Col xs={3} md={3} lg={2}>
             <div className="sub-category-title">{this.props.title}</div>
           </Col>
-          <Col xs={3} md={2}>
+          <Col xs={3} md={2} lg={2}>
             <div className="sub-category-amount">
               {`$${this.props.actualAmount} of $${this.props.plannedAmount}`}
             </div>
           </Col>
-          <Col xs={3} md={5}>
+          <Col xs={3} md={5} lg={6}>
             <ProgressBar
               income={this.props.income}
               percent={this.props.actualAmount / this.props.plannedAmount}
             />
           </Col>
-          <Col xs={3} md={2}>
+          <Col xs={3} md={2} lg={2}>
             <div className="sub-category-message">{this.generateMessage()}</div>
           </Col>
         </Row>

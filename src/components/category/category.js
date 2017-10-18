@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Row, Col, Glyphicon, Panel } from "react-bootstrap";
+import { Grid, Row, Col, Glyphicon, Collapse } from "react-bootstrap";
 
 import ProgressBar from "../progress-bar/progress-bar";
 import SubCategory from "../sub-category/sub-category";
@@ -29,35 +29,39 @@ class Category extends React.Component {
     return "chevron chevron-" + (this.state.open ? "open" : "closed");
   }
   renderSubCategories() {
-    return this.props.subCategories.map((sub, i) => (
-      <SubCategory
-        key={i}
-        title={sub.title}
-        income={this.props.income}
-        plannedAmount={sub.plannedAmount}
-        actualAmount={sub.actualAmount}
-      />
-    ));
+    return (
+      <div>
+        {this.props.subCategories.map((sub, i) => (
+          <SubCategory
+            key={i}
+            title={sub.title}
+            income={this.props.income}
+            plannedAmount={sub.plannedAmount}
+            actualAmount={sub.actualAmount}
+          />
+        ))}
+      </div>
+    );
   }
   render() {
     return (
       <div>
         <Grid className="category" onClick={this.toggleVisible}>
           <Row>
-            <Col xs={3} md={3}>
+            <Col xs={3} md={3} lg={2}>
               <div className="category-title">{this.props.title}</div>
             </Col>
-            <Col xs={3} md={2}>
+            <Col xs={3} md={2} lg={2}>
               <div className="category-amount">
                 {`$${this.getActualAmount()} of $${this.getPlannedAmount()}`}
               </div>
             </Col>
-            <Col xs={5} md={6}>
+            <Col xs={5} md={6} lg={7}>
               <ProgressBar
                 percent={this.getActualAmount() / this.getPlannedAmount()}
               />
             </Col>
-            <Col xs={1} md={1}>
+            <Col xs={1} md={1} lg={1}>
               <Glyphicon
                 className={this.getChevronClass()}
                 glyph="chevron-down"
@@ -65,9 +69,7 @@ class Category extends React.Component {
             </Col>
           </Row>
         </Grid>
-        <Panel collapsible expanded={this.state.open}>
-          {this.renderSubCategories()}
-        </Panel>
+        <Collapse in={this.state.open}>{this.renderSubCategories()}</Collapse>
       </div>
     );
   }
