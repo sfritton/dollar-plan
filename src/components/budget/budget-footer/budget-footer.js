@@ -11,7 +11,19 @@ class BudgetFooter extends React.Component {
   }
   render() {
     return (
-      <div className="footer-msg">{"Balance: " + this.formatBalance()}</div>
+      <Grid>
+        <Row>
+          <Col xs={6} md={4}>
+            <div className="footer-msg">
+              {"Balance: " + this.formatBalance()}
+            </div>
+          </Col>
+          <Col xs={0} md={4} />
+          <Col xs={6} md={4}>
+            <button className="button">Adjust Budget</button>
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 }
