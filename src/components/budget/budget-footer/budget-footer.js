@@ -1,5 +1,4 @@
 import React from "react";
-import { Grid, Row, Col } from "react-bootstrap";
 
 class BudgetFooter extends React.Component {
   formatBalance() {
@@ -11,19 +10,12 @@ class BudgetFooter extends React.Component {
   }
   render() {
     return (
-      <Grid>
-        <Row>
-          <Col xs={6} md={4}>
-            <div className="footer-msg">
-              {"Balance: " + this.formatBalance()}
-            </div>
-          </Col>
-          <Col xs={0} md={4} />
-          <Col xs={6} md={4}>
-            <button className="button">Adjust Budget</button>
-          </Col>
-        </Row>
-      </Grid>
+      <div>
+        <div className="footer-msg">{"Balance: " + this.formatBalance()}</div>
+        <div className="footer-btn">
+          <button className="button">Adjust Budget</button>
+        </div>
+      </div>
     );
   }
 }

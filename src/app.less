@@ -34,10 +34,9 @@
   background-color: @secondary;
   color: @secondary-text;
   border-radius: 10px;
-  margin-top: 10px;
-  margin-right: 10px;
   padding: 5px 10px;
   border-width: 0px;
+  font-size: .75em;
 }
 
 .button:hover {
@@ -99,6 +98,11 @@
 
 .footer-msg {
   vertical-align: middle;
+  float: left;
+}
+
+.footer-btn {
+  float: right;
 }
 
 .padding-10 {
@@ -137,7 +141,9 @@
   height: 10%;
   width: 100%;
   z-index: 2;
+  position: relative;
   padding: 10px 15px;
+  overflow-y: hidden;
   font-size: 2em;
   text-align: left;
   background-color: @primary-dark;
@@ -149,9 +155,9 @@
   height: 10%;
   width: 100%;
   z-index: 2;
-
   position: relative;
   padding: 10px 15px;
+  overflow-y: hidden;
   font-size: 3em;
   text-align: center;
   background-color: @primary-dark;
