@@ -7,21 +7,21 @@ class ProgressBar extends React.Component {
     return { width: this.props.percent * 100 + "%" };
   }
   render0() {
-    return <div className="pb pb_outer" />;
+    return <div className="progbar progbar-outer" />;
   }
   renderNormal() {
     return (
-      <div className="pb pb_outer">
-        <div className="pb pb_inner" style={this.style()} />
+      <div className="progbar progbar-outer">
+        <div className="progbar progbar-inner" style={this.style()} />
       </div>
     );
   }
   renderAbove100() {
     if (this.props.income) {
-      return <div className="pb pb_inner" />;
+      return <div className="progbar progbar-inner" />;
     }
 
-    return <div className="pb pb_danger" />;
+    return <div className="progbar progbar-danger" />;
   }
   render() {
     if (this.props.percent > 1) {

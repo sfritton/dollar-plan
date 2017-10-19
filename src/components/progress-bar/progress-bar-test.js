@@ -44,15 +44,15 @@ function testProgressBar(percent, income, nOuters, nInners, nDangers) {
 
   const outers = TestUtils.scryRenderedDOMComponentsWithClass(
     progressBar,
-    "pb_outer"
+    "progbar-outer"
   );
   const inners = TestUtils.scryRenderedDOMComponentsWithClass(
     progressBar,
-    "pb_inner"
+    "progbar-inner"
   );
   const dangers = TestUtils.scryRenderedDOMComponentsWithClass(
     progressBar,
-    "pb_danger"
+    "progbar-danger"
   );
 
   expect(outers.length).toEqual(nOuters);
