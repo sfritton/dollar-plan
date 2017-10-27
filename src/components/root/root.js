@@ -1,4 +1,10 @@
 import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Link
+} from "react-router-dom";
 
 import Budget from "../budget/budget";
 import Page from "../page/page";
@@ -25,14 +31,24 @@ class Root extends React.Component {
     return <Page header={"Error 404: page not found"} />;
   }
   render() {
-    switch (this.state.page) {
-      case pageEnum.BUDGET:
-        return this.renderBudget();
-      case pageEnum.WELCOME:
-        return <Welcome />;
-      default:
-        return this.render404();
-    }
+    return (
+      <Router>
+        <div>
+          <ul>
+            <li>
+              <Link to="/welcome">Welcome</Link>
+            </li>
+            <li>
+              <Link to="/budget/2017-11">Budget Nov-17</Link>
+            </li>
+          </ul>
+
+          <Route exact path="/" render={() => <Redirect to="/budget" />} />
+          <Route path="/budget/:date" component={Budget} />
+          <Route exact path="/welcome" component={Welcome} />
+        </div>
+      </Router>
+    );
   }
 }
 
