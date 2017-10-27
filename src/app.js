@@ -7,6 +7,6 @@ import pageEnum from "./util/page-enum";
 require("./app.less");
 
 ReactDOM.render(
-  <Root page={pageEnum.WELCOME} budget={budget} />,
+  <Root page={pageEnum.BUDGET} budget={budget} />,
   document.getElementById("content")
 );
