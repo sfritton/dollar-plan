@@ -1,21 +1,38 @@
 import React from "react";
 
 import Budget from "../budget/budget";
-import budget from "../../../data/2017-11";
+import Page from "../page/page";
+import Welcome from "../welcome/welcome";
+import pageEnum from "../../util/page-enum";
 
 ("use strict");
 
 class Root extends React.Component {
-  render() {
+  constructor(props) {
+    super(props);
+    this.state = { page: props.page, budget: props.budget };
+  }
+  renderBudget() {
     return (
-      <div>
-        <Budget
-          date={budget.date}
-          incomes={budget.incomes}
-          expenses={budget.expenses}
-        />
-      </div>
+      <Budget
+        date={this.state.budget.date}
+        incomes={this.state.budget.incomes}
+        expenses={this.state.budget.expenses}
+      />
     );
+  }
+  render404() {
+    return <Page header={"Error 404: page not found"} />;
+  }
+  render() {
+    switch (this.state.page) {
+      case pageEnum.BUDGET:
+        return this.renderBudget();
+      case pageEnum.WELCOME:
+        return <Welcome />;
+      default:
+        return this.render404();
+    }
   }
 }
 
