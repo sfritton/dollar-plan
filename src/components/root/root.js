@@ -6,7 +6,7 @@ import {
   Link
 } from "react-router-dom";
 
-import Budget from "../budget/budget";
+import BudgetWrapper from "../budget/budget-wrapper";
 import Welcome from "../welcome/welcome";
 
 ("use strict");
@@ -29,7 +29,7 @@ class Root extends React.Component {
           </ul>
 
           <Route exact path="/" render={() => <Redirect to="/budget" />} />
-          <Route path="/budget/:date" component={Budget} />
+          <Route path="/budget/:date" component={BudgetWrapper} />
           <Route exact path="/welcome" component={Welcome} />
         </div>
       </Router>

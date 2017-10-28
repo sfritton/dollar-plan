@@ -57,5 +57,8 @@
     "presets": [
       "react"
     ]
+  },
+  "browser": {
+    "fs": false
   }
 }

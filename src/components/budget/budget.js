@@ -1,5 +1,4 @@
 import React from "react";
-import * as fs from "fs";
 
 import Page from "../page/page";
 import SubCategory from "../sub-category/sub-category";
@@ -9,15 +8,8 @@ import BudgetFooter from "./budget-footer/budget-footer";
 ("use strict");
 
 class Budget extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = JSON.parse(
-      fs.readFileSync(`data\\${props.match.params.date}.json`)
-    );
-    console.log(this.state);
-  }
   getMonthName() {
-    switch (this.state.date.month) {
+    switch (this.props.date.month) {
       case 1:
         return "January";
       case 2:
@@ -47,12 +39,12 @@ class Budget extends React.Component {
     }
   }
   getIncome() {
-    return this.state.incomes.reduce((sum, income) => {
+    return this.props.incomes.reduce((sum, income) => {
       return sum + income.actualAmount;
     }, 0);
   }
   getExpenses() {
-    return this.state.expenses.reduce((sum, expense) => {
+    return this.props.expenses.reduce((sum, expense) => {
       return (
         sum +
         expense.subCategories.reduce((sum, subCat) => {
@@ -64,13 +56,13 @@ class Budget extends React.Component {
   render() {
     return (
       <Page
-        header={`${this.getMonthName()} ${this.state.date.year}`}
+        header={`${this.getMonthName()} ${this.props.date.year}`}
         footer={
           <BudgetFooter balance={this.getIncome() - this.getExpenses()} />
         }
       >
         <div className="section-header">Income</div>
-        {this.state.incomes.map((income, i) => (
+        {this.props.incomes.map((income, i) => (
           <SubCategory
             key={i}
             title={income.title}
@@ -80,7 +72,7 @@ class Budget extends React.Component {
           />
         ))}
         <div className="section-header">Expenses</div>
-        {this.state.expenses.map((expense, i) => (
+        {this.props.expenses.map((expense, i) => (
           <Category
             key={i}
             title={expense.title}
