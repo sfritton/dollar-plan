@@ -1,7 +1,7 @@
 import React from "react";
 import TestUtils from "react-dom/test-utils";
 import expect from "expect";
-import { Glyphicon } from "react-bootstrap";
+import { Glyphicon, FormControl } from "react-bootstrap";
 
 import Category from "./category";
 import SubCategory from "../sub-category/sub-category";
@@ -160,5 +160,22 @@ describe("Category", function() {
 
     expect(chevronOpens.length).toEqual(1);
     expect(chevronCloseds.length).toEqual(0);
+  });
+
+  it("renders the title as an input when in edit mode", function() {
+    const category = TestUtils.renderIntoDocument(
+      <Category
+        title={this.title}
+        defaultOpen={true}
+        edit={true}
+        subCategories={this.subCategories}
+      />
+    );
+    const titles = TestUtils.scryRenderedComponentsWithType(
+      category,
+      FormControl
+    );
+
+    expect(titles[0].props.value).toEqual(this.title);
   });
 });

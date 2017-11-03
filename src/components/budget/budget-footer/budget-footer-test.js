@@ -36,4 +36,22 @@ describe("BudgetFooter", function() {
 
     expect(msg.textContent).toContain("$100");
   });
+
+  it("renders an 'Adjust Budget' button in non-edit mode", function() {
+    const footer = TestUtils.renderIntoDocument(
+      <BudgetFooter balance={100} edit={false} />
+    );
+    const btn = TestUtils.findRenderedDOMComponentWithClass(footer, "button");
+
+    expect(btn.textContent).toContain("Adjust Budget");
+  });
+
+  it("renders an 'Save Budget' button in edit mode", function() {
+    const footer = TestUtils.renderIntoDocument(
+      <BudgetFooter balance={100} edit={true} />
+    );
+    const btn = TestUtils.findRenderedDOMComponentWithClass(footer, "button");
+
+    expect(btn.textContent).toContain("Save Budget");
+  });
 });
