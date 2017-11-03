@@ -8,6 +8,51 @@ import BudgetFooter from "./budget-footer/budget-footer";
 ("use strict");
 
 class Budget extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      edit: false
+    };
+
+    this.toggleEdit = this.toggleEdit.bind(this);
+  }
+  render() {
+    return (
+      <Page
+        header={`${this.getMonthName()} ${this.props.date.year}`}
+        footer={
+          <BudgetFooter
+            balance={this.getIncome() - this.getExpenses()}
+            edit={this.state.edit}
+            adjust={this.toggleEdit}
+            save={this.toggleEdit}
+          />
+        }
+      >
+        <div className="section-header">Income</div>
+        {this.props.incomes.map((income, i) => (
+          <SubCategory
+            key={i}
+            title={income.title}
+            income={true}
+            edit={this.state.edit}
+            plannedAmount={income.plannedAmount}
+            actualAmount={income.actualAmount}
+          />
+        ))}
+        <div className="section-header">Expenses</div>
+        {this.props.expenses.map((expense, i) => (
+          <Category
+            key={i}
+            title={expense.title}
+            edit={this.state.edit}
+            defaultOpen={true}
+            subCategories={expense.subCategories}
+          />
+        ))}
+      </Page>
+    );
+  }
   getMonthName() {
     switch (this.props.date.month) {
       case 1:
@@ -53,36 +98,8 @@ class Budget extends React.Component {
       );
     }, 0);
   }
-  render() {
-    return (
-      <Page
-        header={`${this.getMonthName()} ${this.props.date.year}`}
-        footer={
-          <BudgetFooter balance={this.getIncome() - this.getExpenses()} />
-        }
-      >
-        <div className="section-header">Income</div>
-        {this.props.incomes.map((income, i) => (
-          <SubCategory
-            key={i}
-            title={income.title}
-            income={true}
-            plannedAmount={income.plannedAmount}
-            actualAmount={income.actualAmount}
-          />
-        ))}
-        <div className="section-header">Expenses</div>
-        {this.props.expenses.map((expense, i) => (
-          <Category
-            key={i}
-            title={expense.title}
-            income={false}
-            defaultOpen={true}
-            subCategories={expense.subCategories}
-          />
-        ))}
-      </Page>
-    );
+  toggleEdit() {
+    this.setState(prevState => ({ edit: !prevState.edit }));
   }
 }
 

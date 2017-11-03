@@ -1,5 +1,12 @@
 import React from "react";
-import { Grid, Row, Col, Glyphicon, Collapse } from "react-bootstrap";
+import {
+  Grid,
+  Row,
+  Col,
+  Glyphicon,
+  Collapse,
+  FormControl
+} from "react-bootstrap";
 
 import ProgressBar from "../progress-bar/progress-bar";
 import SubCategory from "../sub-category/sub-category";
@@ -9,39 +16,13 @@ import SubCategory from "../sub-category/sub-category";
 class Category extends React.Component {
   constructor(props) {
     super(props);
+    this.updateTitle = this.updateTitle.bind(this);
     this.toggleVisible = this.toggleVisible.bind(this);
-    this.state = { open: props.defaultOpen };
-  }
-  getPlannedAmount() {
-    return this.props.subCategories.reduce((sum, subCategory) => {
-      return sum + subCategory.plannedAmount;
-    }, 0);
-  }
-  getActualAmount() {
-    return this.props.subCategories.reduce((sum, subCategory) => {
-      return sum + subCategory.actualAmount;
-    }, 0);
-  }
-  toggleVisible() {
-    this.setState(prevState => ({ open: !prevState.open }));
-  }
-  getChevronClass() {
-    return "chevron chevron-" + (this.state.open ? "open" : "closed");
-  }
-  renderSubCategories() {
-    return (
-      <div>
-        {this.props.subCategories.map((sub, i) => (
-          <SubCategory
-            key={i}
-            title={sub.title}
-            income={this.props.income}
-            plannedAmount={sub.plannedAmount}
-            actualAmount={sub.actualAmount}
-          />
-        ))}
-      </div>
-    );
+    this.deleteCategory = this.deleteCategory.bind(this);
+    this.state = {
+      open: props.defaultOpen || false,
+      title: props.title || ""
+    };
   }
   render() {
     return (
@@ -49,7 +30,7 @@ class Category extends React.Component {
         <Grid className="category" onClick={this.toggleVisible}>
           <Row>
             <Col xs={3} md={3} lg={2}>
-              <div className="category-title">{this.props.title}</div>
+              {this.renderTitle()}
             </Col>
             <Col xs={3} md={2} lg={2}>
               <div className="category-amount">
@@ -62,16 +43,76 @@ class Category extends React.Component {
               />
             </Col>
             <Col xs={1} md={1} lg={1}>
-              <Glyphicon
-                className={this.getChevronClass()}
-                glyph="chevron-down"
-              />
+              {this.renderIcon()}
             </Col>
           </Row>
         </Grid>
-        <Collapse in={this.state.open}>{this.renderSubCategories()}</Collapse>
+        <Collapse in={this.props.edit || this.state.open}>
+          {this.renderSubCategories()}
+        </Collapse>
       </div>
     );
+  }
+  renderTitle() {
+    if (this.props.edit) {
+      return (
+        <FormControl
+          type="text"
+          value={this.state.title}
+          placeholder="Category name"
+          onChange={this.updateTitle}
+        />
+      );
+    }
+    return <div className="category-title">{this.state.title}</div>;
+  }
+  getActualAmount() {
+    return this.props.subCategories.reduce((sum, subCategory) => {
+      return sum + subCategory.actualAmount;
+    }, 0);
+  }
+  getPlannedAmount() {
+    return this.props.subCategories.reduce((sum, subCategory) => {
+      return sum + subCategory.plannedAmount;
+    }, 0);
+  }
+  renderIcon() {
+    if (this.props.edit) {
+      return <Glyphicon glyph="trash" onClick={this.delete} />;
+    }
+    return (
+      <Glyphicon
+        className={"chevron chevron-" + (this.state.open ? "open" : "closed")}
+        glyph="chevron-down"
+      />
+    );
+  }
+  renderSubCategories() {
+    return (
+      <div>
+        {this.props.subCategories.map((sub, i) => (
+          <SubCategory
+            key={i}
+            title={sub.title}
+            income={false}
+            edit={this.props.edit}
+            plannedAmount={sub.plannedAmount}
+            actualAmount={sub.actualAmount}
+          />
+        ))}
+      </div>
+    );
+  }
+  updateTitle(e) {
+    this.setState({ title: e.target.value });
+  }
+  toggleVisible() {
+    if (!this.props.edit) {
+      this.setState(prevState => ({ open: !prevState.open }));
+    }
+  }
+  deleteCategory() {
+    console.log("tried to delete category: " + this.state.title);
   }
 }
 

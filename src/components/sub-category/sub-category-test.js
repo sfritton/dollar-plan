@@ -1,6 +1,7 @@
 import React from "react";
 import TestUtils from "react-dom/test-utils";
 import expect from "expect";
+import { FormControl } from "react-bootstrap";
 
 import SubCategory from "./sub-category";
 import ProgressBar from "../progress-bar/progress-bar";
@@ -13,6 +14,7 @@ describe("SubCategory", function() {
     this.category = TestUtils.renderIntoDocument(
       <SubCategory
         title={this.title}
+        edit={false}
         income={false}
         plannedAmount={this.plannedAmount}
         actualAmount={this.actualAmount}
@@ -59,12 +61,31 @@ describe("SubCategory", function() {
     expect(messages.length).toEqual(1);
   });
 
+  it("renders exactly 2 FormControl components in edit mode", function() {
+    const category = TestUtils.renderIntoDocument(<SubCategory edit={true} />);
+    const controls = TestUtils.scryRenderedComponentsWithType(
+      category,
+      FormControl
+    );
+    expect(controls.length).toEqual(2);
+  });
+
+  it("renders exactly 1 sub-category-message in edit mode", function() {
+    const category = TestUtils.renderIntoDocument(<SubCategory edit={true} />);
+    const messages = TestUtils.scryRenderedDOMComponentsWithClass(
+      category,
+      "sub-category-message"
+    );
+    expect(messages.length).toEqual(1);
+  });
+
   it("renders the correct message when actual expense < planned expense", function() {
     const plannedAmount = 230;
     const actualAmount = 100;
     testMessage(
       plannedAmount,
       actualAmount,
+      false,
       false,
       `$${plannedAmount - actualAmount} left`
     );
@@ -77,6 +98,7 @@ describe("SubCategory", function() {
       plannedAmount,
       actualAmount,
       false,
+      false,
       `$${actualAmount - plannedAmount} over`
     );
   });
@@ -88,6 +110,7 @@ describe("SubCategory", function() {
       plannedAmount,
       actualAmount,
       true,
+      false,
       `$${plannedAmount - actualAmount} to go`
     );
   });
@@ -99,16 +122,42 @@ describe("SubCategory", function() {
       plannedAmount,
       actualAmount,
       true,
+      false,
       `$${actualAmount - plannedAmount} extra`
+    );
+  });
+
+  it("renders the correct message when in edit mode for income", function() {
+    const plannedAmount = 100;
+    const actualAmount = 230;
+    testMessage(
+      plannedAmount,
+      actualAmount,
+      true,
+      true,
+      "$" + actualAmount + " earned so far"
+    );
+  });
+
+  it("renders the correct message when in edit mode for expenses", function() {
+    const plannedAmount = 100;
+    const actualAmount = 230;
+    testMessage(
+      plannedAmount,
+      actualAmount,
+      false,
+      true,
+      "$" + actualAmount + " spent so far"
     );
   });
 });
 
-function testMessage(plannedAmount, actualAmount, income, msg) {
+function testMessage(plannedAmount, actualAmount, income, edit, msg) {
   let category = TestUtils.renderIntoDocument(
     <SubCategory
       title={"Title"}
       income={income}
+      edit={edit}
       plannedAmount={plannedAmount}
       actualAmount={actualAmount}
     />
