@@ -75,14 +75,6 @@ class SubCategory extends React.Component {
     );
   }
   generateMessage() {
-    if (this.props.edit) {
-      return (
-        "$" +
-        this.state.actualAmount +
-        (this.props.income ? " earned so far" : " spent so far")
-      );
-    }
-
     if (this.state.actualAmount <= this.state.plannedAmount) {
       return (
         "$" +

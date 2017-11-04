@@ -20,7 +20,14 @@ class Welcome extends React.Component {
           <Row>
             <Dropdown options={Welcome.months} />
             <Dropdown options={Welcome.years} />
-            <button className="submit">Create</button>
+            <button
+              className="submit"
+              onClick={() => {
+                this.props.navigateTo("budget", { date: "2017-10" });
+              }}
+            >
+              Create
+            </button>
           </Row>
         </Grid>
       </Page>

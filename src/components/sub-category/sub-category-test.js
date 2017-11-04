@@ -126,30 +126,6 @@ describe("SubCategory", function() {
       `$${actualAmount - plannedAmount} extra`
     );
   });
-
-  it("renders the correct message when in edit mode for income", function() {
-    const plannedAmount = 100;
-    const actualAmount = 230;
-    testMessage(
-      plannedAmount,
-      actualAmount,
-      true,
-      true,
-      "$" + actualAmount + " earned so far"
-    );
-  });
-
-  it("renders the correct message when in edit mode for expenses", function() {
-    const plannedAmount = 100;
-    const actualAmount = 230;
-    testMessage(
-      plannedAmount,
-      actualAmount,
-      false,
-      true,
-      "$" + actualAmount + " spent so far"
-    );
-  });
 });
 
 function testMessage(plannedAmount, actualAmount, income, edit, msg) {

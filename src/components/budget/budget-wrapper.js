@@ -9,7 +9,7 @@ class BudgetWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = JSON.parse(
-      fs.readFileSync(`data\\${props.match.params.date}.json`)
+      fs.readFileSync(`data\\${props.date}.json`)
     );
   }
   render() {
