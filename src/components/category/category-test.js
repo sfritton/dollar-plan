@@ -17,7 +17,7 @@ describe("Category", function() {
     this.category = TestUtils.renderIntoDocument(
       <Category
         title={this.title}
-        defaultOpen={true}
+        defaultOpen
         subCategories={this.subCategories}
       />
     );
@@ -98,7 +98,7 @@ describe("Category", function() {
     const cat = TestUtils.renderIntoDocument(
       <Category
         title={this.title}
-        defaultOpen={false}
+
         subCategories={this.subCategories}
       />
     );
@@ -166,8 +166,8 @@ describe("Category", function() {
     const category = TestUtils.renderIntoDocument(
       <Category
         title={this.title}
-        defaultOpen={true}
-        edit={true}
+        defaultOpen
+        edit
         subCategories={this.subCategories}
       />
     );

@@ -14,8 +14,8 @@ describe("SubCategory", function() {
     this.category = TestUtils.renderIntoDocument(
       <SubCategory
         title={this.title}
-        edit={false}
-        income={false}
+       
+       
         plannedAmount={this.plannedAmount}
         actualAmount={this.actualAmount}
       />
@@ -62,7 +62,7 @@ describe("SubCategory", function() {
   });
 
   it("renders exactly 2 FormControl components in edit mode", function() {
-    const category = TestUtils.renderIntoDocument(<SubCategory edit={true} />);
+    const category = TestUtils.renderIntoDocument(<SubCategory edit />);
     const controls = TestUtils.scryRenderedComponentsWithType(
       category,
       FormControl
@@ -71,7 +71,7 @@ describe("SubCategory", function() {
   });
 
   it("renders exactly 1 sub-category-message in edit mode", function() {
-    const category = TestUtils.renderIntoDocument(<SubCategory edit={true} />);
+    const category = TestUtils.renderIntoDocument(<SubCategory edit />);
     const messages = TestUtils.scryRenderedDOMComponentsWithClass(
       category,
       "sub-category-message"

@@ -11,10 +11,15 @@ class Budget extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      edit: false
+      edit: false,
+      incomes: props.incomes,
+      expenses: props.expenses
     };
 
     this.toggleEdit = this.toggleEdit.bind(this);
+    this.deleteIncomeCategory = this.deleteIncomeCategory.bind(this);
+    this.deleteExpenseCategory = this.deleteExpenseCategory.bind(this);
+    this.deleteExpenseSubCategory = this.deleteExpenseSubCategory.bind(this);
   }
   render() {
     return (
@@ -30,24 +35,29 @@ class Budget extends React.Component {
         }
       >
         <div className="section-header">Income</div>
-        {this.props.incomes.map((income, i) => (
+        {this.state.incomes.map((income, i) => (
           <SubCategory
             key={i}
+            id={i}
             title={income.title}
-            income={true}
+            income
             edit={this.state.edit}
             plannedAmount={income.plannedAmount}
             actualAmount={income.actualAmount}
+            deleteSubCategory={this.deleteIncomeCategory}
           />
         ))}
         <div className="section-header">Expenses</div>
-        {this.props.expenses.map((expense, i) => (
+        {this.state.expenses.map((expense, i) => (
           <Category
             key={i}
+            id={i}
             title={expense.title}
             edit={this.state.edit}
-            defaultOpen={true}
+            defaultOpen
             subCategories={expense.subCategories}
+            deleteCategory={this.deleteExpenseCategory}
+            deleteSubCategory={this.deleteExpenseSubCategory}
           />
         ))}
       </Page>
@@ -84,12 +94,12 @@ class Budget extends React.Component {
     }
   }
   getIncome() {
-    return this.props.incomes.reduce((sum, income) => {
+    return this.state.incomes.reduce((sum, income) => {
       return sum + income.actualAmount;
     }, 0);
   }
   getExpenses() {
-    return this.props.expenses.reduce((sum, expense) => {
+    return this.state.expenses.reduce((sum, expense) => {
       return (
         sum +
         expense.subCategories.reduce((sum, subCat) => {
@@ -100,6 +110,42 @@ class Budget extends React.Component {
   }
   toggleEdit() {
     this.setState(prevState => ({ edit: !prevState.edit }));
+  }
+  deleteIncomeCategory(id) {
+    this.setState(prevState => ({
+      incomes: prevState.incomes.filter((income, i) => {
+        return i !== id;
+      })
+    }));
+  }
+  deleteExpenseCategory(id) {
+    this.setState(prevState => ({
+      expenses: prevState.expenses.filter((expense, i) => {
+        return i !== id;
+      })
+    }));
+  }
+  deleteExpenseSubCategory(catId, subcatId) {
+    this.setState(prevState => {
+      let newExpenses = prevState.expenses;
+      newExpenses[catId] = {
+        title: prevState.expenses[catId].title,
+        subCategories: prevState.expenses[
+          catId
+        ].subCategories.filter((subCat, i) => {
+          return i != subcatId;
+        })
+      };
+
+      // if a category has no sub-categories, remove it
+      if (newExpenses[catId].subCategories.length < 1) {
+        newExpenses.splice(catId, 1);
+      }
+
+      return {
+        expenses: newExpenses
+      };
+    });
   }
 }
 

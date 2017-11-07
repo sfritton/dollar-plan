@@ -16,12 +16,10 @@ import SubCategory from "../sub-category/sub-category";
 class Category extends React.Component {
   constructor(props) {
     super(props);
-    this.updateTitle = this.updateTitle.bind(this);
     this.toggleVisible = this.toggleVisible.bind(this);
-    this.deleteCategory = this.deleteCategory.bind(this);
+
     this.state = {
-      open: props.defaultOpen || false,
-      title: props.title || ""
+      open: props.defaultOpen || false
     };
   }
   render() {
@@ -58,13 +56,13 @@ class Category extends React.Component {
       return (
         <FormControl
           type="text"
-          value={this.state.title}
+          value={this.props.title}
           placeholder="Category name"
-          onChange={this.updateTitle}
+          //onChange={() => {this.props.updateTitle()}}
         />
       );
     }
-    return <div className="category-title">{this.state.title}</div>;
+    return <div className="category-title">{this.props.title}</div>;
   }
   getActualAmount() {
     return this.props.subCategories.reduce((sum, subCategory) => {
@@ -78,7 +76,14 @@ class Category extends React.Component {
   }
   renderIcon() {
     if (this.props.edit) {
-      return <Glyphicon glyph="trash" onClick={this.delete} />;
+      return (
+        <Glyphicon
+          glyph="trash"
+          onClick={() => {
+            this.props.deleteCategory(this.props.id);
+          }}
+        />
+      );
     }
     return (
       <Glyphicon
@@ -93,26 +98,23 @@ class Category extends React.Component {
         {this.props.subCategories.map((sub, i) => (
           <SubCategory
             key={i}
+            id={i}
             title={sub.title}
-            income={false}
             edit={this.props.edit}
             plannedAmount={sub.plannedAmount}
             actualAmount={sub.actualAmount}
+            deleteSubCategory={id => {
+              this.props.deleteSubCategory(this.props.id, id);
+            }}
           />
         ))}
       </div>
     );
   }
-  updateTitle(e) {
-    this.setState({ title: e.target.value });
-  }
   toggleVisible() {
     if (!this.props.edit) {
       this.setState(prevState => ({ open: !prevState.open }));
     }
-  }
-  deleteCategory() {
-    console.log("tried to delete category: " + this.state.title);
   }
 }
 

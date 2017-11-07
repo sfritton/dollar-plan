@@ -7,7 +7,7 @@ import ProgressBar from "./progress-bar";
 describe("ProgressBar", function() {
   it("renders without problems", function() {
     const progressBar = TestUtils.renderIntoDocument(
-      <ProgressBar income={false} percent={1} />
+      <ProgressBar percent={1} />
     );
     expect(progressBar).toBeTruthy();
   });

@@ -39,7 +39,7 @@ describe("BudgetFooter", function() {
 
   it("renders an 'Adjust Budget' button in non-edit mode", function() {
     const footer = TestUtils.renderIntoDocument(
-      <BudgetFooter balance={100} edit={false} />
+      <BudgetFooter balance={100} />
     );
     const btn = TestUtils.findRenderedDOMComponentWithClass(footer, "button");
 
@@ -48,7 +48,7 @@ describe("BudgetFooter", function() {
 
   it("renders an 'Save Budget' button in edit mode", function() {
     const footer = TestUtils.renderIntoDocument(
-      <BudgetFooter balance={100} edit={true} />
+      <BudgetFooter balance={100} edit />
     );
     const btn = TestUtils.findRenderedDOMComponentWithClass(footer, "button");
 

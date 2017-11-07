@@ -1,22 +1,18 @@
 import React from "react";
-import { Grid, Row, Col, FormControl, InputGroup } from "react-bootstrap";
+import {
+  Grid,
+  Row,
+  Col,
+  FormControl,
+  InputGroup,
+  Glyphicon
+} from "react-bootstrap";
 
 import ProgressBar from "../progress-bar/progress-bar";
 
 ("use strict");
 
 class SubCategory extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: props.title || "",
-      plannedAmount: props.plannedAmount || 0,
-      actualAmount: props.actualAmount || 0
-    };
-
-    this.updateTitle = this.updateTitle.bind(this);
-    this.updatePlannedAmount = this.updatePlannedAmount.bind(this);
-  }
   render() {
     return (
       <Grid className="sub-category">
@@ -27,14 +23,17 @@ class SubCategory extends React.Component {
           <Col xs={3} md={2} lg={2}>
             {this.renderAmount()}
           </Col>
-          <Col xs={3} md={5} lg={6}>
+          <Col xs={2} md={4} lg={5}>
             <ProgressBar
               income={this.props.income}
-              percent={this.state.actualAmount / this.state.plannedAmount}
+              percent={this.props.actualAmount / this.props.plannedAmount}
             />
           </Col>
           <Col xs={3} md={2} lg={2}>
             <div className="sub-category-message">{this.generateMessage()}</div>
+          </Col>
+          <Col xs={1} md={1} lg={1}>
+            {this.renderIcon()}
           </Col>
         </Row>
       </Grid>
@@ -45,24 +44,24 @@ class SubCategory extends React.Component {
       return (
         <FormControl
           type="text"
-          value={this.state.title}
+          value={this.props.title}
           placeholder="Category name"
-          onChange={this.updateTitle}
+          //onChange={() => {this.props.updateTitle()}}
         />
       );
     }
 
-    return <div className="sub-category-title">{this.state.title}</div>;
+    return <div className="sub-category-title">{this.props.title}</div>;
   }
   renderAmount() {
     if (this.props.edit) {
       return (
         <InputGroup>
-          <InputGroup.Addon>$</InputGroup.Addon>
+          <InputGroup.Addon>${this.props.actualAmount} of $</InputGroup.Addon>
           <FormControl
             type="number"
-            value={this.state.plannedAmount}
-            onChange={this.updatePlannedAmount}
+            value={this.props.plannedAmount}
+            //onChange={() => {this.props.updatePlannedAmount()}}
           />
         </InputGroup>
       );
@@ -70,30 +69,38 @@ class SubCategory extends React.Component {
 
     return (
       <div className="sub-category-amount">
-        {`$${this.state.actualAmount} of $${this.state.plannedAmount}`}
+        {`$${this.props.actualAmount} of $${this.props.plannedAmount}`}
       </div>
     );
   }
   generateMessage() {
-    if (this.state.actualAmount <= this.state.plannedAmount) {
+    if (this.props.actualAmount <= this.props.plannedAmount) {
       return (
         "$" +
-        (this.state.plannedAmount - this.state.actualAmount) +
+        (this.props.plannedAmount - this.props.actualAmount) +
         (this.props.income ? " to go" : " left")
       );
     }
 
     return (
       "$" +
-      (this.state.actualAmount - this.state.plannedAmount) +
+      (this.props.actualAmount - this.props.plannedAmount) +
       (this.props.income ? " extra" : " over")
     );
   }
-  updateTitle(e) {
-    this.setState({ title: e.target.value });
-  }
-  updatePlannedAmount(e) {
-    this.setState({ plannedAmount: e.target.value });
+  renderIcon() {
+    if (this.props.edit) {
+      return (
+        <Glyphicon
+          className="icon-btn"
+          glyph="trash"
+          onClick={() => {
+            this.props.deleteSubCategory(this.props.id);
+          }}
+        />
+      );
+    }
+    return;
   }
 }
 
