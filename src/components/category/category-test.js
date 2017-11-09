@@ -1,11 +1,12 @@
 import React from "react";
 import TestUtils from "react-dom/test-utils";
 import expect from "expect";
-import { Glyphicon, FormControl } from "react-bootstrap";
+import { Glyphicon } from "react-bootstrap";
 
 import Category from "./category";
 import SubCategory from "../sub-category/sub-category";
 import ProgressBar from "../progress-bar/progress-bar";
+import TextInput from "../forms/text-input";
 
 describe("Category", function() {
   beforeEach(function() {
@@ -96,11 +97,7 @@ describe("Category", function() {
 
   it("starts closed when defaultOpen is false", function() {
     const cat = TestUtils.renderIntoDocument(
-      <Category
-        title={this.title}
-
-        subCategories={this.subCategories}
-      />
+      <Category title={this.title} subCategories={this.subCategories} />
     );
 
     const chevronOpens = TestUtils.scryRenderedDOMComponentsWithClass(
@@ -173,7 +170,7 @@ describe("Category", function() {
     );
     const titles = TestUtils.scryRenderedComponentsWithType(
       category,
-      FormControl
+      TextInput
     );
 
     expect(titles[0].props.value).toEqual(this.title);

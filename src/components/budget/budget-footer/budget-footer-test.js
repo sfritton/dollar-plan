@@ -38,9 +38,7 @@ describe("BudgetFooter", function() {
   });
 
   it("renders an 'Adjust Budget' button in non-edit mode", function() {
-    const footer = TestUtils.renderIntoDocument(
-      <BudgetFooter balance={100} />
-    );
+    const footer = TestUtils.renderIntoDocument(<BudgetFooter balance={100} />);
     const btn = TestUtils.findRenderedDOMComponentWithClass(footer, "button");
 
     expect(btn.textContent).toContain("Adjust Budget");

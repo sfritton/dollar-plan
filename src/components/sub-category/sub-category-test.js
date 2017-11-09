@@ -1,10 +1,11 @@
 import React from "react";
 import TestUtils from "react-dom/test-utils";
 import expect from "expect";
-import { FormControl } from "react-bootstrap";
+import { Glyphicon } from "react-bootstrap";
 
 import SubCategory from "./sub-category";
 import ProgressBar from "../progress-bar/progress-bar";
+import TextInput from "../forms/text-input";
 
 describe("SubCategory", function() {
   beforeEach(function() {
@@ -14,8 +15,6 @@ describe("SubCategory", function() {
     this.category = TestUtils.renderIntoDocument(
       <SubCategory
         title={this.title}
-       
-       
         plannedAmount={this.plannedAmount}
         actualAmount={this.actualAmount}
       />
@@ -61,13 +60,19 @@ describe("SubCategory", function() {
     expect(messages.length).toEqual(1);
   });
 
-  it("renders exactly 2 FormControl components in edit mode", function() {
+  it("renders exactly 2 TextInput components in edit mode", function() {
     const category = TestUtils.renderIntoDocument(<SubCategory edit />);
-    const controls = TestUtils.scryRenderedComponentsWithType(
+    const inputs = TestUtils.scryRenderedComponentsWithType(
       category,
-      FormControl
+      TextInput
     );
-    expect(controls.length).toEqual(2);
+    expect(inputs.length).toEqual(2);
+  });
+
+  it("renders exactly 1 Glyphicon component in edit mode", function() {
+    const category = TestUtils.renderIntoDocument(<SubCategory edit />);
+    const icons = TestUtils.scryRenderedComponentsWithType(category, Glyphicon);
+    expect(icons.length).toEqual(1);
   });
 
   it("renders exactly 1 sub-category-message in edit mode", function() {

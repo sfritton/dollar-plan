@@ -1,14 +1,8 @@
 import React from "react";
-import {
-  Grid,
-  Row,
-  Col,
-  FormControl,
-  InputGroup,
-  Glyphicon
-} from "react-bootstrap";
+import { Grid, Row, Col, Glyphicon } from "react-bootstrap";
 
 import ProgressBar from "../progress-bar/progress-bar";
+import TextInput from "../forms/text-input";
 
 ("use strict");
 
@@ -20,10 +14,10 @@ class SubCategory extends React.Component {
           <Col xs={3} md={3} lg={2}>
             {this.renderTitle()}
           </Col>
-          <Col xs={3} md={2} lg={2}>
+          <Col xs={2} md={this.props.edit ? 3 : 2} lg={this.props.edit ? 3 : 2}>
             {this.renderAmount()}
           </Col>
-          <Col xs={2} md={4} lg={5}>
+          <Col xs={2} md={this.props.edit ? 3 : 4} lg={this.props.edit ? 4 : 5}>
             <ProgressBar
               income={this.props.income}
               percent={this.props.actualAmount / this.props.plannedAmount}
@@ -42,8 +36,8 @@ class SubCategory extends React.Component {
   renderTitle() {
     if (this.props.edit) {
       return (
-        <FormControl
-          type="text"
+        <TextInput
+          className="sub-category-input"
           value={this.props.title}
           placeholder="Category name"
           //onChange={() => {this.props.updateTitle()}}
@@ -56,14 +50,16 @@ class SubCategory extends React.Component {
   renderAmount() {
     if (this.props.edit) {
       return (
-        <InputGroup>
-          <InputGroup.Addon>${this.props.actualAmount} of $</InputGroup.Addon>
-          <FormControl
-            type="number"
+        <div style={{ textAlign: "right" }}>
+          {`$${this.props.actualAmount} of `}
+          <TextInput
+            className="sub-category-input dollar"
+            width="50%"
             value={this.props.plannedAmount}
-            //onChange={() => {this.props.updatePlannedAmount()}}
+            placeholder="Category amount"
+            //onChange={() => {this.props.updateTitle()}}
           />
-        </InputGroup>
+        </div>
       );
     }
 
@@ -100,7 +96,6 @@ class SubCategory extends React.Component {
         />
       );
     }
-    return;
   }
 }
 

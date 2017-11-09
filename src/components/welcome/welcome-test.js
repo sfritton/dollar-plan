@@ -3,7 +3,7 @@ import TestUtils from "react-dom/test-utils";
 import expect from "expect";
 
 import Welcome from "./welcome";
-import Dropdown from "../dropdown/dropdown";
+import Dropdown from "../forms/dropdown";
 import Page from "../page/page";
 
 describe("Welcome", function() {

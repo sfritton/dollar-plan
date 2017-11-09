@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Row } from "react-bootstrap";
 import _ from "lodash";
 
-import Dropdown from "../dropdown/dropdown";
+import Dropdown from "../forms/dropdown";
 import Page from "../page/page";
 
 ("use strict");

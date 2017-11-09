@@ -27,9 +27,15 @@ describe("root", function() {
   it("shows a 404 page when path isn't recognized", function() {
     this.root.navigateTo("razzle-dazzle");
 
-    const welcomes = TestUtils.scryRenderedComponentsWithType(this.root, Welcome);
+    const welcomes = TestUtils.scryRenderedComponentsWithType(
+      this.root,
+      Welcome
+    );
     const page = TestUtils.findRenderedComponentWithType(this.root, Page);
-    const header = TestUtils.findRenderedDOMComponentWithClass(page, "pg-header");
+    const header = TestUtils.findRenderedDOMComponentWithClass(
+      page,
+      "pg-header"
+    );
 
     expect(welcomes.length).toEqual(0);
     expect(header.textContent).toContain("Error 404");
@@ -39,7 +45,10 @@ describe("root", function() {
     this.root.navigateTo("razzle-dazzle");
     this.root.navigateBack();
 
-    const welcomes = TestUtils.scryRenderedComponentsWithType(this.root, Welcome);
+    const welcomes = TestUtils.scryRenderedComponentsWithType(
+      this.root,
+      Welcome
+    );
 
     expect(welcomes.length).toEqual(1);
   });

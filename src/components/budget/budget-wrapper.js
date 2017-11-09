@@ -8,9 +8,7 @@ import Budget from "./budget";
 class BudgetWrapper extends React.Component {
   constructor(props) {
     super(props);
-    this.state = JSON.parse(
-      fs.readFileSync(`data\\${props.date}.json`)
-    );
+    this.state = JSON.parse(fs.readFileSync(`data\\${props.date}.json`));
   }
   render() {
     return (

@@ -1,15 +1,9 @@
 import React from "react";
-import {
-  Grid,
-  Row,
-  Col,
-  Glyphicon,
-  Collapse,
-  FormControl
-} from "react-bootstrap";
+import { Grid, Row, Col, Glyphicon, Collapse } from "react-bootstrap";
 
 import ProgressBar from "../progress-bar/progress-bar";
 import SubCategory from "../sub-category/sub-category";
+import TextInput from "../forms/text-input";
 
 ("use strict");
 
@@ -27,7 +21,11 @@ class Category extends React.Component {
       <div>
         <Grid className="category" onClick={this.toggleVisible}>
           <Row>
-            <Col xs={3} md={3} lg={2}>
+            <Col
+              xs={3}
+              md={this.props.edit ? 4 : 3}
+              lg={this.props.edit ? 3 : 2}
+            >
               {this.renderTitle()}
             </Col>
             <Col xs={3} md={2} lg={2}>
@@ -35,7 +33,11 @@ class Category extends React.Component {
                 {`$${this.getActualAmount()} of $${this.getPlannedAmount()}`}
               </div>
             </Col>
-            <Col xs={5} md={6} lg={7}>
+            <Col
+              xs={5}
+              md={this.props.edit ? 5 : 6}
+              lg={this.props.edit ? 6 : 7}
+            >
               <ProgressBar
                 percent={this.getActualAmount() / this.getPlannedAmount()}
               />
@@ -54,8 +56,8 @@ class Category extends React.Component {
   renderTitle() {
     if (this.props.edit) {
       return (
-        <FormControl
-          type="text"
+        <TextInput
+          className="category-input"
           value={this.props.title}
           placeholder="Category name"
           //onChange={() => {this.props.updateTitle()}}
