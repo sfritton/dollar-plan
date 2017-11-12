@@ -60,7 +60,9 @@ class Category extends React.Component {
           className="category-input"
           value={this.props.title}
           placeholder="Category name"
-          //onChange={() => {this.props.updateTitle()}}
+          onChange={e => {
+            this.props.updateTitle(this.props.id, e.target.value);
+          }}
         />
       );
     }
@@ -102,8 +104,12 @@ class Category extends React.Component {
             key={i}
             id={i}
             title={sub.title}
+            updateTitle={(id, title) =>
+              this.props.updateSubCategoryTitle(this.props.id, id, title)}
             edit={this.props.edit}
             plannedAmount={sub.plannedAmount}
+            updateAmount={(id, amount) =>
+              this.props.updateSubCategoryAmount(this.props.id, id, amount)}
             actualAmount={sub.actualAmount}
             deleteSubCategory={id => {
               this.props.deleteSubCategory(this.props.id, id);

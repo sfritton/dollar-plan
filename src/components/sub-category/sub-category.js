@@ -40,7 +40,7 @@ class SubCategory extends React.Component {
           className="sub-category-input"
           value={this.props.title}
           placeholder="Category name"
-          //onChange={() => {this.props.updateTitle()}}
+          onChange={(e) => {this.props.updateTitle(this.props.id, e.target.value)}}
         />
       );
     }
@@ -57,7 +57,7 @@ class SubCategory extends React.Component {
             width="50%"
             value={this.props.plannedAmount}
             placeholder="Category amount"
-            //onChange={() => {this.props.updateTitle()}}
+            onChange={(e) => {this.props.updateAmount(this.props.id, e.target.value)}}
           />
         </div>
       );
