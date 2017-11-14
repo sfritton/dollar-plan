@@ -1,8 +1,10 @@
 import React from "react";
+import { Glyphicon } from "react-bootstrap";
 
 import Page from "../page/page";
 import SubCategory from "../sub-category/sub-category";
 import Category from "../category/category";
+import CategoryButton from "../util/category-button";
 import BudgetFooter from "./budget-footer/budget-footer";
 
 ("use strict");
@@ -22,6 +24,7 @@ class Budget extends React.Component {
     this.updateIncomeCategoryAmount = this.updateIncomeCategoryAmount.bind(
       this
     );
+    this.addIncomeCategory = this.addIncomeCategory.bind(this);
     this.deleteIncomeCategory = this.deleteIncomeCategory.bind(this);
 
     this.updateExpenseCategoryTitle = this.updateExpenseCategoryTitle.bind(
@@ -33,7 +36,9 @@ class Budget extends React.Component {
     this.updateExpenseSubCategoryAmount = this.updateExpenseSubCategoryAmount.bind(
       this
     );
+    this.addExpenseCategory = this.addExpenseCategory.bind(this);
     this.deleteExpenseCategory = this.deleteExpenseCategory.bind(this);
+    this.addExpenseSubCategory = this.addExpenseSubCategory.bind(this);
     this.deleteExpenseSubCategory = this.deleteExpenseSubCategory.bind(this);
   }
   render() {
@@ -64,6 +69,14 @@ class Budget extends React.Component {
             deleteSubCategory={this.deleteIncomeCategory}
           />
         ))}
+        {this.state.edit ? (
+          <CategoryButton
+            subCategory
+            onClick={this.addIncomeCategory}
+          >
+            <Glyphicon glyph="plus" /> Add a category
+          </CategoryButton>
+        ) : null}
         <div className="section-header">Expenses</div>
         {this.state.expenses.map((expense, i) => (
           <Category
@@ -77,9 +90,17 @@ class Budget extends React.Component {
             updateTitle={this.updateExpenseCategoryTitle}
             updateSubCategoryTitle={this.updateExpenseSubCategoryTitle}
             updateSubCategoryAmount={this.updateExpenseSubCategoryAmount}
+            addSubCategory={this.addExpenseSubCategory}
             deleteSubCategory={this.deleteExpenseSubCategory}
           />
         ))}
+        {this.state.edit ? (
+          <CategoryButton
+            onClick={this.addExpenseCategory}
+          >
+            <Glyphicon glyph="plus" /> Add a category
+          </CategoryButton>
+        ) : null}
       </Page>
     );
   }
@@ -145,6 +166,14 @@ class Budget extends React.Component {
       return { incomes: prevState.incomes };
     });
   }
+  addIncomeCategory() {
+    this.setState(prevState => {
+      prevState.incomes.push({ title: "", plannedAmount: 0, actualAmount: 0 });
+      return {
+        incomes: prevState.incomes
+      };
+    });
+  }
   deleteIncomeCategory(id) {
     this.setState(prevState => ({
       incomes: prevState.incomes.filter((income, i) => {
@@ -173,12 +202,35 @@ class Budget extends React.Component {
       return { expenses: prevState.expenses };
     });
   }
+  addExpenseCategory() {
+    this.setState(prevState => {
+      prevState.expenses.push({
+        title: "",
+        subCategories: [{ title: "", plannedAmount: 0, actualAmount: 0 }]
+      });
+      return {
+        expenses: prevState.expenses
+      };
+    });
+  }
   deleteExpenseCategory(id) {
     this.setState(prevState => ({
       expenses: prevState.expenses.filter((expense, i) => {
         return i !== id;
       })
     }));
+  }
+  addExpenseSubCategory(catId) {
+    this.setState(prevState => {
+      prevState.expenses[catId].subCategories.push({
+        title: "",
+        plannedAmount: 0,
+        actualAmount: 0
+      });
+      return {
+        expenses: prevState.expenses
+      };
+    });
   }
   deleteExpenseSubCategory(catId, subcatId) {
     this.setState(prevState => {

@@ -74,16 +74,29 @@
   text-align: right;
 }
 
+.category-button {
+  text-align: left;
+  padding-left: 30px;
+}
+
 .category-input {
   background-color: @primary-lighter;
   color: @primary-light-text;
   border: 1px solid @primary;
 }
 
+.category-input::placeholder {
+  color: @primary;
+}
+
 .category-title {
   text-align: left;
   padding-top: 5px;
   padding-left: 10px;
+}
+
+.category-wrapper {
+  margin-bottom: 15px;
 }
 
 .chevron {
@@ -232,6 +245,10 @@
   border: 1px solid @primary-light;
 }
 
+.sub-category-input::placeholder {
+  color: @primary-light;
+}
+
 .sub-category-message {
   padding-top: 5px;
   text-align: left;
@@ -273,6 +290,10 @@
   font-size: 18px;
   vertical-align: middle;
   height: 40px;
+}
+
+.text-input::placeholder {
+  font-weight: lighter;
 }
 
 /*****************************************************************************

@@ -3,6 +3,7 @@ import { Grid, Row, Col, Glyphicon, Collapse } from "react-bootstrap";
 
 import ProgressBar from "../progress-bar/progress-bar";
 import SubCategory from "../sub-category/sub-category";
+import CategoryButton from "../util/category-button";
 import TextInput from "../forms/text-input";
 
 ("use strict");
@@ -18,7 +19,7 @@ class Category extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="category-wrapper">
         <Grid className="category" onClick={this.toggleVisible}>
           <Row>
             <Col
@@ -116,6 +117,16 @@ class Category extends React.Component {
             }}
           />
         ))}
+        {this.props.edit ? (
+          <CategoryButton
+            subCategory
+            onClick={() => {
+              this.props.addSubCategory(this.props.id);
+            }}
+          >
+            <Glyphicon glyph="plus" /> Add a category
+          </CategoryButton>
+        ) : null}
       </div>
     );
   }

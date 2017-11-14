@@ -56,7 +56,7 @@ class SubCategory extends React.Component {
             className="sub-category-input dollar"
             width="50%"
             value={this.props.plannedAmount}
-            placeholder="Category amount"
+            placeholder="0"
             onChange={(e) => {this.props.updateAmount(this.props.id, e.target.value)}}
           />
         </div>
