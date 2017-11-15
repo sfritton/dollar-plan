@@ -5,6 +5,13 @@ import expect from "expect";
 import BudgetFooter from "./budget-footer";
 
 describe("BudgetFooter", function() {
+  it("renders without problems", function() {
+    const budgetFooter = TestUtils.renderIntoDocument(
+      <BudgetFooter balance={20} />
+    );
+    expect(budgetFooter).toBeTruthy();
+  });
+
   it("renders the balance", function() {
     const footer = TestUtils.renderIntoDocument(<BudgetFooter balance={100} />);
     const msg = TestUtils.findRenderedDOMComponentWithClass(

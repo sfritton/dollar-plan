@@ -5,6 +5,7 @@ import Page from "../page/page";
 import SubCategory from "../sub-category/sub-category";
 import Category from "../category/category";
 import CategoryButton from "../util/category-button";
+import BudgetHeader from "./budget-header/budget-header";
 import BudgetFooter from "./budget-footer/budget-footer";
 
 ("use strict");
@@ -44,7 +45,9 @@ class Budget extends React.Component {
   render() {
     return (
       <Page
-        header={`${this.getMonthName()} ${this.props.date.year}`}
+        header={
+          <BudgetHeader month={this.props.date.month} year={this.props.date.year} />
+        }
         footer={
           <BudgetFooter
             balance={this.getIncome() - this.getExpenses()}
@@ -70,10 +73,7 @@ class Budget extends React.Component {
           />
         ))}
         {this.state.edit ? (
-          <CategoryButton
-            subCategory
-            onClick={this.addIncomeCategory}
-          >
+          <CategoryButton subCategory onClick={this.addIncomeCategory}>
             <Glyphicon glyph="plus" /> Add a category
           </CategoryButton>
         ) : null}
@@ -95,44 +95,12 @@ class Budget extends React.Component {
           />
         ))}
         {this.state.edit ? (
-          <CategoryButton
-            onClick={this.addExpenseCategory}
-          >
+          <CategoryButton onClick={this.addExpenseCategory}>
             <Glyphicon glyph="plus" /> Add a category
           </CategoryButton>
         ) : null}
       </Page>
     );
-  }
-  getMonthName() {
-    switch (this.props.date.month) {
-      case 1:
-        return "January";
-      case 2:
-        return "February";
-      case 3:
-        return "March";
-      case 4:
-        return "April";
-      case 5:
-        return "May";
-      case 6:
-        return "June";
-      case 7:
-        return "July";
-      case 8:
-        return "August";
-      case 9:
-        return "September";
-      case 10:
-        return "October";
-      case 11:
-        return "November";
-      case 12:
-        return "December";
-      default:
-        return "Frittembruary";
-    }
   }
   getIncome() {
     return this.state.incomes.reduce((sum, income) => {
