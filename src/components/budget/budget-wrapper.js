@@ -8,16 +8,24 @@ import Budget from "./budget";
 class BudgetWrapper extends React.Component {
   constructor(props) {
     super(props);
-    this.state = JSON.parse(fs.readFileSync(`data\\${props.date}.json`));
+    this.budget = JSON.parse(fs.readFileSync(`data\\${props.date}.json`));
+    this.dates = this.formatDates(fs.readdirSync("data"));
+    console.log(this.dates);
   }
   render() {
     return (
       <Budget
-        date={this.state.date}
-        incomes={this.state.incomes}
-        expenses={this.state.expenses}
+        date={this.budget.date}
+        incomes={this.budget.incomes}
+        expenses={this.budget.expenses}
       />
     );
+  }
+  formatDates(dates) {
+    return dates.map(date => {
+      var data = date.split(".")[0].split("-");
+      return { year: parseInt(data[0]), month: parseInt(data[1]) };
+    });
   }
 }
 
