@@ -16,7 +16,7 @@ class BudgetHeader extends React.Component {
             name: `${this.getMonthName(budget.month)} ${budget.year}`
           }))}
         />
-        {this.renderDaysLeft()}
+        <div className="days-left">{this.renderDaysLeft()}</div>
       </div>
     );
   }

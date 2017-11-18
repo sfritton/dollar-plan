@@ -1,5 +1,5 @@
 import React from "react";
-import { Collapse } from "react-bootstrap";
+import { Collapse, Glyphicon } from "react-bootstrap";
 
 ("use strict");
 
@@ -19,6 +19,7 @@ class HeaderDropdown extends React.Component {
       <div className="nav-select">
         <div className="nav-select-button" onClick={this.toggleOpen}>
           {this.state.selected.name}
+          <Glyphicon glyph="triangle-bottom" className="nav-select-glyph"/>
         </div>
         <Collapse in={this.state.open}>{this.renderOptions()}</Collapse>
       </div>

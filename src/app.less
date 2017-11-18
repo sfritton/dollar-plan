@@ -131,6 +131,16 @@
   color: @danger;
 }
 
+.days-left {
+  text-align: left;
+  padding: 10px 0px 0px 525px;
+  color: #c6ff00;
+}
+
+.dollar::before {
+  content: "$";
+}
+
 .footer-msg {
   vertical-align: middle;
   float: left;
@@ -138,10 +148,6 @@
 
 .footer-btn {
   float: right;
-}
-
-.dollar::before {
-  content: "$";
 }
 
 .icon-btn:hover {
@@ -155,7 +161,7 @@
 
 .nav-select {
   height: 100%;
-  width: 35%;
+  width: 500px;
   border-right: 2px solid @primary-light;
   float: left;
 }
@@ -175,6 +181,13 @@
 
 .nav-select-button:active {
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+
+.nav-select-glyph {
+  font-size: 75%;
+  position: relative;
+  float: right;
+  padding-top: 20px;
 }
 
 .nav-select-list {
