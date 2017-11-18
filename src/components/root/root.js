@@ -14,9 +14,9 @@ class Root extends React.Component {
     this.navigateBack = this.navigateBack.bind(this);
 
     this.state = {
-      page: <Welcome navigateTo={this.navigateTo} />,
+      page: <BudgetWrapper date={{ month: 11, year: 2017 }} />,
       path: "welcome",
-      params: {}
+      params: { date: { month: 11, year: 2017 } }
     };
   }
   render() {

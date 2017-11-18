@@ -23,7 +23,9 @@ class Welcome extends React.Component {
             <button
               className="submit"
               onClick={() => {
-                this.props.navigateTo("budget", { date: "2017-10" });
+                this.props.navigateTo("budget", {
+                  date: { month: 10, year: 2017 }
+                });
               }}
             >
               Create

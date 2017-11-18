@@ -46,7 +46,11 @@ class Budget extends React.Component {
     return (
       <Page
         header={
-          <BudgetHeader month={this.props.date.month} year={this.props.date.year} />
+          <BudgetHeader
+            otherBudgets={this.props.otherBudgets}
+            month={this.props.date.month}
+            year={this.props.date.year}
+          />
         }
         footer={
           <BudgetFooter
