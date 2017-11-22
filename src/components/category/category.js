@@ -60,9 +60,7 @@ class Category extends React.Component {
           className="category-input"
           value={this.props.title}
           placeholder="Category name"
-          onChange={e => {
-            this.props.updateTitle(this.props.id, e.target.value);
-          }}
+          onChange={e => this.props.updateTitle(e.target.value)}
         />
       );
     }
@@ -81,12 +79,7 @@ class Category extends React.Component {
   renderIcon() {
     if (this.props.edit) {
       return (
-        <Glyphicon
-          glyph="trash"
-          onClick={() => {
-            this.props.deleteCategory(this.props.id);
-          }}
-        />
+        <Glyphicon glyph="trash" onClick={() => this.props.deleteCategory()} />
       );
     }
     return (
@@ -102,26 +95,20 @@ class Category extends React.Component {
         {this.props.subCategories.map((sub, i) => (
           <SubCategory
             key={i}
-            id={i}
             title={sub.title}
-            updateTitle={(id, title) =>
-              this.props.updateSubCategoryTitle(this.props.id, id, title)}
+            updateTitle={title => this.props.updateSubCategoryTitle(i, title)}
             edit={this.props.edit}
             plannedAmount={sub.plannedAmount}
-            updateAmount={(id, amount) =>
-              this.props.updateSubCategoryAmount(this.props.id, id, amount)}
+            updateAmount={amount =>
+              this.props.updateSubCategoryAmount(i, amount)}
             actualAmount={sub.actualAmount}
-            deleteSubCategory={id => {
-              this.props.deleteSubCategory(this.props.id, id);
-            }}
+            deleteSubCategory={() => this.props.deleteSubCategory(i)}
           />
         ))}
         {this.props.edit ? (
           <CategoryButton
             subCategory
-            onClick={() => {
-              this.props.addSubCategory(this.props.id);
-            }}
+            onClick={() => this.props.addSubCategory()}
           >
             <Glyphicon glyph="plus" /> Add a category
           </CategoryButton>

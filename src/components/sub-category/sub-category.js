@@ -40,9 +40,7 @@ class SubCategory extends React.Component {
           className="sub-category-input"
           value={this.props.title}
           placeholder="Category name"
-          onChange={e => {
-            this.props.updateTitle(this.props.id, e.target.value);
-          }}
+          onChange={e => this.props.updateTitle(e.target.value)}
         />
       );
     }
@@ -59,9 +57,7 @@ class SubCategory extends React.Component {
             width="50%"
             value={this.props.plannedAmount}
             placeholder="0"
-            onChange={e => {
-              this.props.updateAmount(this.props.id, e.target.value);
-            }}
+            onChange={e => this.props.updateAmount(e.target.value)}
           />
         </div>
       );
@@ -95,7 +91,7 @@ class SubCategory extends React.Component {
           className="icon-btn"
           glyph="trash"
           onClick={() => {
-            this.props.deleteSubCategory(this.props.id);
+            this.props.deleteSubCategory();
           }}
         />
       );

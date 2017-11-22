@@ -43,17 +43,14 @@ class Budget extends React.Component {
         {this.state.incomes.map((income, i) => (
           <SubCategory
             key={i}
-            id={i}
             title={income.title}
-            updateTitle={(id, title) =>
-              this.updateIncomeCategoryTitle(id, title)}
+            updateTitle={title => this.updateIncomeCategoryTitle(i, title)}
             income
             edit={this.state.edit}
             plannedAmount={income.plannedAmount}
-            updateAmount={(id, amount) =>
-              this.updateIncomeCategoryAmount(id, amount)}
+            updateAmount={amount => this.updateIncomeCategoryAmount(i, amount)}
             actualAmount={income.actualAmount}
-            deleteSubCategory={id => this.deleteIncomeCategory(id)}
+            deleteSubCategory={() => this.deleteIncomeCategory(i)}
           />
         ))}
         {this.state.edit ? (
@@ -65,21 +62,19 @@ class Budget extends React.Component {
         {this.state.expenses.map((expense, i) => (
           <Category
             key={i}
-            id={i}
             title={expense.title}
             edit={this.state.edit}
             defaultOpen
             subCategories={expense.subCategories}
-            deleteCategory={id => this.deleteExpenseCategory(id)}
-            updateTitle={(id, title) =>
-              this.updateExpenseCategoryTitle(id, title)}
-            updateSubCategoryTitle={(catId, subCatId, title) =>
-              this.updateExpenseSubCategoryTitle(catId, subCatId, title)}
-            updateSubCategoryAmount={(catId, subCatId, amount) =>
-              this.updateExpenseSubCategoryAmount(catId, subCatId, amount)}
-            addSubCategory={catId => this.addExpenseSubCategory(catId)}
-            deleteSubCategory={(catId, subCatId) =>
-              this.deleteExpenseSubCategory(catId, subCatId)}
+            deleteCategory={() => this.deleteExpenseCategory(i)}
+            updateTitle={title => this.updateExpenseCategoryTitle(i, title)}
+            updateSubCategoryTitle={(subCatId, title) =>
+              this.updateExpenseSubCategoryTitle(i, subCatId, title)}
+            updateSubCategoryAmount={(subCatId, amount) =>
+              this.updateExpenseSubCategoryAmount(i, subCatId, amount)}
+            addSubCategory={() => this.addExpenseSubCategory(i)}
+            deleteSubCategory={subCatId =>
+              this.deleteExpenseSubCategory(i, subCatId)}
           />
         ))}
         {this.state.edit ? (
