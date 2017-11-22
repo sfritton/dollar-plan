@@ -12,7 +12,12 @@ class Root extends React.Component {
     super(props);
 
     this.state = {
-      page: <BudgetWrapper date={{ month: 11, year: 2017 }} />,
+      page: (
+        <BudgetWrapper
+          date={{ month: 11, year: 2017 }}
+          navigateTo={(path, params) => this.navigateTo(path, params)}
+        />
+      ),
       path: "welcome",
       params: { date: { month: 11, year: 2017 } }
     };
@@ -27,7 +32,14 @@ class Root extends React.Component {
         <Welcome navigateTo={(path, params) => this.navigateTo(path, params)} />
       );
     } else if (path === "budget" && params && params.date) {
-      this.updatePage(path, <BudgetWrapper date={params.date} />, params);
+      this.updatePage(
+        path,
+        <BudgetWrapper
+          date={params.date}
+          navigateTo={(path, params) => this.navigateTo(path, params)}
+        />,
+        params
+      );
     } else if (path === "category" && params && params.date && params.name) {
       this.updatePage(
         path,

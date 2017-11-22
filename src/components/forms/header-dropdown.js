@@ -28,31 +28,45 @@ class HeaderDropdown extends React.Component {
       <ul className="nav-select-list">
         {this.props.options
           .filter(item => {
-            return !this.state.selected || item.id != this.state.selected.id;
+            return (
+              !this.state.selected ||
+              (item.month !== this.state.selected.month ||
+                item.year !== this.state.selected.year)
+            );
           })
           .map((item, i) => (
             <li
               className="nav-select-option"
               key={i}
-              value={item.id}
+              value={`${item.year}-${item.month}`}
               onClick={() => {
-                this.updateSelected(item.id);
+                this.updateSelected(item);
+                this.props.navigateTo("budget", {
+                  date: { month: item.month, year: item.year }
+                });
               }}
             >
               {item.name}
             </li>
           ))}
+        <li className="nav-select-divider" />
+        <li
+          className="nav-select-option"
+          value="new_budget"
+          onClick={() => this.props.navigateTo("welcome")}
+        >
+          <Glyphicon glyph="plus" style={{ fontSize: "75%" }} />
+          {" Create new"}
+        </li>
       </ul>
     );
   }
   toggleOpen() {
     this.setState(prevState => ({ open: !prevState.open }));
   }
-  updateSelected(id) {
+  updateSelected(item) {
     this.setState({
-      selected: this.props.options.find(item => {
-        return item.id === id;
-      }),
+      selected: item,
       open: false
     });
   }

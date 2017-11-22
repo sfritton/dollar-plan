@@ -28,6 +28,7 @@ class Budget extends React.Component {
             otherBudgets={this.props.otherBudgets || []}
             month={this.props.date.month}
             year={this.props.date.year}
+            navigateTo={(path, params) => this.props.navigateTo(path, params)}
           />
         }
         footer={

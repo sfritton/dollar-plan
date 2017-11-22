@@ -18,6 +18,7 @@ class BudgetWrapper extends React.Component {
     return (
       <Budget
         otherBudgets={this.dates}
+        navigateTo={(path, params) => this.props.navigateTo(path, params)}
         date={this.budget.date}
         incomes={this.budget.incomes}
         expenses={this.budget.expenses}

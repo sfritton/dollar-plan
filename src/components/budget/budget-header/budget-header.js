@@ -12,9 +12,11 @@ class BudgetHeader extends React.Component {
       <div className="nav">
         <HeaderDropdown
           options={this.props.otherBudgets.map(budget => ({
-            id: `${budget.year}${budget.month}`,
+            month: budget.month,
+            year: budget.year,
             name: `${this.getMonthName(budget.month)} ${budget.year}`
           }))}
+          navigateTo={(path, params) => this.props.navigateTo(path, params)}
         />
         <div className="days-left">{this.renderDaysLeft()}</div>
       </div>
