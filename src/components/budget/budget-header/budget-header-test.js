@@ -5,23 +5,13 @@ import expect from "expect";
 import BudgetHeader from "./budget-header";
 
 describe("BudgetHeader", function() {
-  it("renders without problems", function() {
-    const budgetHeader = TestUtils.renderIntoDocument(
-      <BudgetHeader month={10} year={2015} />
+  beforeEach(function() {
+    this.budgetHeader = TestUtils.renderIntoDocument(
+      <BudgetHeader month={10} year={2015} otherBudgets={[]} />
     );
-    expect(budgetHeader).toBeTruthy();
   });
-
-  it("renders the correct year", function() {
-    const year = 2022;
-    const budgetHeader = TestUtils.renderIntoDocument(
-      <BudgetHeader month={10} year={year} />
-    );
-    const header = TestUtils.findRenderedDOMComponentWithTag(
-      budgetHeader,
-      "div"
-    );
-    expect(header.textContent).toContain(year);
+  it("renders without problems", function() {
+    expect(this.budgetHeader).toBeTruthy();
   });
 
   it("returns the correct month in all cases", function() {
@@ -41,12 +31,10 @@ describe("BudgetHeader", function() {
       { input: -1, expectedMonth: "Frittembruary" },
       { input: 13, expectedMonth: "Frittembruary" }
     ];
-    months.map(month => {
-      let b = TestUtils.renderIntoDocument(
-        <BudgetHeader month={month.input} year={2017} />
-      );
-      let header = TestUtils.findRenderedDOMComponentWithTag(b, "div");
-      expect(header.textContent).toContain(month.expectedMonth);
-    });
+    months.forEach(month =>
+      expect(this.budgetHeader.getMonthName(month.input)).toContain(
+        month.expectedMonth
+      )
+    );
   });
 });

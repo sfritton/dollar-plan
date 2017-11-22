@@ -11,7 +11,6 @@ import TextInput from "../forms/text-input";
 class Category extends React.Component {
   constructor(props) {
     super(props);
-    this.toggleVisible = this.toggleVisible.bind(this);
 
     this.state = {
       open: props.defaultOpen || false
@@ -20,7 +19,7 @@ class Category extends React.Component {
   render() {
     return (
       <div className="category-wrapper">
-        <Grid className="category" onClick={this.toggleVisible}>
+        <Grid className="category" onClick={() => this.toggleVisible()}>
           <Row>
             <Col
               xs={3}

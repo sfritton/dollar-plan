@@ -10,8 +10,6 @@ import Welcome from "../welcome/welcome";
 class Root extends React.Component {
   constructor(props) {
     super(props);
-    this.navigateTo = this.navigateTo.bind(this);
-    this.navigateBack = this.navigateBack.bind(this);
 
     this.state = {
       page: <BudgetWrapper date={{ month: 11, year: 2017 }} />,
@@ -24,7 +22,10 @@ class Root extends React.Component {
   }
   navigateTo(path, params) {
     if (path === "welcome") {
-      this.updatePage(path, <Welcome navigateTo={this.navigateTo} />);
+      this.updatePage(
+        path,
+        <Welcome navigateTo={(path, params) => this.navigateTo(path, params)} />
+      );
     } else if (path === "budget" && params && params.date) {
       this.updatePage(path, <BudgetWrapper date={params.date} />, params);
     } else if (path === "category" && params && params.date && params.name) {
@@ -32,7 +33,7 @@ class Root extends React.Component {
         path,
         <Page header={"Under Construction"}>
           <div>Come back soon!</div>
-          <button className="submit" onClick={this.navigateBack}>
+          <button className="submit" onClick={() => this.navigateBack()}>
             <Glyphicon glyph="chevron-left" /> back
           </button>
         </Page>,
@@ -42,7 +43,7 @@ class Root extends React.Component {
       this.updatePage(
         path,
         <Page header={"Error 404: Page not found"}>
-          <button className="submit" onClick={this.navigateBack}>
+          <button className="submit" onClick={() => this.navigateBack()}>
             <Glyphicon glyph="chevron-left" /> back
           </button>
         </Page>,

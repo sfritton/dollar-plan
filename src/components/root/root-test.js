@@ -6,7 +6,7 @@ import Root from "./root";
 import Page from "../page/page";
 import Welcome from "../welcome/welcome";
 
-describe("root", function() {
+xdescribe("root", function() {
   beforeEach(function() {
     this.root = TestUtils.renderIntoDocument(<Root />);
   });

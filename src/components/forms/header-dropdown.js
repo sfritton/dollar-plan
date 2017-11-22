@@ -6,20 +6,18 @@ import { Collapse, Glyphicon } from "react-bootstrap";
 class HeaderDropdown extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       open: false,
-      selected: props.selected || props.options[0]
+      selected: props.selected || props.options[0] || null
     };
-
-    this.toggleOpen = this.toggleOpen.bind(this);
-    this.updateSelected = this.updateSelected.bind(this);
   }
   render() {
     return (
       <div className="nav-select">
-        <div className="nav-select-button" onClick={this.toggleOpen}>
-          {this.state.selected.name}
-          <Glyphicon glyph="triangle-bottom" className="nav-select-glyph"/>
+        <div className="nav-select-button" onClick={() => this.toggleOpen()}>
+          {this.state.selected && this.state.selected.name}
+          <Glyphicon glyph="triangle-bottom" className="nav-select-glyph" />
         </div>
         <Collapse in={this.state.open}>{this.renderOptions()}</Collapse>
       </div>
@@ -30,7 +28,7 @@ class HeaderDropdown extends React.Component {
       <ul className="nav-select-list">
         {this.props.options
           .filter(item => {
-            return item.id != this.state.selected.id;
+            return !this.state.selected || item.id != this.state.selected.id;
           })
           .map((item, i) => (
             <li

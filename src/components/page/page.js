@@ -5,8 +5,8 @@ import React from "react";
 class Page extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = { width: "0", height: "0" };
-    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
   render() {
     return (
@@ -21,11 +21,11 @@ class Page extends React.Component {
   }
   componentDidMount() {
     this.updateWindowDimensions();
-    window.addEventListener("resize", this.updateWindowDimensions);
+    window.addEventListener("resize", () => this.updateWindowDimensions());
   }
 
   componentWillUnmount() {
-    window.removeEventListener("resize", this.updateWindowDimensions);
+    window.removeEventListener("resize", () => this.updateWindowDimensions());
   }
   updateWindowDimensions() {
     this.setState({ width: window.innerWidth, height: window.innerHeight });

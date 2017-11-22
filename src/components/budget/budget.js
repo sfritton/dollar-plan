@@ -13,41 +13,19 @@ import BudgetFooter from "./budget-footer/budget-footer";
 class Budget extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       edit: false,
       incomes: props.incomes,
       expenses: props.expenses
     };
-
-    this.toggleEdit = this.toggleEdit.bind(this);
-
-    this.updateIncomeCategoryTitle = this.updateIncomeCategoryTitle.bind(this);
-    this.updateIncomeCategoryAmount = this.updateIncomeCategoryAmount.bind(
-      this
-    );
-    this.addIncomeCategory = this.addIncomeCategory.bind(this);
-    this.deleteIncomeCategory = this.deleteIncomeCategory.bind(this);
-
-    this.updateExpenseCategoryTitle = this.updateExpenseCategoryTitle.bind(
-      this
-    );
-    this.updateExpenseSubCategoryTitle = this.updateExpenseSubCategoryTitle.bind(
-      this
-    );
-    this.updateExpenseSubCategoryAmount = this.updateExpenseSubCategoryAmount.bind(
-      this
-    );
-    this.addExpenseCategory = this.addExpenseCategory.bind(this);
-    this.deleteExpenseCategory = this.deleteExpenseCategory.bind(this);
-    this.addExpenseSubCategory = this.addExpenseSubCategory.bind(this);
-    this.deleteExpenseSubCategory = this.deleteExpenseSubCategory.bind(this);
   }
   render() {
     return (
       <Page
         header={
           <BudgetHeader
-            otherBudgets={this.props.otherBudgets}
+            otherBudgets={this.props.otherBudgets || []}
             month={this.props.date.month}
             year={this.props.date.year}
           />
@@ -56,8 +34,8 @@ class Budget extends React.Component {
           <BudgetFooter
             balance={this.getIncome() - this.getExpenses()}
             edit={this.state.edit}
-            adjust={this.toggleEdit}
-            save={this.toggleEdit}
+            adjust={() => this.toggleEdit()}
+            save={() => this.toggleEdit()}
           />
         }
       >
@@ -67,17 +45,19 @@ class Budget extends React.Component {
             key={i}
             id={i}
             title={income.title}
-            updateTitle={this.updateIncomeCategoryTitle}
+            updateTitle={(id, title) =>
+              this.updateIncomeCategoryTitle(id, title)}
             income
             edit={this.state.edit}
             plannedAmount={income.plannedAmount}
-            updateAmount={this.updateIncomeCategoryAmount}
+            updateAmount={(id, amount) =>
+              this.updateIncomeCategoryAmount(id, amount)}
             actualAmount={income.actualAmount}
-            deleteSubCategory={this.deleteIncomeCategory}
+            deleteSubCategory={id => this.deleteIncomeCategory(id)}
           />
         ))}
         {this.state.edit ? (
-          <CategoryButton subCategory onClick={this.addIncomeCategory}>
+          <CategoryButton subCategory onClick={() => this.addIncomeCategory()}>
             <Glyphicon glyph="plus" /> Add a category
           </CategoryButton>
         ) : null}
@@ -90,16 +70,20 @@ class Budget extends React.Component {
             edit={this.state.edit}
             defaultOpen
             subCategories={expense.subCategories}
-            deleteCategory={this.deleteExpenseCategory}
-            updateTitle={this.updateExpenseCategoryTitle}
-            updateSubCategoryTitle={this.updateExpenseSubCategoryTitle}
-            updateSubCategoryAmount={this.updateExpenseSubCategoryAmount}
-            addSubCategory={this.addExpenseSubCategory}
-            deleteSubCategory={this.deleteExpenseSubCategory}
+            deleteCategory={id => this.deleteExpenseCategory(id)}
+            updateTitle={(id, title) =>
+              this.updateExpenseCategoryTitle(id, title)}
+            updateSubCategoryTitle={(catId, subCatId, title) =>
+              this.updateExpenseSubCategoryTitle(catId, subCatId, title)}
+            updateSubCategoryAmount={(catId, subCatId, amount) =>
+              this.updateExpenseSubCategoryAmount(catId, subCatId, amount)}
+            addSubCategory={catId => this.addExpenseSubCategory(catId)}
+            deleteSubCategory={(catId, subCatId) =>
+              this.deleteExpenseSubCategory(catId, subCatId)}
           />
         ))}
         {this.state.edit ? (
-          <CategoryButton onClick={this.addExpenseCategory}>
+          <CategoryButton onClick={() => this.addExpenseCategory()}>
             <Glyphicon glyph="plus" /> Add a category
           </CategoryButton>
         ) : null}
