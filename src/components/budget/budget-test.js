@@ -35,11 +35,17 @@ describe("Budget", function() {
         ]
       }
     ];
+    this.mockFileService = {
+      readBudgetFromFile: (month, year) => ({
+        incomes: this.incomes,
+        expenses: this.expenses
+      }),
+      readBudgetList: () => []
+    };
     this.budget = TestUtils.renderIntoDocument(
       <Budget
+        fileService={this.mockFileService}
         date={this.date}
-        incomes={this.incomes}
-        expenses={this.expenses}
       />
     );
   });

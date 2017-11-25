@@ -1,10 +1,10 @@
 import React from "react";
 import { Grid, Row, Col, Glyphicon, Collapse } from "react-bootstrap";
 
-import ProgressBar from "../progress-bar/progress-bar";
+import ProgressBar from "../util/progress-bar";
 import SubCategory from "../sub-category/sub-category";
 import CategoryButton from "../util/category-button";
-import TextInput from "../forms/text-input";
+import TextInput from "../util/text-input";
 
 ("use strict");
 

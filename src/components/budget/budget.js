@@ -14,10 +14,17 @@ class Budget extends React.Component {
   constructor(props) {
     super(props);
 
+    const budget = props.fileService.readBudgetFromFile(
+      props.date.month,
+      props.date.year
+    );
+
+    this.otherBudgets = props.fileService.readBudgetList();
+
     this.state = {
       edit: false,
-      incomes: props.incomes,
-      expenses: props.expenses
+      incomes: budget.incomes,
+      expenses: budget.expenses
     };
   }
   render() {
@@ -25,7 +32,7 @@ class Budget extends React.Component {
       <Page
         header={
           <BudgetHeader
-            otherBudgets={this.props.otherBudgets || []}
+            otherBudgets={this.otherBudgets || []}
             month={this.props.date.month}
             year={this.props.date.year}
             navigateTo={(path, params) => this.props.navigateTo(path, params)}

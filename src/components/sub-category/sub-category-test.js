@@ -4,8 +4,8 @@ import expect from "expect";
 import { Glyphicon } from "react-bootstrap";
 
 import SubCategory from "./sub-category";
-import ProgressBar from "../progress-bar/progress-bar";
-import TextInput from "../forms/text-input";
+import ProgressBar from "../util/progress-bar";
+import TextInput from "../util/text-input";
 
 describe("SubCategory", function() {
   beforeEach(function() {

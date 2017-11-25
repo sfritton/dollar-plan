@@ -1,9 +1,10 @@
 import React from "react";
 import { Glyphicon } from "react-bootstrap";
 
-import BudgetWrapper from "../budget/budget-wrapper";
+import Budget from "../budget/budget";
 import Page from "../page/page";
 import Welcome from "../welcome/welcome";
+import FileService from "../../services/file-service";
 
 ("use strict");
 
@@ -13,12 +14,13 @@ class Root extends React.Component {
 
     this.state = {
       page: (
-        <BudgetWrapper
+        <Budget
           date={{ month: 11, year: 2017 }}
           navigateTo={(path, params) => this.navigateTo(path, params)}
+          fileService={FileService}
         />
       ),
-      path: "welcome",
+      path: "budget",
       params: { date: { month: 11, year: 2017 } }
     };
   }
@@ -34,9 +36,10 @@ class Root extends React.Component {
     } else if (path === "budget" && params && params.date) {
       this.updatePage(
         path,
-        <BudgetWrapper
+        <Budget
           date={params.date}
           navigateTo={(path, params) => this.navigateTo(path, params)}
+          fileService={FileService}
         />,
         params
       );

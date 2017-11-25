@@ -1,8 +1,8 @@
 import React from "react";
 import { Grid, Row, Col, Glyphicon } from "react-bootstrap";
 
-import ProgressBar from "../progress-bar/progress-bar";
-import TextInput from "../forms/text-input";
+import ProgressBar from "../util/progress-bar";
+import TextInput from "../util/text-input";
 
 ("use strict");
 
