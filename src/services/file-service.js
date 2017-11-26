@@ -12,10 +12,8 @@ class FileService {
     let splitStr = dateStr.split(".")[0].split("-");
     return { year: parseInt(splitStr[0]), month: parseInt(splitStr[1]) };
   }
-  static readBudgetFromFile(month, year) {
-    return JSON.parse(
-      fs.readFileSync(`${DATA_DIRECTORY}\\${this.encodeDate(month, year)}.json`)
-    );
+  static readBudgetFromFile(date) {
+    return JSON.parse(fs.readFileSync(`${DATA_DIRECTORY}\\${date}.json`));
   }
   static writeBudgetToFile(budget) {
     // TODO: implement

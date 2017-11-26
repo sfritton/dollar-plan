@@ -16,7 +16,6 @@ class BudgetHeader extends React.Component {
             year: budget.year,
             name: `${this.getMonthName(budget.month)} ${budget.year}`
           }))}
-          navigateTo={(path, params) => this.props.navigateTo(path, params)}
         />
         <div className="days-left">{this.renderDaysLeft()}</div>
       </div>
@@ -40,11 +39,11 @@ class BudgetHeader extends React.Component {
   }
   getFirstDayOfBudgetMonth() {
     // javascript Date months go from 0 to 11 rather than 1 to 12
-    return new Date(this.props.year, this.props.month - 1, 1);
+    return new Date(this.props.date.year, this.props.date.month - 1, 1);
   }
   getFirstDayOfNextMonth() {
-    let year = this.props.year;
-    let month = this.props.month;
+    let year = this.props.date.year;
+    let month = this.props.date.month;
 
     month = month % 12; // map month to the next month
 
