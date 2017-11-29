@@ -23,22 +23,13 @@ class FileService {
     }
 
     return this.budgets.map(budget => ({
-      month: budget.month,
-      year: budget.year
+      month: budget.date.month,
+      year: budget.date.year
     }));
   }
 
   writeBudgetToFile(budget) {
     // TODO: implement
-  }
-
-  encodeDate(month, year) {
-    return `${year}-${month}`;
-  }
-
-  decodeDate(dateStr) {
-    let splitStr = dateStr.split(".")[0].split("-");
-    return { year: parseInt(splitStr[0]), month: parseInt(splitStr[1]) };
   }
 
   readBudgetsFromDirectory() {

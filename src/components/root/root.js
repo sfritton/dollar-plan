@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Budget from "../budget/budget";
 import Page from "../page/page";
 import Welcome from "../welcome/welcome";
+import DateService from "../../services/date-service";
 
 ("use strict");
 
@@ -203,7 +204,7 @@ class Root extends React.Component {
    * Util
    ****************************************************************************/
   getActiveBudget(state, date) {
-    const { month, year } = this.props.fileService.decodeDate(date);
+    const { month, year } = DateService.decodeDate(date);
     console.log(month);
     return state.budgets.find(
       budget => budget.date.year === year && budget.date.month === month
@@ -211,7 +212,7 @@ class Root extends React.Component {
   }
 
   getActiveBudgetIndex(state, date) {
-    const { month, year } = this.props.fileService.decodeDate(date);
+    const { month, year } = DateService.decodeDate(date);
     return state.budgets.findIndex(
       budget => budget.date.year === year && budget.date.month === month
     );

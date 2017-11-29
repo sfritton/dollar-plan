@@ -1,5 +1,8 @@
 import React from "react";
 import { Collapse, Glyphicon } from "react-bootstrap";
+import { Link } from "react-router-dom";
+
+import DateService from "../../services/date-service";
 
 ("use strict");
 
@@ -8,15 +11,14 @@ class HeaderDropdown extends React.Component {
     super(props);
 
     this.state = {
-      open: false,
-      selected: props.selected || props.options[0] || null
+      open: false
     };
   }
   render() {
     return (
       <div className="nav-select">
         <div className="nav-select-button" onClick={() => this.toggleOpen()}>
-          {this.state.selected && this.state.selected.name}
+          {this.props.selected && this.props.selected.name}
           <Glyphicon glyph="triangle-bottom" className="nav-select-glyph" />
         </div>
         <Collapse in={this.state.open}>{this.renderOptions()}</Collapse>
@@ -29,9 +31,9 @@ class HeaderDropdown extends React.Component {
         {this.props.options
           .filter(item => {
             return (
-              !this.state.selected ||
-              (item.month !== this.state.selected.month ||
-                item.year !== this.state.selected.year)
+              !this.props.selected ||
+              (item.month !== this.props.selected.month ||
+                item.year !== this.props.selected.year)
             );
           })
           .map((item, i) => (
@@ -39,14 +41,12 @@ class HeaderDropdown extends React.Component {
               className="nav-select-option"
               key={i}
               value={`${item.year}-${item.month}`}
-              onClick={() => {
-                this.updateSelected(item);
-                this.props.navigateTo("budget", {
-                  date: { month: item.month, year: item.year }
-                });
-              }}
             >
-              {item.name}
+              <Link
+                to={`/budget/${DateService.encodeDate(item.month, item.year)}`}
+              >
+                {item.name}
+              </Link>
             </li>
           ))}
         <li className="nav-select-divider" />
@@ -63,12 +63,6 @@ class HeaderDropdown extends React.Component {
   }
   toggleOpen() {
     this.setState(prevState => ({ open: !prevState.open }));
-  }
-  updateSelected(item) {
-    this.setState({
-      selected: item,
-      open: false
-    });
   }
 }
 

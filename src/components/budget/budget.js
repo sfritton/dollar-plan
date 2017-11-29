@@ -13,6 +13,7 @@ import BudgetFooter from "./budget-footer/budget-footer";
 class Budget extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props.budgetDates);
 
     this.state = {
       edit: false
@@ -23,7 +24,7 @@ class Budget extends React.Component {
       <Page
         header={
           <BudgetHeader
-            otherBudgets={this.props.budgetDates || []}
+            budgetDates={this.props.budgetDates || []}
             date={this.props.budget.date}
           />
         }

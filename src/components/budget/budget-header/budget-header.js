@@ -7,11 +7,16 @@ import HeaderDropdown from "../../util/header-dropdown";
 const ONE_DAY = 1000 * 60 * 60 * 24; // one day in milliseconds
 
 class BudgetHeader extends React.Component {
+  constructor(props) {
+    super(props);
+    // TODO: delete this methods
+    console.log(props);
+  }
   render() {
     return (
       <div className="nav">
         <HeaderDropdown
-          options={this.props.otherBudgets.map(budget => ({
+          options={this.props.budgetDates.map(budget => ({
             month: budget.month,
             year: budget.year,
             name: `${this.getMonthName(budget.month)} ${budget.year}`
