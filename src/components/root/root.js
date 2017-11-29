@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Budget from "../budget/budget";
 import Page from "../page/page";
 import Welcome from "../welcome/welcome";
-import FileService from "../../services/file-service";
 
 ("use strict");
 
@@ -14,12 +13,9 @@ class Root extends React.Component {
     super(props);
 
     this.state = {
-      activeBudget: {
-        date: { month: 10, year: 2017 },
-        incomes: [],
-        expenses: []
-      }
+      budgets: this.props.fileService.getBudgets()
     };
+    console.log(this.state);
   }
 
   /****************************************************************************
@@ -66,177 +62,171 @@ class Root extends React.Component {
   }
 
   renderBudgetPage(date) {
-    const budgetDates = FileService.readBudgetList();
+    const activeBudget = this.getActiveBudget(this.state, date);
+    const budgetId = this.getActiveBudgetIndex(this.state, date);
+    const budgetDates = this.props.fileService.getBudgetDates();
 
     return (
       <Budget
-        budget={this.state.activeBudget}
+        budget={activeBudget}
         budgetDates={budgetDates}
         // income category methods
-        updateIncomeCategoryTitle={(id, title) =>
-          this.updateIncomeCategoryTitle(id, title)}
-        updateIncomeCategoryAmount={(id, amount) =>
-          this.updateIncomeCategoryTitle(id, amount)}
-        addIncomeCategory={() => this.addIncomeCategory()}
-        deleteIncomeCategory={id => this.deleteIncomeCategory(id)}
+        updateIncomeCategoryTitle={(catId, title) =>
+          this.updateIncomeCategoryTitle(budgetId, catId, title)}
+        updateIncomeCategoryAmount={(catId, amount) =>
+          this.updateIncomeCategoryTitle(budgetId, catId, amount)}
+        addIncomeCategory={() => this.addIncomeCategory(budgetId)}
+        deleteIncomeCategory={catId =>
+          this.deleteIncomeCategory(budgetId, catId)}
         // expense category methods
-        updateExpenseCategoryTitle={(id, title) =>
-          this.updateExpenseCategoryTitle(id, title)}
-        addExpenseCategory={() => this.addExpenseCategory()}
-        deleteExpenseCategory={id => this.deleteExpenseCategory(id)}
+        updateExpenseCategoryTitle={(catId, title) =>
+          this.updateExpenseCategoryTitle(budgetId, catId, title)}
+        addExpenseCategory={() => this.addExpenseCategory(budgetId)}
+        deleteExpenseCategory={catId =>
+          this.deleteExpenseCategory(budgetId, catId)}
         // expense sub-category methods
         updateExpenseSubCategoryTitle={(catId, subCatId, title) =>
-          this.updateExpenseSubCategoryTitle(catId, subCatId, title)}
+          this.updateExpenseSubCategoryTitle(budgetId, catId, subCatId, title)}
         updateExpenseSubCategoryAmount={(catId, subCatId, amount) =>
-          this.updateExpenseSubCategoryTitle(catId, subCatId, amount)}
-        addExpenseSubCategory={catId => this.addExpenseSubCategory(catId)}
+          this.updateExpenseSubCategoryTitle(budgetId, catId, subCatId, amount)}
+        addExpenseSubCategory={catId =>
+          this.addExpenseSubCategory(budgetId, catId)}
         deleteExpenseSubCategory={(catId, subCatId) =>
-          this.deleteExpenseSubCategory(catId, subCatId)}
+          this.deleteExpenseSubCategory(budgetId, catId, subCatId)}
       />
     );
-  }
-
-  componentWillMount() {
-    // this.setState({
-    //   activeBudget: FileService.readBudgetFromFile(date)
-    // });
-    console.log(this);
-    console.log(this.props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    console.log("here: " + this.props.location);
-    console.log("going to: " + nextProps.location);
-    if (nextProps.location !== this.props.location) {
-      // navigated!
-    }
   }
 
   /****************************************************************************
    * Income Categories
    ****************************************************************************/
-  updateIncomeCategoryTitle(id, title) {
-    this.setState(prevState => {
-      const activeBudget = prevState.activeBudget;
-      activeBudget.incomes[id].title = title;
-
-      return { activeBudget };
+  updateIncomeCategoryTitle(budgetId, catId, title) {
+    this.updateActiveBudget(budgetId, activeBudget => {
+      activeBudget.incomes[catId].title = title;
     });
   }
 
-  updateIncomeCategoryAmount(id, amount) {
-    this.setState(prevState => {
-      prevState.activeBudget.incomes[id].plannedAmount = amount;
-
-      return { incomes: prevState.activeBudget.incomes };
+  updateIncomeCategoryAmount(budgetId, catId, amount) {
+    this.updateActiveBudget(budgetId, activeBudget => {
+      activeBudget.incomes[catId].plannedAmount = amount;
     });
   }
 
-  addIncomeCategory() {
-    this.setState(prevState => {
-      prevState.activeBudget.incomes.push({
+  addIncomeCategory(budgetId) {
+    this.updateActiveBudget(budgetId, activeBudget => {
+      activeBudget.incomes.push({
         title: "",
         plannedAmount: 0,
         actualAmount: 0
       });
-      return {
-        incomes: prevState.activeBudget.incomes
-      };
     });
   }
 
-  deleteIncomeCategory(id) {
-    this.setState(prevState => ({
-      incomes: prevState.activeBudget.incomes.filter((income, i) => {
-        return i !== id;
-      })
-    }));
+  deleteIncomeCategory(budgetId, catId) {
+    this.updateActiveBudget(budgetId, activeBudget => {
+      activeBudget.incomes = activeBudget.incomes.filter(
+        (income, i) => i !== catId
+      );
+    });
   }
 
   /****************************************************************************
    * Expense Categories
    ****************************************************************************/
-  updateExpenseCategoryTitle(id, title) {
-    this.setState(prevState => {
-      prevState.activeBudget.expenses[id].title = title;
-
-      return { expenses: prevState.activeBudget.expenses };
+  updateExpenseCategoryTitle(budgetId, catId, title) {
+    this.updateActiveBudget(budgetId, activeBudget => {
+      activeBudget.expenses[catId].title = title;
     });
   }
 
-  addExpenseCategory() {
-    this.setState(prevState => {
-      prevState.activeBudget.expenses.push({
+  addExpenseCategory(budgetId) {
+    this.updateActiveBudget(budgetId, activeBudget => {
+      activeBudget.expenses.push({
         title: "",
         subCategories: [{ title: "", plannedAmount: 0, actualAmount: 0 }]
       });
-      return {
-        expenses: prevState.activeBudget.expenses
-      };
     });
   }
 
-  deleteExpenseCategory(id) {
-    this.setState(prevState => ({
-      expenses: prevState.activeBudget.expenses.filter((expense, i) => {
-        return i !== id;
-      })
-    }));
+  deleteExpenseCategory(budgetId, catId) {
+    this.updateActiveBudget(budgetId, activeBudget => {
+      activeBudget.expenses = activeBudget.expenses.filter(
+        (expense, i) => i !== catId
+      );
+    });
   }
 
   /****************************************************************************
    * Expense Sub-Categories
    ****************************************************************************/
-  updateExpenseSubCategoryTitle(catId, subCatId, title) {
-    this.setState(prevState => {
-      prevState.activeBudget.expenses[catId].subCategories[
-        subCatId
-      ].title = title;
-
-      return { expenses: prevState.activeBudget.expenses };
+  updateExpenseSubCategoryTitle(budgetId, catId, subCatId, title) {
+    this.updateActiveBudget(budgetId, activeBudget => {
+      activeBudget.expenses[catId].subCategories[subCatId].title = title;
     });
   }
 
-  updateExpenseSubCategoryAmount(catId, subCatId, amount) {
-    this.setState(prevState => {
-      prevState.activeBudget.expenses[catId].subCategories[
+  updateExpenseSubCategoryAmount(budgetId, catId, subCatId, amount) {
+    this.updateActiveBudget(budgetId, activeBudget => {
+      activeBudget.expenses[catId].subCategories[
         subCatId
       ].plannedAmount = amount;
-
-      return { expenses: prevState.activeBudget.expenses };
     });
   }
 
-  addExpenseSubCategory(catId) {
-    this.setState(prevState => {
-      prevState.activeBudget.expenses[catId].subCategories.push({
+  addExpenseSubCategory(budgetId, catId) {
+    this.updateActiveBudget(budgetId, activeBudget => {
+      activeBudget.expenses[catId].subCategories.push({
         title: "",
         plannedAmount: 0,
         actualAmount: 0
       });
-      return {
-        expenses: prevState.activeBudget.expenses
-      };
     });
   }
 
-  deleteExpenseSubCategory(catId, subcatId) {
-    this.setState(prevState => {
-      let category = prevState.activeBudget.expenses[catId];
+  deleteExpenseSubCategory(budgetId, catId, subcatId) {
+    this.updateActiveBudget(budgetId, activeBudget => {
+      const category = activeBudget.expenses[catId];
       category.subCategories = category.subCategories.filter((subCat, i) => {
         return i != subcatId;
       });
 
       // if a category has no sub-categories, remove it
       if (category.subCategories.length < 1) {
-        prevState.activeBudget.splice(catId, 1);
+        activeBudget.splice(catId, 1);
       } else {
-        prevState.activeBudget.expenses[catId] = category;
+        activeBudget.expenses[catId] = category;
       }
+    });
+  }
 
-      return {
-        expenses: prevState.activeBudget.expenses
-      };
+  /****************************************************************************
+   * Util
+   ****************************************************************************/
+  getActiveBudget(state, date) {
+    const { month, year } = this.props.fileService.decodeDate(date);
+    console.log(month);
+    return state.budgets.find(
+      budget => budget.date.year === year && budget.date.month === month
+    );
+  }
+
+  getActiveBudgetIndex(state, date) {
+    const { month, year } = this.props.fileService.decodeDate(date);
+    return state.budgets.findIndex(
+      budget => budget.date.year === year && budget.date.month === month
+    );
+  }
+
+  updateActiveBudget(budgetId, updateFunction) {
+    this.setState(prevState => {
+      const budgets = prevState.budgets;
+      const activeBudget = budgets[budgetId];
+
+      updateFunction(activeBudget);
+
+      budgets[budgetId] = activeBudget;
+
+      return { budgets };
     });
   }
 }

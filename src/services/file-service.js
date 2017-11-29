@@ -5,22 +5,52 @@ import * as fs from "fs";
 const DATA_DIRECTORY = "data";
 
 class FileService {
-  static encodeDate(month, year) {
+  constructor() {
+    this.budgets = null;
+  }
+
+  getBudgets() {
+    if (!this.budgets) {
+      this.budgets = this.readBudgetsFromDirectory();
+    }
+
+    return this.budgets;
+  }
+
+  getBudgetDates() {
+    if (!this.budgets) {
+      this.budgets = this.readBudgetsFromDirectory();
+    }
+
+    return this.budgets.map(budget => ({
+      month: budget.month,
+      year: budget.year
+    }));
+  }
+
+  writeBudgetToFile(budget) {
+    // TODO: implement
+  }
+
+  encodeDate(month, year) {
     return `${year}-${month}`;
   }
-  static decodeDate(dateStr) {
+
+  decodeDate(dateStr) {
     let splitStr = dateStr.split(".")[0].split("-");
     return { year: parseInt(splitStr[0]), month: parseInt(splitStr[1]) };
   }
-  static readBudgetFromFile(date) {
-    return JSON.parse(fs.readFileSync(`${DATA_DIRECTORY}\\${date}.json`));
+
+  readBudgetsFromDirectory() {
+    return fs
+      .readdirSync(DATA_DIRECTORY)
+      .map(fileName =>
+        JSON.parse(fs.readFileSync(`${DATA_DIRECTORY}\\${fileName}`))
+      );
   }
-  static writeBudgetToFile(budget) {
-    // TODO: implement
-  }
-  static readBudgetList() {
-    let fileNames = fs.readdirSync(DATA_DIRECTORY);
-    return fileNames.map(dateStr => this.decodeDate(dateStr));
+
+  resetBudgets() {
+    this.budgets = null;
   }
 }
 
