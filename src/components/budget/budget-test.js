@@ -43,10 +43,7 @@ describe("Budget", function() {
       readBudgetList: () => []
     };
     this.budget = TestUtils.renderIntoDocument(
-      <Budget
-        fileService={this.mockFileService}
-        date={this.date}
-      />
+      <Budget fileService={this.mockFileService} date={this.date} />
     );
   });
 

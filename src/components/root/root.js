@@ -16,7 +16,6 @@ class Root extends React.Component {
     this.state = {
       budgets: this.props.fileService.getBudgets()
     };
-    console.log(this.state);
   }
 
   /****************************************************************************
@@ -75,7 +74,7 @@ class Root extends React.Component {
         updateIncomeCategoryTitle={(catId, title) =>
           this.updateIncomeCategoryTitle(budgetId, catId, title)}
         updateIncomeCategoryAmount={(catId, amount) =>
-          this.updateIncomeCategoryTitle(budgetId, catId, amount)}
+          this.updateIncomeCategoryAmount(budgetId, catId, amount)}
         addIncomeCategory={() => this.addIncomeCategory(budgetId)}
         deleteIncomeCategory={catId =>
           this.deleteIncomeCategory(budgetId, catId)}
@@ -89,7 +88,12 @@ class Root extends React.Component {
         updateExpenseSubCategoryTitle={(catId, subCatId, title) =>
           this.updateExpenseSubCategoryTitle(budgetId, catId, subCatId, title)}
         updateExpenseSubCategoryAmount={(catId, subCatId, amount) =>
-          this.updateExpenseSubCategoryTitle(budgetId, catId, subCatId, amount)}
+          this.updateExpenseSubCategoryAmount(
+            budgetId,
+            catId,
+            subCatId,
+            amount
+          )}
         addExpenseSubCategory={catId =>
           this.addExpenseSubCategory(budgetId, catId)}
         deleteExpenseSubCategory={(catId, subCatId) =>
@@ -205,7 +209,6 @@ class Root extends React.Component {
    ****************************************************************************/
   getActiveBudget(state, date) {
     const { month, year } = DateService.decodeDate(date);
-    console.log(month);
     return state.budgets.find(
       budget => budget.date.year === year && budget.date.month === month
     );

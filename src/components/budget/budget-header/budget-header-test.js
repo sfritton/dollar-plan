@@ -7,7 +7,7 @@ import BudgetHeader from "./budget-header";
 describe("BudgetHeader", function() {
   beforeEach(function() {
     this.budgetHeader = TestUtils.renderIntoDocument(
-      <BudgetHeader month={10} year={2015} otherBudgets={[]} />
+      <BudgetHeader date={{ month: 10, year: 2015 }} budgetDates={[]} />
     );
   });
   it("renders without problems", function() {

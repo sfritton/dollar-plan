@@ -13,7 +13,6 @@ import BudgetFooter from "./budget-footer/budget-footer";
 class Budget extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props.budgetDates);
 
     this.state = {
       edit: false
@@ -42,17 +41,22 @@ class Budget extends React.Component {
           <SubCategory
             key={i}
             title={income.title}
-            updateTitle={title => this.props.updateIncomeCategoryTitle(i, title)}
+            updateTitle={title =>
+              this.props.updateIncomeCategoryTitle(i, title)}
             income
             edit={this.state.edit}
             plannedAmount={income.plannedAmount}
-            updateAmount={amount => this.props.updateIncomeCategoryAmount(i, amount)}
+            updateAmount={amount =>
+              this.props.updateIncomeCategoryAmount(i, amount)}
             actualAmount={income.actualAmount}
             deleteSubCategory={() => this.props.deleteIncomeCategory(i)}
           />
         ))}
         {this.state.edit ? (
-          <CategoryButton subCategory onClick={() => this.props.addIncomeCategory()}>
+          <CategoryButton
+            subCategory
+            onClick={() => this.props.addIncomeCategory()}
+          >
             <Glyphicon glyph="plus" /> Add a category
           </CategoryButton>
         ) : null}
@@ -65,7 +69,8 @@ class Budget extends React.Component {
             defaultOpen
             subCategories={expense.subCategories}
             deleteCategory={() => this.props.deleteExpenseCategory(i)}
-            updateTitle={title => this.props.updateExpenseCategoryTitle(i, title)}
+            updateTitle={title =>
+              this.props.updateExpenseCategoryTitle(i, title)}
             updateSubCategoryTitle={(subCatId, title) =>
               this.props.updateExpenseSubCategoryTitle(i, subCatId, title)}
             updateSubCategoryAmount={(subCatId, amount) =>
