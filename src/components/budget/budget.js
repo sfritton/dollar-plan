@@ -72,9 +72,12 @@ export default class Budget extends React.Component {
             edit={this.state.edit}
             defaultOpen
             subCategories={expense.subCategories}
-            deleteCategory={() => this.props.deleteExpenseCategory(i)}
+            deleteCategory={() =>
+              this.props.dispatch(BudgetActions.deleteExpenseCategory(i))}
             updateTitle={title =>
-              this.props.updateExpenseCategoryTitle(i, title)}
+              this.props.dispatch(
+                BudgetActions.updateExpenseCategoryTitle(i, title)
+              )}
             updateSubCategoryTitle={(subCatId, title) =>
               this.props.updateExpenseSubCategoryTitle(i, subCatId, title)}
             updateSubCategoryAmount={(subCatId, amount) =>
@@ -85,7 +88,10 @@ export default class Budget extends React.Component {
           />
         ))}
         {this.state.edit ? (
-          <CategoryButton onClick={() => this.props.addExpenseCategory()}>
+          <CategoryButton
+            onClick={() =>
+              this.props.dispatch(BudgetActions.addExpenseCategory())}
+          >
             <Glyphicon glyph="plus" /> Add a category
           </CategoryButton>
         ) : null}
