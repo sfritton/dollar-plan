@@ -74,10 +74,17 @@ export function deleteExpenseCategory(catId) {
   };
 }
 
-export function updateExpenseSubCategory(catId, subCatId, updates) {
+export function updateExpenseSubCategoryTitle(catId, subCatId, title) {
   return {
-    type: Actions.UPDATE_EXPENSE_SUB_CATEGORY,
-    payload: { catId, subCatId, updates }
+    type: Actions.UPDATE_EXPENSE_SUB_CATEGORY_TITLE,
+    payload: { catId, subCatId, title }
+  };
+}
+
+export function updateExpenseSubCategoryAmount(catId, subCatId, amount) {
+  return {
+    type: Actions.UPDATE_EXPENSE_SUB_CATEGORY_AMOUNT,
+    payload: { catId, subCatId, amount }
   };
 }
 

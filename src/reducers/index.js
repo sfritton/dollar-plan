@@ -56,7 +56,7 @@ export default function reducer(
       budget.loaded = true;
       const budgets = [...state.budgets];
       budgets[index] = budget;
-      
+
       return {
         ...state,
         budgets,
@@ -143,7 +143,7 @@ export default function reducer(
 
       const budget = { ...state.budgets[state.activeBudgetIndex] };
       budget.incomes = budget.incomes.filter(
-        (budget, i) => i !== action.payload.catId
+        (income, i) => i !== action.payload.catId
       );
 
       const budgets = [...state.budgets];
@@ -205,7 +205,7 @@ export default function reducer(
 
       const budget = { ...state.budgets[state.activeBudgetIndex] };
       budget.expenses = budget.expenses.filter(
-        (budget, i) => i !== action.payload.catId
+        (expense, i) => i !== action.payload.catId
       );
 
       const budgets = [...state.budgets];
@@ -216,11 +216,136 @@ export default function reducer(
         budgets
       };
     }
-    case Actions.UPDATE_EXPENSE_SUB_CATEGORY: {
+    case Actions.UPDATE_EXPENSE_SUB_CATEGORY_TITLE: {
+      if (
+        action.payload.catId === null ||
+        action.payload.catId === undefined ||
+        action.payload.catId < 0 ||
+        action.payload.subCatId === null ||
+        action.payload.subCatId === undefined ||
+        action.payload.subCatId < 0
+      ) {
+        return state;
+      }
+
+      const { catId, subCatId, title } = action.payload;
+
+      const budget = { ...state.budgets[state.activeBudgetIndex] };
+      budget.expenses = [...budget.expenses];
+
+      const category = { ...budget.expenses[catId] };
+      category.subCategories = [...category.subCategories];
+      category.subCategories[subCatId] = {
+        ...category.subCategories[subCatId],
+        title
+      };
+
+      budget.expenses[catId] = category;
+
+      const budgets = [...state.budgets];
+      budgets[state.activeBudgetIndex] = budget;
+
+      return {
+        ...state,
+        budgets
+      };
+    }
+    case Actions.UPDATE_EXPENSE_SUB_CATEGORY_AMOUNT: {
+      if (
+        action.payload.catId === null ||
+        action.payload.catId === undefined ||
+        action.payload.catId < 0 ||
+        action.payload.subCatId === null ||
+        action.payload.subCatId === undefined ||
+        action.payload.subCatId < 0
+      ) {
+        return state;
+      }
+
+      const { catId, subCatId, amount } = action.payload;
+
+      const budget = { ...state.budgets[state.activeBudgetIndex] };
+      budget.expenses = [...budget.expenses];
+
+      const category = { ...budget.expenses[catId] };
+      category.subCategories = [...category.subCategories];
+      category.subCategories[subCatId] = {
+        ...category.subCategories[subCatId],
+        plannedAmount: amount
+      };
+
+      budget.expenses[catId] = category;
+
+      const budgets = [...state.budgets];
+      budgets[state.activeBudgetIndex] = budget;
+
+      return {
+        ...state,
+        budgets
+      };
     }
     case Actions.ADD_EXPENSE_SUB_CATEGORY: {
+      if (
+        action.payload.catId === null ||
+        action.payload.catId === undefined ||
+        action.payload.catId < 0
+      ) {
+        return state;
+      }
+
+      const catId = action.payload.catId;
+
+      const budget = { ...state.budgets[state.activeBudgetIndex] };
+      budget.expenses = [...budget.expenses];
+
+      const category = { ...budget.expenses[catId] };
+      category.subCategories = category.subCategories.concat({
+        title: "",
+        plannedAmount: 0,
+        actualAmount: 0
+      });
+
+      budget.expenses[catId] = category;
+
+      const budgets = [...state.budgets];
+      budgets[state.activeBudgetIndex] = budget;
+
+      return {
+        ...state,
+        budgets
+      };
     }
     case Actions.DELETE_EXPENSE_SUB_CATEGORY: {
+      if (
+        action.payload.catId === null ||
+        action.payload.catId === undefined ||
+        action.payload.catId < 0 ||
+        action.payload.subCatId === null ||
+        action.payload.subCatId === undefined ||
+        action.payload.subCatId < 0
+      ) {
+        return state;
+      }
+
+      const { catId, subCatId } = action.payload;
+
+      const budget = { ...state.budgets[state.activeBudgetIndex] };
+      budget.expenses = [...budget.expenses];
+
+      const category = { ...budget.expenses[catId] };
+      category.subCategories = category.subCategories.filter(
+        (subCat, i) => i !== subCatId
+      );
+
+      budget.expenses[catId] = category;
+
+      const budgets = [...state.budgets];
+      budgets[state.activeBudgetIndex] = budget;
+
+      return {
+        ...state,
+        budgets
+      };
     }
     default: {
       return state;

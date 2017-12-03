@@ -79,12 +79,23 @@ export default class Budget extends React.Component {
                 BudgetActions.updateExpenseCategoryTitle(i, title)
               )}
             updateSubCategoryTitle={(subCatId, title) =>
-              this.props.updateExpenseSubCategoryTitle(i, subCatId, title)}
+              this.props.dispatch(
+                BudgetActions.updateExpenseSubCategoryTitle(i, subCatId, title)
+              )}
             updateSubCategoryAmount={(subCatId, amount) =>
-              this.props.updateExpenseSubCategoryAmount(i, subCatId, amount)}
-            addSubCategory={() => this.props.addExpenseSubCategory(i)}
+              this.props.dispatch(
+                BudgetActions.updateExpenseSubCategoryAmount(
+                  i,
+                  subCatId,
+                  amount
+                )
+              )}
+            addSubCategory={() =>
+              this.props.dispatch(BudgetActions.addExpenseSubCategory(i))}
             deleteSubCategory={subCatId =>
-              this.props.deleteExpenseSubCategory(i, subCatId)}
+              this.props.dispatch(
+                BudgetActions.deleteExpenseSubCategory(i, subCatId)
+              )}
           />
         ))}
         {this.state.edit ? (
