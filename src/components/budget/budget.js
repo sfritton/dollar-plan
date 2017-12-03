@@ -8,11 +8,10 @@ import CategoryButton from "../util/category-button";
 import BudgetHeader from "./budget-header/budget-header";
 import BudgetFooter from "./budget-footer/budget-footer";
 
-("use strict");
-
-class Budget extends React.Component {
+export default class Budget extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props);
 
     this.state = {
       edit: false
@@ -107,5 +106,3 @@ class Budget extends React.Component {
     this.setState(prevState => ({ edit: !prevState.edit }));
   }
 }
-
-export default Budget;
