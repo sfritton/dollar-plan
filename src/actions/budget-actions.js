@@ -17,3 +17,80 @@ export function getBudget(month, year) {
     payload: fs.readFileSync(`${DATA_DIRECTORY}\\${year}-${month}.json`)
   };
 }
+
+export function setActiveBudget(month, year) {
+  return {
+    type: Actions.SET_ACTIVE_BUDGET,
+    payload: { month, year }
+  };
+}
+
+export function updateIncomeCategoryTitle(catId, title) {
+  return {
+    type: Actions.UPDATE_INCOME_CATEGORY_TITLE,
+    payload: { catId, title }
+  };
+}
+
+export function updateIncomeCategoryAmount(catId, amount) {
+  return {
+    type: Actions.UPDATE_INCOME_CATEGORY_AMOUNT,
+    payload: { catId, amount }
+  };
+}
+
+export function addIncomeCategory() {
+  return {
+    type: Actions.ADD_INCOME_CATEGORY,
+    payload: {}
+  };
+}
+
+export function deleteIncomeCategory(catId) {
+  return {
+    type: Actions.DELETE_INCOME_CATEGORY,
+    payload: { catId }
+  };
+}
+
+export function updateExpenseCategory(catId, title) {
+  return {
+    type: Actions.UPDATE_EXPENSE_CATEGORY,
+    payload: { catId, title }
+  };
+}
+
+export function addExpenseCategory() {
+  return {
+    type: Actions.ADD_EXPENSE_CATEGORY,
+    payload: {}
+  };
+}
+
+export function deleteExpenseCategory(catId) {
+  return {
+    type: Actions.DELETE_EXPENSE_CATEGORY,
+    payload: { catId }
+  };
+}
+
+export function updateExpenseSubCategory(catId, subCatId, updates) {
+  return {
+    type: Actions.UPDATE_EXPENSE_SUB_CATEGORY,
+    payload: { catId, subCatId, updates }
+  };
+}
+
+export function addExpenseSubCategory(catId) {
+  return {
+    type: Actions.ADD_EXPENSE_SUB_CATEGORY,
+    payload: { catId }
+  };
+}
+
+export function deleteExpenseSubCategory(catId, subCatId) {
+  return {
+    type: Actions.DELETE_EXPENSE_SUB_CATEGORY,
+    payload: { catId, subCatId }
+  };
+}

@@ -1,3 +1,4 @@
+import * as fs from "fs";
 import Actions from "../actions/actions-enum";
 import DateService from "../services/date-service";
 
@@ -9,7 +10,7 @@ export default function reducer(
   action
 ) {
   switch (action.type) {
-    case Actions.GET_ALL_BUDGETS:
+    case Actions.GET_ALL_BUDGETS: {
       return {
         ...state,
         budgets: action.payload.map(budget => ({
@@ -17,16 +18,158 @@ export default function reducer(
           loaded: false
         }))
       };
-    case Actions.GET_BUDGET:
-      const { month, year } = action.payload.date;
+    }
+    case Actions.GET_BUDGET: {
+      const budget = JSON.parse(action.payload);
+      budget.loaded = true;
+      const { month, year } = budget.date;
       const otherBudgets = state.budgets.filter(
-        budget => budget.date.month !== month && budget.date.year !== year
+        budget => budget.date.month !== month || budget.date.year !== year
       );
       return {
         ...state,
-        budgets: otherBudgets.concat({ ...action.payload, loaded: true })
+        budgets: otherBudgets.concat(budget)
       };
-    default:
+    }
+    case Actions.SET_ACTIVE_BUDGET: {
+      const { month, year } = action.payload;
+      let index = state.budgets.findIndex(
+        budget => budget.date.month === month && budget.date.year === year
+      );
+      console.log("index", index);
+
+      if (index < 0) {
+        console.log("Cannot set active budget. Budget not found.");
+        return state;
+      }
+
+      if (state.budgets[index].loaded) {
+        return {
+          ...state,
+          activeBudgetIndex: index
+        };
+      }
+
+      let budget = JSON.parse(fs.readFileSync(`data\\${year}-${month}.json`));
+      budget.loaded = true;
+      const budgets = state.budgets
+        .filter(
+          budget => budget.date.month !== month || budget.date.year !== year
+        )
+        .concat(budget);
+      return {
+        ...state,
+        budgets,
+        activeBudgetIndex: budgets.findIndex(
+          budget => budget.date.month === month && budget.date.year === year
+        )
+      };
+    }
+    case Actions.UPDATE_INCOME_CATEGORY_TITLE: {
+      if (
+        action.payload.catId === null ||
+        action.payload.catId === undefined ||
+        action.payload.catId < 0
+      ) {
+        return state;
+      }
+
+      const { catId, title } = action.payload;
+
+      const budget = { ...state.budgets[state.activeBudgetIndex] };
+      const income = { ...budget.incomes[catId], title };
+
+      budget.incomes = [...budget.incomes];
+      budget.incomes[catId] = income;
+
+      const budgets = [...state.budgets];
+      budgets[state.activeBudgetIndex] = budget;
+
+      return {
+        ...state,
+        budgets
+      };
+    }
+    case Actions.UPDATE_INCOME_CATEGORY_AMOUNT: {
+      if (
+        action.payload.catId === null ||
+        action.payload.catId === undefined ||
+        action.payload.catId < 0
+      ) {
+        return state;
+      }
+
+      const { catId, amount } = action.payload;
+
+      const budget = { ...state.budgets[state.activeBudgetIndex] };
+      const income = {
+        ...budget.incomes[catId],
+        plannedAmount: amount
+      };
+
+      budget.incomes = [...budget.incomes];
+      budget.incomes[catId] = income;
+
+      const budgets = [...state.budgets];
+      budgets[state.activeBudgetIndex] = budget;
+
+      return {
+        ...state,
+        budgets
+      };
+    }
+    case Actions.ADD_INCOME_CATEGORY: {
+      const budget = { ...state.budgets[state.activeBudgetIndex] };
+      budget.incomes = budget.incomes.concat({
+        title: "",
+        plannedAmount: 0,
+        actualAmount: 0
+      });
+
+      const budgets = [...state.budgets];
+      budgets[state.activeBudgetIndex] = budget;
+
+      return {
+        ...state,
+        budgets
+      };
+    }
+    case Actions.DELETE_INCOME_CATEGORY: {
+      if (
+        action.payload.catId === null ||
+        action.payload.catId === undefined ||
+        action.payload.catId < 0
+      ) {
+        return state;
+      }
+
+      const budget = { ...state.budgets[state.activeBudgetIndex] };
+      budget.incomes = budget.incomes.filter(
+        (budget, i) => i !== action.payload.catId
+      );
+
+      const budgets = [...state.budgets];
+      budgets[state.activeBudgetIndex] = budget;
+
+      return {
+        ...state,
+        budgets
+      };
+    }
+    case Actions.UPDATE_EXPENSE_CATEGORY: {
+    }
+    case Actions.ADD_EXPENSE_CATEGORY: {
+    }
+    case Actions.DELETE_EXPENSE_CATEGORY: {
+    }
+    case Actions.UPDATE_EXPENSE_SUB_CATEGORY: {
+    }
+    case Actions.ADD_EXPENSE_SUB_CATEGORY: {
+    }
+    case Actions.DELETE_EXPENSE_SUB_CATEGORY: {
+    }
+    default: {
       return state;
+    }
   }
 }

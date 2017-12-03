@@ -1,6 +1,7 @@
 import React from "react";
 import { Glyphicon } from "react-bootstrap";
 
+import * as BudgetActions from "../../actions/budget-actions";
 import Page from "../page/page";
 import SubCategory from "../sub-category/sub-category";
 import Category from "../category/category";
@@ -11,7 +12,6 @@ import BudgetFooter from "./budget-footer/budget-footer";
 export default class Budget extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
 
     this.state = {
       edit: false
@@ -20,12 +20,11 @@ export default class Budget extends React.Component {
   render() {
     return (
       <Page
-        header={
-          <BudgetHeader
-            budgetDates={this.props.budgetDates || []}
-            date={this.props.budget.date}
-          />
-        }
+        header={// <BudgetHeader
+        //   budgetDates={this.props.budgetDates || []}
+        //   date={this.props.budget.date}
+        // />
+        `${this.props.budget.date.month}/${this.props.budget.date.year}`}
         footer={
           <BudgetFooter
             balance={this.getIncome() - this.getExpenses()}
@@ -41,20 +40,26 @@ export default class Budget extends React.Component {
             key={i}
             title={income.title}
             updateTitle={title =>
-              this.props.updateIncomeCategoryTitle(i, title)}
+              this.props.dispatch(
+                BudgetActions.updateIncomeCategoryTitle(i, title)
+              )}
             income
             edit={this.state.edit}
             plannedAmount={income.plannedAmount}
             updateAmount={amount =>
-              this.props.updateIncomeCategoryAmount(i, amount)}
+              this.props.dispatch(
+                BudgetActions.updateIncomeCategoryAmount(i, amount)
+              )}
             actualAmount={income.actualAmount}
-            deleteSubCategory={() => this.props.deleteIncomeCategory(i)}
+            deleteSubCategory={() =>
+              this.props.dispatch(BudgetActions.deleteIncomeCategory(i))}
           />
         ))}
         {this.state.edit ? (
           <CategoryButton
             subCategory
-            onClick={() => this.props.addIncomeCategory()}
+            onClick={() =>
+              this.props.dispatch(BudgetActions.addIncomeCategory())}
           >
             <Glyphicon glyph="plus" /> Add a category
           </CategoryButton>
