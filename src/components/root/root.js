@@ -6,12 +6,14 @@ import Budget from "../budget/budget";
 import Page from "../page/page";
 import Welcome from "../welcome/welcome";
 import DateService from "../../services/date-service";
+import testStore from "../../services/redux-service";
 
 ("use strict");
 
 class Root extends React.Component {
   constructor(props) {
     super(props);
+    testStore();
 
     this.state = {
       budgets: this.props.fileService.getBudgets()

@@ -1,0 +1,8 @@
+const Actions = {
+  GET_ALL_BUDGETS: "GET_ALL_BUDGETS",
+  GET_BUDGET: "GET_BUDGET",
+  UPDATE_BUDGET: "UPDATE_BUDGET",
+  SAVE_BUDGET: "SAVE_BUDGET"
+};
+
+export default Actions;

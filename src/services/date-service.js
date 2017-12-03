@@ -1,6 +1,6 @@
 ("use strict");
 
-class DateService {
+export default class DateService {
   static encodeDate(month, year) {
     return `${year}-${month}`;
   }
@@ -10,5 +10,3 @@ class DateService {
     return { year: parseInt(splitStr[0]), month: parseInt(splitStr[1]) };
   }
 }
-
-export default DateService;
