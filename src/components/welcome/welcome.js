@@ -3,14 +3,18 @@ import { Grid, Row } from "react-bootstrap";
 import _ from "lodash";
 
 import Pages from "../../constants/pages-enum";
+import Months from "../../constants/months";
 import { setActiveBudget } from "../../actions/budget-actions";
 import { setPage } from "../../actions/navigation-actions";
 import Dropdown from "../util/dropdown";
 import Page from "../page/page";
 
-("use strict");
+export default class Welcome extends React.Component {
+  constructor(props) {
+    super(props);
 
-class Welcome extends React.Component {
+    console.log([...Array(5).keys()].map(elem => elem + 2017));
+  }
   render() {
     return (
       <Page header={this.renderTitle()}>
@@ -21,8 +25,8 @@ class Welcome extends React.Component {
               "Would you like to create one?"}
           </Row>
           <Row>
-            <Dropdown options={Welcome.months} />
-            <Dropdown options={Welcome.years} />
+            <Dropdown options={Months} />
+            <Dropdown options={this.getNextTenYears()} />
             <button
               className="submit"
               onClick={() => {
@@ -45,25 +49,12 @@ class Welcome extends React.Component {
       </span>
     );
   }
+
+  getNextTenYears() {
+    const blankArray = new Array(10);
+    console.log(blankArray);
+    return blankArray.map((elem, i) => i + 2017);
+  }
 }
 
-Welcome.months = [
-  { id: 1, name: "January" },
-  { id: 2, name: "February" },
-  { id: 3, name: "March" },
-  { id: 4, name: "April" },
-  { id: 5, name: "May" },
-  { id: 6, name: "June" },
-  { id: 7, name: "July" },
-  { id: 8, name: "August" },
-  { id: 9, name: "September" },
-  { id: 10, name: "October" },
-  { id: 11, name: "November" },
-  { id: 12, name: "December" }
-];
-
-Welcome.years = _.range(2017, 2117).map(year => {
-  return { id: year, name: year };
-});
-
-export default Welcome;
+Welcome.years = [...Array(5).keys()].map(elem => elem + 2017);

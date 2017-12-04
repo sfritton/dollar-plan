@@ -1,27 +1,18 @@
 import React from "react";
 import { Grid, Row, Col } from "react-bootstrap";
+
 import HeaderDropdown from "../../util/header-dropdown";
+import DateService from "../../../services/date-service";
 
-("use strict");
-
-const ONE_DAY = 1000 * 60 * 60 * 24; // one day in milliseconds
-
-class BudgetHeader extends React.Component {
+export default class BudgetHeader extends React.Component {
   render() {
     return (
       <div className="nav">
         <HeaderDropdown
-          selected={{
-            month: this.props.date.month,
-            year: this.props.date.year,
-            name: `${this.getMonthName(this.props.date.month)} ${this.props.date
-              .year}`
-          }}
-          options={this.props.budgetDates.map(budget => ({
-            month: budget.month,
-            year: budget.year,
-            name: `${this.getMonthName(budget.month)} ${budget.year}`
-          }))}
+          selected={this.mapDateToOption(this.props.date)}
+          options={this.props.budgetDates.map(date =>
+            this.mapDateToOption(date)
+          )}
           createNewBudget={() => this.props.createNewBudget()}
           setActiveBudget={(month, year) =>
             this.props.setActiveBudget(month, year)}
@@ -30,80 +21,25 @@ class BudgetHeader extends React.Component {
       </div>
     );
   }
-  renderDaysLeft() {
-    const today = new Date();
 
-    if (today.getTime() < this.getFirstDayOfBudgetMonth().getTime()) {
+  renderDaysLeft() {
+    const { month, year } = this.props.date;
+
+    if (!DateService.hasMonthStarted(month, year)) {
       return "Month has not started";
     }
 
-    if (today.getTime() > this.getFirstDayOfNextMonth().getTime() - ONE_DAY) {
+    if (DateService.hasMonthEnded(month, year)) {
       return "Month has ended";
     }
 
-    return `${this.daysBetween(
-      today,
-      this.getFirstDayOfNextMonth()
-    )} days left`;
+    return `${DateService.getDaysLeft(month, year)} days left`;
   }
-  getFirstDayOfBudgetMonth() {
-    // javascript Date months go from 0 to 11 rather than 1 to 12
-    return new Date(this.props.date.year, this.props.date.month - 1, 1);
-  }
-  getFirstDayOfNextMonth() {
-    let year = this.props.date.year;
-    let month = this.props.date.month;
 
-    month = month % 12; // map month to the next month
-
-    // increment year if next month is January
-    if (month === 0) {
-      year++;
-    }
-
-    return new Date(year, month, 1); // first day of next month
-  }
-  daysBetween(date1, date2) {
-    // Convert both dates to milliseconds
-    let date1_ms = date1.getTime();
-    let date2_ms = date2.getTime();
-
-    // Calculate the difference in milliseconds
-    let difference_ms = date2_ms - date1_ms;
-
-    // Convert back to days and return
-    return Math.round(difference_ms / ONE_DAY);
-  }
-  getMonthName(month) {
-    switch (month) {
-      case 1:
-        return "January";
-      case 2:
-        return "February";
-      case 3:
-        return "March";
-      case 4:
-        return "April";
-      case 5:
-        return "May";
-      case 6:
-        return "June";
-      case 7:
-        return "July";
-      case 8:
-        return "August";
-      case 9:
-        return "September";
-      case 10:
-        return "October";
-      case 11:
-        return "November";
-      case 12:
-        return "December";
-      default:
-        return "Frittembruary";
-    }
+  mapDateToOption(date) {
+    return {
+      ...date,
+      name: `${DateService.getMonthName(date.month)} ${date.year}`
+    };
   }
 }
-
-export default BudgetHeader;
