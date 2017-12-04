@@ -44,43 +44,33 @@ class HeaderDropdown extends React.Component {
     );
 
     return otherBudgets.map((item, i) => (
-      <Route
+      <li
+        className="nav-select-option"
         key={i}
-        render={({ history }) => (
-          <li
-            className="nav-select-option"
-            value={DateService.encodeDate(item.month, item.year)}
-            onClick={() => {
-              this.setState({ open: false });
-              history.push(
-                `/budget/${DateService.encodeDate(item.month, item.year)}`
-              );
-            }}
-          >
-            {item.name}
-          </li>
-        )}
-      />
+        value={DateService.encodeDate(item.month, item.year)}
+        onClick={() => {
+          this.setState({ open: false });
+          this.props.setActiveBudget(item.month, item.year);
+        }}
+      >
+        {item.name}
+      </li>
     ));
   }
 
   renderCreateNewOption() {
     return (
-      <Route
-        render={({ history }) => (
-          <li
-            className="nav-select-option"
-            value="new_budget"
-            onClick={() => {
-              this.setState({ open: false });
-              history.push("/welcome");
-            }}
-          >
-            <Glyphicon glyph="plus" style={{ fontSize: "75%" }} />
-            {" Create new"}
-          </li>
-        )}
-      />
+      <li
+        className="nav-select-option"
+        value="new_budget"
+        onClick={() => {
+          this.setState({ open: false });
+          this.props.createNewBudget();
+        }}
+      >
+        <Glyphicon glyph="plus" style={{ fontSize: "75%" }} />
+        {" Create new"}
+      </li>
     );
   }
 

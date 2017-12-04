@@ -1,6 +1,6 @@
 import * as fs from "fs";
 
-import Actions from "./actions-enum";
+import Actions from "../constants/actions-enum";
 
 const DATA_DIRECTORY = "data";
 

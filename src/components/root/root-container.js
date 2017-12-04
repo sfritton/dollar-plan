@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Root from "./root";
 
 const RootContainer = connect(store => ({
-  budgets: store.budgets
+  page: store.page.page
 }))(Root);
 
 export default RootContainer;

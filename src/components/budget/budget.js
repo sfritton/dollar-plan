@@ -2,6 +2,8 @@ import React from "react";
 import { Glyphicon } from "react-bootstrap";
 
 import * as BudgetActions from "../../actions/budget-actions";
+import * as NavigationActions from "../../actions/navigation-actions";
+import Pages from "../../constants/pages-enum";
 import Page from "../page/page";
 import SubCategory from "../sub-category/sub-category";
 import Category from "../category/category";
@@ -20,11 +22,16 @@ export default class Budget extends React.Component {
   render() {
     return (
       <Page
-        header={// <BudgetHeader
-        //   budgetDates={this.props.budgetDates || []}
-        //   date={this.props.budget.date}
-        // />
-        `${this.props.budget.date.month}/${this.props.budget.date.year}`}
+        header={
+          <BudgetHeader
+            budgetDates={this.props.budgetDates || []}
+            date={this.props.budget.date}
+            setActiveBudget={(month, year) =>
+              this.props.dispatch(BudgetActions.setActiveBudget(month, year))}
+            createNewBudget={() =>
+              this.props.dispatch(NavigationActions.setPage(Pages.WELCOME))}
+          />
+        }
         footer={
           <BudgetFooter
             balance={this.getIncome() - this.getExpenses()}

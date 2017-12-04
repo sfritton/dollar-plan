@@ -2,6 +2,9 @@ import React from "react";
 import { Grid, Row } from "react-bootstrap";
 import _ from "lodash";
 
+import Pages from "../../constants/pages-enum";
+import { setActiveBudget } from "../../actions/budget-actions";
+import { setPage } from "../../actions/navigation-actions";
 import Dropdown from "../util/dropdown";
 import Page from "../page/page";
 
@@ -10,7 +13,7 @@ import Page from "../page/page";
 class Welcome extends React.Component {
   render() {
     return (
-      <Page header={Welcome.title}>
+      <Page header={this.renderTitle()}>
         <div className="padding-10" />
         <Grid>
           <Row>
@@ -23,9 +26,8 @@ class Welcome extends React.Component {
             <button
               className="submit"
               onClick={() => {
-                this.props.navigateTo("budget", {
-                  date: { month: 10, year: 2017 }
-                });
+                this.props.dispatch(setActiveBudget(10, 2017));
+                this.props.dispatch(setPage(Pages.BUDGET));
               }}
             >
               Create
@@ -35,12 +37,15 @@ class Welcome extends React.Component {
       </Page>
     );
   }
+
+  renderTitle() {
+    return (
+      <span>
+        Welcome to <span className="accent">$</span>Plan
+      </span>
+    );
+  }
 }
-Welcome.title = (
-  <span>
-    Welcome to <span className="accent">$</span>Plan
-  </span>
-);
 
 Welcome.months = [
   { id: 1, name: "January" },

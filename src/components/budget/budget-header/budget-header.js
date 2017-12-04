@@ -22,6 +22,9 @@ class BudgetHeader extends React.Component {
             year: budget.year,
             name: `${this.getMonthName(budget.month)} ${budget.year}`
           }))}
+          createNewBudget={() => this.props.createNewBudget()}
+          setActiveBudget={(month, year) =>
+            this.props.setActiveBudget(month, year)}
         />
         <div className="days-left">{this.renderDaysLeft()}</div>
       </div>
