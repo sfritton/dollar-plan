@@ -10,11 +10,6 @@ import Dropdown from "../util/dropdown";
 import Page from "../page/page";
 
 export default class Welcome extends React.Component {
-  constructor(props) {
-    super(props);
-
-    console.log([...Array(5).keys()].map(elem => elem + 2017));
-  }
   render() {
     return (
       <Page header={this.renderTitle()}>
@@ -51,9 +46,11 @@ export default class Welcome extends React.Component {
   }
 
   getNextTenYears() {
-    const blankArray = new Array(10);
-    console.log(blankArray);
-    return blankArray.map((elem, i) => i + 2017);
+    const currentYear = new Date().getFullYear();
+
+    return new Array(10)
+      .fill(0)
+      .map((elem, i) => ({ id: i + currentYear, name: i + currentYear }));
   }
 }
 
