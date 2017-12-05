@@ -29,6 +29,33 @@ export default function reducer(state = { budgets: [] }, action) {
         budgets
       };
     }
+    case Actions.CREATE_NEW_BUDGET: {
+      const { month, year } = action.payload;
+      if (
+        state.budgets.findIndex(
+          budget => budget.date.month === month && budget.date.year === year
+        ) !== -1
+      ) {
+        return state;
+      }
+
+      const newBudget = {
+        date: { month, year },
+        incomes: [],
+        expenses: [],
+        loaded: true
+      };
+
+      // TODO: write to file?
+
+      const budgets = state.budgets.concat(newBudget);
+
+      return {
+        ...state,
+        budgets,
+        activeBudgetIndex: budgets.length - 1
+      };
+    }
     case Actions.SET_ACTIVE_BUDGET: {
       const { month, year } = action.payload;
       const index = state.budgets.findIndex(

@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
 
 import budgetReducer from "./budget-reducer";
-import pageReducer from "./page-reducer";
+import uiReducer from "./ui-reducer";
 
 export default combineReducers({
   budgets: budgetReducer,
-  page: pageReducer
+  ui: uiReducer
 });

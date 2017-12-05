@@ -1,15 +1,22 @@
 import React from "react";
 import { Grid, Row } from "react-bootstrap";
-import _ from "lodash";
 
 import Pages from "../../constants/pages-enum";
 import Months from "../../constants/months";
-import { setActiveBudget } from "../../actions/budget-actions";
-import { setPage } from "../../actions/navigation-actions";
+import { createNewBudget } from "../../actions/budget-actions";
+import { setPage, setEdit } from "../../actions/ui-actions";
 import Dropdown from "../util/dropdown";
 import Page from "../page/page";
 
 export default class Welcome extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      month: Months[0].id,
+      year: this.getNextTenYears()[0].id
+    };
+  }
   render() {
     return (
       <Page header={this.renderTitle()}>
@@ -20,12 +27,24 @@ export default class Welcome extends React.Component {
               "Would you like to create one?"}
           </Row>
           <Row>
-            <Dropdown options={Months} />
-            <Dropdown options={this.getNextTenYears()} />
+            <Dropdown
+              options={Months}
+              selected={this.state.month}
+              updateSelected={month =>
+                this.setState({ month: parseInt(month) })}
+            />
+            <Dropdown
+              options={this.getNextTenYears()}
+              selected={this.state.year}
+              updateSelected={year => this.setState({ year: parseInt(year) })}
+            />
             <button
               className="submit"
               onClick={() => {
-                this.props.dispatch(setActiveBudget(10, 2017));
+                this.props.dispatch(
+                  createNewBudget(this.state.month, this.state.year)
+                );
+                this.props.dispatch(setEdit(true));
                 this.props.dispatch(setPage(Pages.BUDGET));
               }}
             >

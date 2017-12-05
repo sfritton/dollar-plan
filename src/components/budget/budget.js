@@ -2,7 +2,7 @@ import React from "react";
 import { Glyphicon } from "react-bootstrap";
 
 import * as BudgetActions from "../../actions/budget-actions";
-import * as NavigationActions from "../../actions/navigation-actions";
+import * as UIActions from "../../actions/ui-actions";
 import Pages from "../../constants/pages-enum";
 import Page from "../page/page";
 import SubCategory from "../sub-category/sub-category";
@@ -12,13 +12,6 @@ import BudgetHeader from "./budget-header/budget-header";
 import BudgetFooter from "./budget-footer/budget-footer";
 
 export default class Budget extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      edit: false
-    };
-  }
   render() {
     return (
       <Page
@@ -29,15 +22,15 @@ export default class Budget extends React.Component {
             setActiveBudget={(month, year) =>
               this.props.dispatch(BudgetActions.setActiveBudget(month, year))}
             createNewBudget={() =>
-              this.props.dispatch(NavigationActions.setPage(Pages.WELCOME))}
+              this.props.dispatch(UIActions.setPage(Pages.WELCOME))}
           />
         }
         footer={
           <BudgetFooter
             balance={this.getIncome() - this.getExpenses()}
-            edit={this.state.edit}
-            adjust={() => this.toggleEdit()}
-            save={() => this.toggleEdit()}
+            edit={this.props.edit}
+            adjust={() => this.props.dispatch(UIActions.setEdit(true))}
+            save={() => this.props.dispatch(UIActions.setEdit(false))}
           />
         }
       >
@@ -51,7 +44,7 @@ export default class Budget extends React.Component {
                 BudgetActions.updateIncomeCategoryTitle(i, title)
               )}
             income
-            edit={this.state.edit}
+            edit={this.props.edit}
             plannedAmount={income.plannedAmount}
             updateAmount={amount =>
               this.props.dispatch(
@@ -62,7 +55,7 @@ export default class Budget extends React.Component {
               this.props.dispatch(BudgetActions.deleteIncomeCategory(i))}
           />
         ))}
-        {this.state.edit ? (
+        {this.props.edit ? (
           <CategoryButton
             subCategory
             onClick={() =>
@@ -76,7 +69,7 @@ export default class Budget extends React.Component {
           <Category
             key={i}
             title={expense.title}
-            edit={this.state.edit}
+            edit={this.props.edit}
             defaultOpen
             subCategories={expense.subCategories}
             deleteCategory={() =>
@@ -105,7 +98,7 @@ export default class Budget extends React.Component {
               )}
           />
         ))}
-        {this.state.edit ? (
+        {this.props.edit ? (
           <CategoryButton
             onClick={() =>
               this.props.dispatch(BudgetActions.addExpenseCategory())}
@@ -130,8 +123,5 @@ export default class Budget extends React.Component {
         }, 0)
       );
     }, 0);
-  }
-  toggleEdit() {
-    this.setState(prevState => ({ edit: !prevState.edit }));
   }
 }

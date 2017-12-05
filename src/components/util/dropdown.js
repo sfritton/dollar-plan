@@ -5,7 +5,10 @@ import React from "react";
 class Dropdown extends React.Component {
   render() {
     return (
-      <select>
+      <select
+        onChange={e => this.props.updateSelected(e.target.value)}
+        value={this.props.selected}
+      >
         {this.props.options.map((item, i) => (
           <option key={i} value={item.id}>
             {item.name}

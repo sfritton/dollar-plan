@@ -6,3 +6,10 @@ export function setPage(page) {
     payload: { page }
   };
 }
+
+export function setEdit(edit) {
+  return {
+    type: Actions.SET_EDIT,
+    payload: { edit }
+  };
+}

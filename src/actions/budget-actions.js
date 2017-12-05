@@ -18,6 +18,13 @@ export function getBudget(month, year) {
   };
 }
 
+export function createNewBudget(month, year) {
+  return {
+    type: Actions.CREATE_NEW_BUDGET,
+    payload: { month, year }
+  };
+}
+
 export function setActiveBudget(month, year) {
   return {
     type: Actions.SET_ACTIVE_BUDGET,
