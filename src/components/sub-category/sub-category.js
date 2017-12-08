@@ -55,9 +55,9 @@ class SubCategory extends React.Component {
           <TextInput
             className="sub-category-input dollar"
             width="50%"
-            value={this.props.plannedAmount}
+            value={this.props.plannedAmount.toFixed(2)}
             placeholder="0"
-            onChange={e => this.props.updateAmount(e.target.value)}
+            onChange={e => this.props.updateAmount(parseFloat(e.target.value))}
           />
         </div>
       );
@@ -65,7 +65,7 @@ class SubCategory extends React.Component {
 
     return (
       <div className="sub-category-amount">
-        {`$${this.props.actualAmount} of $${this.props.plannedAmount}`}
+        {`$${this.props.actualAmount.toFixed(0)} of $${this.props.plannedAmount.toFixed(0)}`}
       </div>
     );
   }
@@ -73,14 +73,14 @@ class SubCategory extends React.Component {
     if (this.props.actualAmount <= this.props.plannedAmount) {
       return (
         "$" +
-        (this.props.plannedAmount - this.props.actualAmount) +
+        (this.props.plannedAmount - this.props.actualAmount).toFixed(0) +
         (this.props.income ? " to go" : " left")
       );
     }
 
     return (
       "$" +
-      (this.props.actualAmount - this.props.plannedAmount) +
+      (this.props.actualAmount - this.props.plannedAmount).toFixed(0) +
       (this.props.income ? " extra" : " over")
     );
   }

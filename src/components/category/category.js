@@ -30,7 +30,7 @@ class Category extends React.Component {
             </Col>
             <Col xs={3} md={2} lg={2}>
               <div className="category-amount">
-                {`$${this.getActualAmount()} of $${this.getPlannedAmount()}`}
+                {`$${this.getActualAmount().toFixed(0)} of $${this.getPlannedAmount().toFixed(0)}`}
               </div>
             </Col>
             <Col

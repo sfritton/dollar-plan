@@ -114,7 +114,9 @@ export default function reducer(state = { budgets: [] }, action) {
       if (
         action.payload.catId === null ||
         action.payload.catId === undefined ||
-        action.payload.catId < 0
+        action.payload.catId < 0 ||
+        isNaN(action.payload.amount) ||
+        action.payload.amount < 0
       ) {
         return state;
       }
@@ -279,7 +281,9 @@ export default function reducer(state = { budgets: [] }, action) {
         action.payload.catId < 0 ||
         action.payload.subCatId === null ||
         action.payload.subCatId === undefined ||
-        action.payload.subCatId < 0
+        action.payload.subCatId < 0 ||
+        isNaN(action.payload.amount) ||
+        action.payload.amount < 0
       ) {
         return state;
       }
