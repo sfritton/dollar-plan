@@ -6,9 +6,7 @@ import SubCategory from "../sub-category/sub-category";
 import CategoryButton from "../util/category-button";
 import TextInput from "../util/text-input";
 
-("use strict");
-
-class Category extends React.Component {
+export default class Category extends React.Component {
   constructor(props) {
     super(props);
 
@@ -30,7 +28,9 @@ class Category extends React.Component {
             </Col>
             <Col xs={3} md={2} lg={2}>
               <div className="category-amount">
-                {`$${this.getActualAmount().toFixed(0)} of $${this.getPlannedAmount().toFixed(0)}`}
+                {`$${this.getActualAmount().toFixed(
+                  0
+                )} of $${this.getPlannedAmount().toFixed(0)}`}
               </div>
             </Col>
             <Col
@@ -58,23 +58,30 @@ class Category extends React.Component {
       return (
         <TextInput
           className="category-input"
-          value={this.props.title}
+          value={this.props.category.title}
           placeholder="Category name"
           onChange={e => this.props.updateTitle(e.target.value)}
         />
       );
     }
-    return <div className="category-title">{this.props.title}</div>;
+    return <div className="category-title">{this.props.category.title}</div>;
   }
   getActualAmount() {
-    return this.props.subCategories.reduce((sum, subCategory) => {
-      return sum + subCategory.actualAmount;
-    }, 0);
+    return this.props.category.subCategories.reduce(
+      (sum, subCategory) =>
+        sum +
+        subCategory.transactions.reduce(
+          (sum, transaction) => sum + transaction.amount,
+          0
+        ),
+      0
+    );
   }
   getPlannedAmount() {
-    return this.props.subCategories.reduce((sum, subCategory) => {
-      return sum + subCategory.plannedAmount;
-    }, 0);
+    return this.props.category.subCategories.reduce(
+      (sum, subCategory) => sum + subCategory.plannedAmount,
+      0
+    );
   }
   renderIcon() {
     if (this.props.edit) {
@@ -92,16 +99,14 @@ class Category extends React.Component {
   renderSubCategories() {
     return (
       <div>
-        {this.props.subCategories.map((sub, i) => (
+        {this.props.category.subCategories.map((sub, i) => (
           <SubCategory
             key={i}
-            title={sub.title}
-            updateTitle={title => this.props.updateSubCategoryTitle(i, title)}
             edit={this.props.edit}
-            plannedAmount={sub.plannedAmount}
+            subCategory={sub}
+            updateTitle={title => this.props.updateSubCategoryTitle(i, title)}
             updateAmount={amount =>
               this.props.updateSubCategoryAmount(i, amount)}
-            actualAmount={sub.actualAmount}
             deleteSubCategory={() => this.props.deleteSubCategory(i)}
           />
         ))}
@@ -122,5 +127,3 @@ class Category extends React.Component {
     }
   }
 }
-
-export default Category;

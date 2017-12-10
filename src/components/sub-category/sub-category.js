@@ -4,9 +4,7 @@ import { Grid, Row, Col, Glyphicon } from "react-bootstrap";
 import ProgressBar from "../util/progress-bar";
 import TextInput from "../util/text-input";
 
-("use strict");
-
-class SubCategory extends React.Component {
+export default class SubCategory extends React.Component {
   render() {
     return (
       <Grid className="sub-category">
@@ -20,7 +18,9 @@ class SubCategory extends React.Component {
           <Col xs={2} md={this.props.edit ? 3 : 4} lg={this.props.edit ? 4 : 5}>
             <ProgressBar
               income={this.props.income}
-              percent={this.props.actualAmount / this.props.plannedAmount}
+              percent={
+                this.getActualAmount() / this.props.subCategory.plannedAmount
+              }
             />
           </Col>
           <Col xs={3} md={2} lg={2}>
@@ -33,29 +33,33 @@ class SubCategory extends React.Component {
       </Grid>
     );
   }
+
   renderTitle() {
     if (this.props.edit) {
       return (
         <TextInput
           className="sub-category-input"
-          value={this.props.title}
+          value={this.props.subCategory.title}
           placeholder="Category name"
           onChange={e => this.props.updateTitle(e.target.value)}
         />
       );
     }
 
-    return <div className="sub-category-title">{this.props.title}</div>;
+    return (
+      <div className="sub-category-title">{this.props.subCategory.title}</div>
+    );
   }
+
   renderAmount() {
     if (this.props.edit) {
       return (
         <div style={{ textAlign: "right" }}>
-          {`$${this.props.actualAmount} of `}
+          {`$${this.getActualAmount()} of `}
           <TextInput
             className="sub-category-input dollar"
             width="50%"
-            value={this.props.plannedAmount.toFixed(2)}
+            value={this.props.subCategory.plannedAmount.toFixed(2)}
             placeholder="0"
             onChange={e => this.props.updateAmount(parseFloat(e.target.value))}
           />
@@ -65,25 +69,33 @@ class SubCategory extends React.Component {
 
     return (
       <div className="sub-category-amount">
-        {`$${this.props.actualAmount.toFixed(0)} of $${this.props.plannedAmount.toFixed(0)}`}
+        {`$${this.getActualAmount().toFixed(
+          0
+        )} of $${this.props.subCategory.plannedAmount.toFixed(0)}`}
       </div>
     );
   }
+
   generateMessage() {
-    if (this.props.actualAmount <= this.props.plannedAmount) {
+    if (this.getActualAmount() <= this.props.subCategory.plannedAmount) {
       return (
         "$" +
-        (this.props.plannedAmount - this.props.actualAmount).toFixed(0) +
+        (this.props.subCategory.plannedAmount - this.getActualAmount()).toFixed(
+          0
+        ) +
         (this.props.income ? " to go" : " left")
       );
     }
 
     return (
       "$" +
-      (this.props.actualAmount - this.props.plannedAmount).toFixed(0) +
+      (this.getActualAmount() - this.props.subCategory.plannedAmount).toFixed(
+        0
+      ) +
       (this.props.income ? " extra" : " over")
     );
   }
+
   renderIcon() {
     if (this.props.edit) {
       return (
@@ -97,6 +109,11 @@ class SubCategory extends React.Component {
       );
     }
   }
-}
 
-export default SubCategory;
+  getActualAmount() {
+    return this.props.subCategory.transactions.reduce(
+      (sum, transaction) => sum + transaction.amount,
+      0
+    );
+  }
+}

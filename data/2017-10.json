@@ -7,22 +7,60 @@
     {
       "title": "Sam",
       "plannedAmount": 6000,
-      "actualAmount": 3000
+      "transactions": [
+        {
+          "date": "",
+          "description": "1st paycheck",
+          "amount": 3000
+        }
+      ]
     },
     {
       "title": "Ellen",
       "plannedAmount": 600,
-      "actualAmount": 800
+      "transactions": [
+        {
+          "date": "",
+          "description": "1st paycheck",
+          "amount": 400
+        },
+        {
+          "date": "",
+          "description": "2nd paycheck",
+          "amount": 400
+        }
+      ]
     },
     {
       "title": "Interest",
       "plannedAmount": 100,
-      "actualAmount": 0
+      "transactions": [
+        {
+          "date": "",
+          "description": "TCU Checking",
+          "amount": 25
+        },
+        {
+          "date": "",
+          "description": "House Fund",
+          "amount": 20
+        },
+        {
+          "date": "",
+          "description": "Discover Savings",
+          "amount": 45
+        },
+        {
+          "date": "",
+          "description": "Baby Fund",
+          "amount": 10
+        }
+      ]
     },
     {
       "title": "Miscellaneous",
       "plannedAmount": 0,
-      "actualAmount": 0
+      "transactions": []
     }
   ],
   "expenses": [
@@ -32,17 +70,17 @@
         {
           "title": "Donations",
           "plannedAmount": 100,
-          "actualAmount": 0
+          "transactions": []
         },
         {
           "title": "Roth IRA",
           "plannedAmount": 600,
-          "actualAmount": 0
+          "transactions": []
         },
         {
           "title": "Savings",
           "plannedAmount": 0,
-          "actualAmount": 0
+          "transactions": []
         }
       ]
     },
@@ -52,17 +90,35 @@
         {
           "title": "Rent & Water",
           "plannedAmount": 1320,
-          "actualAmount": 1320
+          "transactions": [
+            {
+              "date": "",
+              "description": "Rent",
+              "amount": 1320
+            }
+          ]
         },
         {
           "title": "Electric",
           "plannedAmount": 49,
-          "actualAmount": 49
+          "transactions": [
+            {
+              "date": "",
+              "description": "Electric Bill",
+              "amount": 49
+            }
+          ]
         },
         {
           "title": "Internet",
           "plannedAmount": 34,
-          "actualAmount": 34
+          "transactions": [
+            {
+              "date": "",
+              "description": "Internet Bill",
+              "amount": 34
+            }
+          ]
         }
       ]
     },
@@ -72,22 +128,28 @@
         {
           "title": "Renters'",
           "plannedAmount": 0,
-          "actualAmount": 0
+          "transactions": []
         },
         {
           "title": "Life & Disability",
           "plannedAmount": 40,
-          "actualAmount": 40
+          "transactions": [
+            {
+              "date": "",
+              "description": "Premiums",
+              "amount": 40
+            }
+          ]
         },
         {
           "title": "Health",
           "plannedAmount": 365,
-          "actualAmount": 0
+          "transactions": []
         },
         {
           "title": "Auto",
           "plannedAmount": 200,
-          "actualAmount": 0
+          "transactions": []
         }
       ]
     },
@@ -97,32 +159,82 @@
         {
           "title": "Transportation",
           "plannedAmount": 200,
-          "actualAmount": 44
+          "transactions": [
+            {
+              "date": "",
+              "description": "Sam gas",
+              "amount": 24
+            },
+            {
+              "date": "",
+              "description": "Ellen gas",
+              "amount": 20
+            }
+          ]
         },
         {
           "title": "Groceries",
           "plannedAmount": 226,
-          "actualAmount": 127
+          "transactions": [
+            {
+              "date": "",
+              "description": "1st weekly trip",
+              "amount": 38
+            },
+            {
+              "date": "",
+              "description": "2nd weekly trip",
+              "amount": 38
+            },
+            {
+              "date": "",
+              "description": "3rd weekly trip",
+              "amount": 38
+            },
+            {
+              "date": "",
+              "description": "4th weekly trip",
+              "amount": 38
+            }
+          ]
         },
         {
           "title": "Phone",
           "plannedAmount": 38,
-          "actualAmount": 37
+          "transactions": [
+            {
+              "date": "",
+              "description": "Phone bill",
+              "amount": 38
+            }
+          ]
         },
         {
           "title": "Health Care",
           "plannedAmount": 2046,
-          "actualAmount": 0
+          "transactions": []
         },
         {
           "title": "Personal Care",
           "plannedAmount": 24,
-          "actualAmount": 24
+          "transactions": [
+            {
+              "date": "",
+              "description": "Sam haircut",
+              "amount": 24
+            }
+          ]
         },
         {
           "title": "Clothing",
           "plannedAmount": 82,
-          "actualAmount": 17
+          "transactions": [
+            {
+              "date": "",
+              "description": "Target run",
+              "amount": 17
+            }
+          ]
         }
       ]
     },
@@ -132,22 +244,34 @@
         {
           "title": "Merchandise",
           "plannedAmount": 22,
-          "actualAmount": 0
+          "transactions": []
         },
         {
           "title": "Restaurants & Treats",
           "plannedAmount": 80,
-          "actualAmount": 7
+          "transactions": [
+            {
+              "date": "",
+              "description": "Ben & Jerry's",
+              "amount": 7
+            }
+          ]
         },
         {
           "title": "Gifts",
           "plannedAmount": 50,
-          "actualAmount": 57
+          "transactions": [
+            {
+              "date": "",
+              "description": "Ellen's presents (shh!!)",
+              "amount": 57
+            }
+          ]
         },
         {
           "title": "Recreation",
           "plannedAmount": 0,
-          "actualAmount": 0
+          "transactions": []
         }
       ]
     }

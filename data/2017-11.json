@@ -1,18 +1,43 @@
 {
   "date": { "month": 11, "year": 2017 },
   "incomes": [
-    { "title": "Sam", "plannedAmount": 9000, "actualAmount": 3000 },
-    { "title": "Ellen", "plannedAmount": 600, "actualAmount": 800 },
-    { "title": "Interest", "plannedAmount": 100, "actualAmount": 0 },
-    { "title": "Miscellaneous", "plannedAmount": 0, "actualAmount": 0 }
+    {
+      "title": "Sam",
+      "plannedAmount": 9000,
+      "transactions": [
+        {
+          "date": "",
+          "description": "1st paycheck",
+          "amount": 3000
+        }
+      ]
+    },
+    {
+      "title": "Ellen",
+      "plannedAmount": 600,
+      "transactions": [
+        {
+          "date": "",
+          "description": "1st paycheck",
+          "amount": 400
+        },
+        {
+          "date": "",
+          "description": "2nd paycheck",
+          "amount": 400
+        }
+      ]
+    },
+    { "title": "Interest", "plannedAmount": 100, "transactions": [] },
+    { "title": "Miscellaneous", "plannedAmount": 0, "transactions": [] }
   ],
   "expenses": [
     {
       "title": "Investments & Savings",
       "subCategories": [
-        { "title": "Donations", "plannedAmount": 100, "actualAmount": 0 },
-        { "title": "Roth IRA", "plannedAmount": 600, "actualAmount": 0 },
-        { "title": "Savings", "plannedAmount": 0, "actualAmount": 0 }
+        { "title": "Donations", "plannedAmount": 100, "transactions": [] },
+        { "title": "Roth IRA", "plannedAmount": 600, "transactions": [] },
+        { "title": "Savings", "plannedAmount": 0, "transactions": [] }
       ]
     },
     {
@@ -21,23 +46,55 @@
         {
           "title": "Rent & Water",
           "plannedAmount": 1320,
-          "actualAmount": 1320
+          "transactions": [
+            {
+              "date": "",
+              "description": "Rent",
+              "amount": 1320
+            }
+          ]
         },
-        { "title": "Electric", "plannedAmount": 49, "actualAmount": 49 },
-        { "title": "Internet", "plannedAmount": 34, "actualAmount": 34 }
+        {
+          "title": "Electric",
+          "plannedAmount": 49,
+          "transactions": [
+            {
+              "date": "",
+              "description": "Electric Bill",
+              "amount": 49
+            }
+          ]
+        },
+        {
+          "title": "Internet",
+          "plannedAmount": 34,
+          "transactions": [
+            {
+              "date": "",
+              "description": "Internet Bill",
+              "amount": 34
+            }
+          ]
+        }
       ]
     },
     {
       "title": "Insurance",
       "subCategories": [
-        { "title": "Renters'", "plannedAmount": 0, "actualAmount": 0 },
+        { "title": "Renters'", "plannedAmount": 0, "transactions": [] },
         {
           "title": "Life & Disability",
           "plannedAmount": 40,
-          "actualAmount": 40
+          "transactions": [
+            {
+              "date": "",
+              "description": "Premium",
+              "amount": 50
+            }
+          ]
         },
-        { "title": "Health", "plannedAmount": 365, "actualAmount": 0 },
-        { "title": "Auto", "plannedAmount": 200, "actualAmount": 0 }
+        { "title": "Health", "plannedAmount": 365, "transactions": [] },
+        { "title": "Auto", "plannedAmount": 200, "transactions": [] }
       ]
     }
   ]

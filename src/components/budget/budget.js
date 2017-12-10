@@ -35,22 +35,20 @@ export default class Budget extends React.Component {
         }
       >
         <div className="section-header">Income</div>
-        {this.props.budget.incomes.map((income, i) => (
+        {this.props.budget.incomes.map((incomeCategory, i) => (
           <SubCategory
             key={i}
-            title={income.title}
+            income
+            subCategory={incomeCategory}
             updateTitle={title =>
               this.props.dispatch(
                 BudgetActions.updateIncomeCategoryTitle(i, title)
               )}
-            income
             edit={this.props.edit}
-            plannedAmount={income.plannedAmount}
             updateAmount={amount =>
               this.props.dispatch(
                 BudgetActions.updateIncomeCategoryAmount(i, amount)
               )}
-            actualAmount={income.actualAmount}
             deleteSubCategory={() =>
               this.props.dispatch(BudgetActions.deleteIncomeCategory(i))}
           />
@@ -65,13 +63,12 @@ export default class Budget extends React.Component {
           </CategoryButton>
         ) : null}
         <div className="section-header">Expenses</div>
-        {this.props.budget.expenses.map((expense, i) => (
+        {this.props.budget.expenses.map((expenseCategory, i) => (
           <Category
             key={i}
-            title={expense.title}
             edit={this.props.edit}
             defaultOpen
-            subCategories={expense.subCategories}
+            category={expenseCategory}
             deleteCategory={() =>
               this.props.dispatch(BudgetActions.deleteExpenseCategory(i))}
             updateTitle={title =>
@@ -110,18 +107,30 @@ export default class Budget extends React.Component {
     );
   }
   getIncome() {
-    return this.props.budget.incomes.reduce((sum, income) => {
-      return sum + income.actualAmount;
-    }, 0);
+    return this.props.budget.incomes.reduce(
+      (sum, income) =>
+        sum +
+        income.transactions.reduce(
+          (sum, transaction) => sum + transaction.amount,
+          0
+        ),
+      0
+    );
   }
   getExpenses() {
-    return this.props.budget.expenses.reduce((sum, expense) => {
-      return (
+    return this.props.budget.expenses.reduce(
+      (sum, expense) =>
         sum +
-        expense.subCategories.reduce((sum, subCat) => {
-          return sum + subCat.actualAmount;
-        }, 0)
-      );
-    }, 0);
+        expense.subCategories.reduce(
+          (sum, subCat) =>
+            sum +
+            subCat.transactions.reduce(
+              (sum, transaction) => sum + transaction.amount,
+              0
+            ),
+          0
+        ),
+      0
+    );
   }
 }
