@@ -19,12 +19,11 @@ export default class Welcome extends React.Component {
   }
   render() {
     return (
-      <Page header={this.renderTitle()}>
+      <Page header="New budget">
         <div className="padding-10" />
         <Grid>
           <Row>
-            {"It looks like you don't have any budgets. " +
-              "Would you like to create one?"}
+            {"Select a month and a year for the new budget"}
           </Row>
           <Row>
             <Dropdown
