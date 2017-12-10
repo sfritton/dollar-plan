@@ -2,7 +2,7 @@ import Actions from "../constants/actions-enum";
 import Pages from "../constants/pages-enum";
 
 export default function reducer(
-  state = { page: Pages.BUDGET, loading: false, edit: false },
+  state = { page: Pages.CATEGORY, loading: false, edit: false },
   action
 ) {
   switch (action.type) {
