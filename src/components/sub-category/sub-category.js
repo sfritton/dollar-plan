@@ -7,7 +7,7 @@ import TextInput from "../util/text-input";
 export default class SubCategory extends React.Component {
   render() {
     return (
-      <Grid className="sub-category">
+      <Grid className="sub-category" onClick={this.props.openCategory()}>
         <Row>
           <Col xs={3} md={3} lg={2}>
             {this.renderTitle()}

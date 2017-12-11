@@ -67,10 +67,10 @@ export default class DateService {
   }
 
   static getMonthAndDay(dateStr) {
-    const pieces = dateStr.split(" ");
+    const date = new Date(dateStr);
 
-    const month = pieces[1];
-    const day = pieces[2];
+    const month = this.getMonthName(date.getMonth() + 1).substring(0, 3);
+    const day = date.getDate();
 
     return `${month} ${day}`;
   }

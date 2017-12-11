@@ -2,6 +2,7 @@ import React from "react";
 import { Glyphicon } from "react-bootstrap";
 
 import * as BudgetActions from "../../actions/budget-actions";
+import * as CategoryActions from "../../actions/category-actions";
 import * as UIActions from "../../actions/ui-actions";
 import Pages from "../../constants/pages-enum";
 import Page from "../page/page";
@@ -51,6 +52,10 @@ export default class Budget extends React.Component {
               )}
             deleteSubCategory={() =>
               this.props.dispatch(BudgetActions.deleteIncomeCategory(i))}
+            openCategory={() => {
+              this.props.dispatch(CategoryActions.setActiveCategory(i));
+              this.props.dispatch(UIActions.setPage(Pages.CATEGORY));
+            }}
           />
         ))}
         {this.props.edit ? (

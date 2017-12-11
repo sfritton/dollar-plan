@@ -6,7 +6,7 @@
       "plannedAmount": 9000,
       "transactions": [
         {
-          "date": "",
+          "date": "2017-10-01T05:00:00.000Z",
           "description": "1st paycheck",
           "amount": 3000
         }
@@ -17,12 +17,12 @@
       "plannedAmount": 600,
       "transactions": [
         {
-          "date": "",
+          "date": "2017-10-02T05:00:00.000Z",
           "description": "1st paycheck",
           "amount": 400
         },
         {
-          "date": "",
+          "date": "2017-10-16T05:00:00.000Z",
           "description": "2nd paycheck",
           "amount": 400
         }
@@ -48,7 +48,7 @@
           "plannedAmount": 1320,
           "transactions": [
             {
-              "date": "",
+              "date": "2017-10-01T05:00:00.000Z",
               "description": "Rent",
               "amount": 1320
             }
@@ -59,7 +59,7 @@
           "plannedAmount": 49,
           "transactions": [
             {
-              "date": "",
+              "date": "2017-10-09T05:00:00.000Z",
               "description": "Electric Bill",
               "amount": 49
             }
@@ -70,7 +70,7 @@
           "plannedAmount": 34,
           "transactions": [
             {
-              "date": "",
+              "date": "2017-10-07T05:00:00.000Z",
               "description": "Internet Bill",
               "amount": 34
             }
@@ -87,7 +87,7 @@
           "plannedAmount": 40,
           "transactions": [
             {
-              "date": "",
+              "date": "2017-10-14T05:00:00.000Z",
               "description": "Premium",
               "amount": 50
             }

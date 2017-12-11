@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Row, Col } from "react-bootstrap";
+import { Glyphicon } from "react-bootstrap";
 
 import Page from "../page/page";
 import Transaction from "../transaction/transaction";
@@ -9,7 +9,7 @@ import DateService from "../../services/date-service";
 export default class CategoryPage extends React.Component {
   render() {
     return (
-      <Page header={this.renderHeader()}>
+      <Page header={this.renderHeader()} footer={this.renderFooter()}>
         <div className="section-header">Transactions</div>
         {this.props.category.transactions
           .sort((a, b) => {
@@ -61,6 +61,14 @@ export default class CategoryPage extends React.Component {
     }
 
     return `($${(actual - planned).toFixed(0)} ${income ? "extra" : "over"})`;
+  }
+
+  renderFooter() {
+    return (
+      <button className="button">
+        <Glyphicon glyph="arrow-left" /> Back to budget
+      </button>
+    );
   }
 
   getActualAmount() {
