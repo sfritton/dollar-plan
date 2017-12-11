@@ -5,6 +5,9 @@ import Page from "../page/page";
 import Transaction from "../transaction/transaction";
 import SubCategory from "../sub-category/sub-category";
 import DateService from "../../services/date-service";
+import { setPage } from "../../actions/ui-actions";
+import { saveCategoryToBudget } from "../../actions/category-actions";
+import Pages from "../../constants/pages-enum";
 
 export default class CategoryPage extends React.Component {
   render() {
@@ -65,7 +68,13 @@ export default class CategoryPage extends React.Component {
 
   renderFooter() {
     return (
-      <button className="button">
+      <button
+        className="button"
+        onClick={() => {
+          this.props.dispatch(setPage(Pages.BUDGET));
+          this.props.dispatch(saveCategoryToBudget());
+        }}
+      >
         <Glyphicon glyph="arrow-left" /> Back to budget
       </button>
     );
