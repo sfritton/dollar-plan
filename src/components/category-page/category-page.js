@@ -11,9 +11,16 @@ export default class CategoryPage extends React.Component {
     return (
       <Page header={this.renderHeader()}>
         <div className="section-header">Transactions</div>
-        {this.props.category.transactions.map((transaction, i) => (
-          <Transaction key={i} transaction={transaction} />
-        ))}
+        {this.props.category.transactions
+          .sort((a, b) => {
+            const dateA = new Date(a.date).getTime();
+            const dateB = new Date(b.date).getTime();
+
+            return dateA - dateB;
+          })
+          .map((transaction, i) => (
+            <Transaction key={i} transaction={transaction} />
+          ))}
       </Page>
     );
   }
@@ -21,11 +28,8 @@ export default class CategoryPage extends React.Component {
   renderHeader() {
     return (
       <div>
-        <div>{this.generateTitle()}</div>
-            // text-align: right;
-            // float: right;
-            // padding-right: 15px;
-        <div>{this.generateMessage()}</div>
+        <div className="category-header-left">{this.generateTitle()}</div>
+        <div className="category-header-right">{this.generateMessage()}</div>
       </div>
     );
   }
@@ -39,23 +43,24 @@ export default class CategoryPage extends React.Component {
     const actual = this.getActualAmount();
     const planned = this.props.category.plannedAmount;
 
-    const baseMessage = `$${actual} of $${planned} ($`;
-
-    if (actual <= planned) {
-      return (
-        baseMessage +
-        (planned - actual).toFixed(0) +
-        (this.props.income ? " to go" : " left") +
-        ")"
-      );
-    }
+    const baseMessage = `$${actual} of $${planned} `;
 
     return (
-      baseMessage +
-      (actual - planned).toFixed(0) +
-      (this.props.income ? " extra" : " over") +
-      ")"
+      <span>
+        {baseMessage}
+        <span className="accent">
+          {this.generateDifference(actual, planned, this.props.income)}
+        </span>
+      </span>
     );
+  }
+
+  generateDifference(actual, planned, income) {
+    if (actual <= planned) {
+      return `($${(planned - actual).toFixed(0)} ${income ? "to go" : "left"})`;
+    }
+
+    return `($${(actual - planned).toFixed(0)} ${income ? "extra" : "over"})`;
   }
 
   getActualAmount() {

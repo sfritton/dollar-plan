@@ -65,4 +65,13 @@ export default class DateService {
 
     return this.compareToToday(nextMonthBeginning);
   }
+
+  static getMonthAndDay(dateStr) {
+    const pieces = dateStr.split(" ");
+
+    const month = pieces[1];
+    const day = pieces[2];
+
+    return `${month} ${day}`;
+  }
 }

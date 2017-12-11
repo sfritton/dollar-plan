@@ -28,10 +28,26 @@ export default class Root extends React.Component {
               title: "Interest",
               plannedAmount: 100,
               transactions: [
-                { date: "", description: "TCU Checking", amount: 25 },
-                { date: "", description: "House Fund", amount: 20 },
-                { date: "", description: "Discover Savings", amount: 45 },
-                { date: "", description: "Baby Fund", amount: 10 }
+                {
+                  date: "Tue Oct 31 2017",
+                  description: "TCU Checking",
+                  amount: 25
+                },
+                {
+                  date: "Mon Oct 30 2017",
+                  description: "House Fund",
+                  amount: 20
+                },
+                {
+                  date: "Sun Oct 29 2017",
+                  description: "Discover Savings",
+                  amount: 45
+                },
+                {
+                  date: "Fri Oct 27 2017",
+                  description: "Baby Fund",
+                  amount: 10
+                }
               ]
             }}
           />

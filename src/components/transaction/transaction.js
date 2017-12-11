@@ -1,19 +1,21 @@
 import React from "react";
-import { Grid, Row, Col } from "react-bootstrap";
+import { Grid, Row, Col, Glyphicon } from "react-bootstrap";
+
+import DateService from "../../services/date-service";
 
 export default class Transaction extends React.Component {
   render() {
     return (
       <Grid className="sub-category">
         <Row>
-          <Col xs={3} md={3} lg={2}>
-            {this.renderDate()}
+          <Col xs={2}>{this.renderDate()}</Col>
+          <Col xs={6}>{this.renderDescription()}</Col>
+          <Col xs={2}>{this.renderAmount()}</Col>
+          <Col xs={1}>
+            <Glyphicon glyph="pencil" />
           </Col>
-          <Col xs={3} md={3} lg={2}>
-            {this.renderDescription()}
-          </Col>
-          <Col xs={2} md={2} lg={2}>
-            {this.renderAmount()}
+          <Col xs={1}>
+            <Glyphicon glyph="trash" />
           </Col>
         </Row>
       </Grid>
@@ -22,7 +24,9 @@ export default class Transaction extends React.Component {
 
   renderDate() {
     return (
-      <div className="sub-category-title">{this.props.transaction.date}</div>
+      <div className="sub-category-title">
+        {DateService.getMonthAndDay(this.props.transaction.date)}
+      </div>
     );
   }
 
@@ -36,7 +40,7 @@ export default class Transaction extends React.Component {
 
   renderAmount() {
     return (
-      <div className="sub-category-amount">
+      <div className="sub-category-title">
         {`$${this.props.transaction.amount.toFixed(0)}`}
       </div>
     );
