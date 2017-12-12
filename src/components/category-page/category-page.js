@@ -3,10 +3,14 @@ import { Glyphicon } from "react-bootstrap";
 
 import Page from "../page/page";
 import Transaction from "../transaction/transaction";
+import CategoryButton from "../util/category-button";
 import SubCategory from "../sub-category/sub-category";
 import DateService from "../../services/date-service";
 import { setPage } from "../../actions/ui-actions";
-import { saveCategoryToBudget } from "../../actions/category-actions";
+import {
+  saveCategoryToBudget,
+  addTransaction
+} from "../../actions/category-actions";
 import Pages from "../../constants/pages-enum";
 
 export default class CategoryPage extends React.Component {
@@ -24,6 +28,9 @@ export default class CategoryPage extends React.Component {
           .map((transaction, i) => (
             <Transaction key={i} transaction={transaction} />
           ))}
+        <CategoryButton subCategory onClick={() => this.props.dispatch(addTransaction())}>
+          <Glyphicon glyph="plus" /> Add a transaction
+        </CategoryButton>
       </Page>
     );
   }

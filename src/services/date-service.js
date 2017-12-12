@@ -13,7 +13,13 @@ export default class DateService {
   }
 
   static getMonthName(month) {
-    if (month < 1 || month > 12) {
+    if (
+      month === null ||
+      month === undefined ||
+      isNaN(month) ||
+      month < 1 ||
+      month > 12
+    ) {
       return "Frittembruary";
     }
 

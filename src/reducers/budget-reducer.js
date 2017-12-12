@@ -535,6 +535,18 @@ function handleUpdateTransactionDescription(state, payload) {}
 
 function handleUpdateTransactionAmount(state, payload) {}
 
-function handleAddTransaction(state) {}
+function handleAddTransaction(state) {
+  const category = { ...state.category };
+  category.transactions = category.transactions.concat({
+    date: new Date().toISOString(),
+    description: "",
+    amount: 0
+  });
+
+  return {
+    ...state,
+    category
+  };
+}
 
 function handleDeleteTransaction(state, payload) {}
