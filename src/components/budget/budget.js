@@ -98,6 +98,12 @@ export default class Budget extends React.Component {
               this.props.dispatch(
                 BudgetActions.deleteExpenseSubCategory(i, subCatId)
               )}
+            openSubCategory={subCatId => {
+              this.props.dispatch(
+                CategoryActions.setActiveCategory(i, subCatId)
+              );
+              this.props.dispatch(UIActions.setPage(Pages.CATEGORY));
+            }}
           />
         ))}
         {this.props.edit ? (

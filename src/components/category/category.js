@@ -108,7 +108,7 @@ export default class Category extends React.Component {
             updateAmount={amount =>
               this.props.updateSubCategoryAmount(i, amount)}
             deleteSubCategory={() => this.props.deleteSubCategory(i)}
-            openCategory={() => console.log("not implemented")}
+            openCategory={() => this.props.openSubCategory(i)}
           />
         ))}
         {this.props.edit ? (
