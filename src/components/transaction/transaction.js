@@ -15,7 +15,7 @@ export default class Transaction extends React.Component {
             <Glyphicon glyph="pencil" />
           </Col>
           <Col xs={1}>
-            <Glyphicon glyph="trash" />
+            <Glyphicon glyph="trash" onClick={this.props.deleteTransaction}/>
           </Col>
         </Row>
       </Grid>

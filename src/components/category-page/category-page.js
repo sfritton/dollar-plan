@@ -7,10 +7,7 @@ import CategoryButton from "../util/category-button";
 import SubCategory from "../sub-category/sub-category";
 import DateService from "../../services/date-service";
 import { setPage } from "../../actions/ui-actions";
-import {
-  saveCategoryToBudget,
-  addTransaction
-} from "../../actions/category-actions";
+import * as CategoryActions from "../../actions/category-actions";
 import Pages from "../../constants/pages-enum";
 
 export default class CategoryPage extends React.Component {
@@ -26,9 +23,17 @@ export default class CategoryPage extends React.Component {
             return dateA - dateB;
           })
           .map((transaction, i) => (
-            <Transaction key={i} transaction={transaction} />
+            <Transaction
+              key={i}
+              transaction={transaction}
+              deleteTransaction={() =>
+                this.props.dispatch(CategoryActions.deleteTransaction(i))}
+            />
           ))}
-        <CategoryButton subCategory onClick={() => this.props.dispatch(addTransaction())}>
+        <CategoryButton
+          subCategory
+          onClick={() => this.props.dispatch(CategoryActions.addTransaction())}
+        >
           <Glyphicon glyph="plus" /> Add a transaction
         </CategoryButton>
       </Page>
@@ -79,7 +84,7 @@ export default class CategoryPage extends React.Component {
         className="button"
         onClick={() => {
           this.props.dispatch(setPage(Pages.BUDGET));
-          this.props.dispatch(saveCategoryToBudget());
+          this.props.dispatch(CategoryActions.saveCategoryToBudget());
         }}
       >
         <Glyphicon glyph="arrow-left" /> Back to budget

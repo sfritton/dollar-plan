@@ -61,7 +61,7 @@ export default function reducer(state = { budgets: [] }, action) {
     case Actions.ADD_TRANSACTION:
       return handleAddTransaction(state);
     case Actions.DELETE_TRANSACTION:
-      return handleDeleteTransaction(state, payload);
+      return handleDeleteTransaction(state, payload.id);
 
     default:
       return state;
@@ -549,4 +549,14 @@ function handleAddTransaction(state) {
   };
 }
 
-function handleDeleteTransaction(state, payload) {}
+function handleDeleteTransaction(state, id) {
+  const category = { ...state.category };
+  category.transactions = category.transactions.filter(
+    (transaction, i) => i !== id
+  );
+
+  return {
+    ...state,
+    category
+  };
+}
