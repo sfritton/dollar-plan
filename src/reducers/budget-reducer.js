@@ -39,7 +39,7 @@ export default function reducer(state = { budgets: [] }, action) {
     case Actions.UPDATE_EXPENSE_SUB_CATEGORY_TITLE:
       return handleUpdateExpenseSubCategoryTitle(state, payload);
     case Actions.UPDATE_EXPENSE_SUB_CATEGORY_AMOUNT:
-      return handleUpdateSubCategoryAmount(state, payload);
+      return handleUpdateExpenseSubCategoryAmount(state, payload);
     case Actions.ADD_EXPENSE_SUB_CATEGORY:
       return handleAddExpenseSubCategory(state, payload);
     case Actions.DELETE_EXPENSE_SUB_CATEGORY:
@@ -220,7 +220,7 @@ function handleAddIncomeCategory(state) {
   budget.incomes = budget.incomes.concat({
     title: "",
     plannedAmount: 0,
-    actualAmount: 0
+    transactions: []
   });
 
   const budgets = [...state.budgets];
@@ -286,7 +286,7 @@ function handleAddExpenseCategory(state) {
   const budget = { ...state.budgets[state.activeBudgetIndex] };
   budget.expenses = budget.expenses.concat({
     title: "",
-    subCategories: [{ title: "", plannedAmount: 0, actualAmount: 0 }]
+    subCategories: [{ title: "", plannedAmount: 0, transactions: [] }]
   });
 
   const budgets = [...state.budgets];
@@ -412,7 +412,7 @@ function handleAddExpenseSubCategory(state, payload) {
   category.subCategories = category.subCategories.concat({
     title: "",
     plannedAmount: 0,
-    actualAmount: 0
+    transactions: []
   });
 
   budget.expenses[catId] = category;
