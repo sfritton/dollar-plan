@@ -9,7 +9,8 @@ const CategoryPageContainer = connect(store => {
   return {
     month,
     year,
-    category: store.budgets.category
+    category: store.budgets.category,
+    edit: store.ui.edit
   };
 })(CategoryPage);
 

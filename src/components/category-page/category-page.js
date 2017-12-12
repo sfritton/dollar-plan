@@ -4,16 +4,30 @@ import { Glyphicon } from "react-bootstrap";
 import Page from "../page/page";
 import Transaction from "../transaction/transaction";
 import CategoryButton from "../util/category-button";
+import CategoryFooter from "./category-footer/category-footer";
 import SubCategory from "../sub-category/sub-category";
 import DateService from "../../services/date-service";
-import { setPage } from "../../actions/ui-actions";
+import { setPage, setEdit } from "../../actions/ui-actions";
 import * as CategoryActions from "../../actions/category-actions";
 import Pages from "../../constants/pages-enum";
 
 export default class CategoryPage extends React.Component {
   render() {
     return (
-      <Page header={this.renderHeader()} footer={this.renderFooter()}>
+      <Page
+        header={this.renderHeader()}
+        footer={
+          <CategoryFooter
+            edit={this.props.edit}
+            editTransactions={() => this.props.dispatch(setEdit(true))}
+            saveTransactions={() => {
+              this.props.dispatch(setEdit(false));
+              this.props.dispatch(CategoryActions.saveCategoryToBudget());
+            }}
+            back={() => this.props.dispatch(setPage(Pages.BUDGET))}
+          />
+        }
+      >
         <div className="section-header">Transactions</div>
         {this.props.category.transactions
           .sort((a, b) => {
@@ -32,7 +46,10 @@ export default class CategoryPage extends React.Component {
           ))}
         <CategoryButton
           subCategory
-          onClick={() => this.props.dispatch(CategoryActions.addTransaction())}
+          onClick={() => {
+            this.props.dispatch(CategoryActions.addTransaction());
+            this.props.dispatch(setEdit(true));
+          }}
         >
           <Glyphicon glyph="plus" /> Add a transaction
         </CategoryButton>
@@ -76,20 +93,6 @@ export default class CategoryPage extends React.Component {
     }
 
     return `($${(actual - planned).toFixed(0)} ${income ? "extra" : "over"})`;
-  }
-
-  renderFooter() {
-    return (
-      <button
-        className="button"
-        onClick={() => {
-          this.props.dispatch(setPage(Pages.BUDGET));
-          this.props.dispatch(CategoryActions.saveCategoryToBudget());
-        }}
-      >
-        <Glyphicon glyph="arrow-left" /> Back to budget
-      </button>
-    );
   }
 
   getActualAmount() {
