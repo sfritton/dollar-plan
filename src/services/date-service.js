@@ -75,9 +75,16 @@ export default class DateService {
   static getMonthAndDay(dateStr) {
     const date = new Date(dateStr);
 
-    const month = this.getMonthName(date.getMonth() + 1).substring(0, 3);
+    const month = date.getMonth() + 1;
     const day = date.getDate();
 
-    return `${month} ${day}`;
+    return { month, day };
+  }
+
+  static compareDateStrings(a, b) {
+    const dateA = new Date(a).getTime();
+    const dateB = new Date(b).getTime();
+
+    return dateA - dateB;
   }
 }

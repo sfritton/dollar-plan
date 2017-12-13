@@ -553,11 +553,47 @@ function handleResetCategory(state) {
 /*****************************************************************************
  * Transaction
  *****************************************************************************/
-function handleUpdateTransactionDate(state, payload) {}
+function handleUpdateTransactionDate(state, payload) {
+  const category = { ...state.category };
+  const transaction = { ...category.transactions[payload.id] };
 
-function handleUpdateTransactionDescription(state, payload) {}
+  transaction.date = new Date(
+    new Date(transaction.date).getFullYear(),
+    payload.date.month - 1,
+    payload.date.day
+  ).toISOString();
 
-function handleUpdateTransactionAmount(state, payload) {}
+  category.transactions = [...category.transactions];
+  category.transactions[payload.id] = transaction;
+
+  return { ...state, category };
+}
+
+function handleUpdateTransactionDescription(state, payload) {
+  const category = { ...state.category };
+  const transaction = {
+    ...category.transactions[payload.id],
+    description: payload.description
+  };
+
+  category.transactions = [...category.transactions];
+  category.transactions[payload.id] = transaction;
+
+  return { ...state, category };
+}
+
+function handleUpdateTransactionAmount(state, payload) {
+  const category = { ...state.category };
+  const transaction = {
+    ...category.transactions[payload.id],
+    amount: payload.amount
+  };
+
+  category.transactions = [...category.transactions];
+  category.transactions[payload.id] = transaction;
+
+  return { ...state, category };
+}
 
 function handleAddTransaction(state) {
   const category = { ...state.category };

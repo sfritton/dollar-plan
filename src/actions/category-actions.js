@@ -21,24 +21,24 @@ export function resetCategory() {
   };
 }
 
-export function updateTransactionDate(date) {
+export function updateTransactionDate(date, id) {
   return {
     type: Actions.UPDATE_TRANSACTION_DATE,
-    payload: { date }
+    payload: { date, id }
   };
 }
 
-export function updateTransactionDescription(description) {
+export function updateTransactionDescription(description, id) {
   return {
     type: Actions.UPDATE_TRANSACTION_DESCRIPTION,
-    payload: { description }
+    payload: { description, id }
   };
 }
 
-export function updateTransactionAmount(amount) {
+export function updateTransactionAmount(amount, id) {
   return {
     type: Actions.UPDATE_TRANSACTION_AMOUNT,
-    payload: { amount }
+    payload: { amount, id }
   };
 }
 

@@ -14,42 +14,9 @@ import Pages from "../../constants/pages-enum";
 export default class CategoryPage extends React.Component {
   render() {
     return (
-      <Page
-        header={this.renderHeader()}
-        footer={
-          <CategoryFooter
-            edit={this.props.edit}
-            editTransactions={() => this.props.dispatch(setEdit(true))}
-            saveTransactions={() => {
-              this.props.dispatch(setEdit(false));
-              this.props.dispatch(CategoryActions.saveCategoryToBudget());
-            }}
-            back={() => this.props.dispatch(setPage(Pages.BUDGET))}
-            cancel={() => {
-              this.props.dispatch(CategoryActions.resetCategory());
-              this.props.dispatch(setEdit(false));
-            }}
-          />
-        }
-      >
+      <Page header={this.renderHeader()} footer={this.renderFooter()}>
         <div className="section-header">Transactions</div>
-        {this.props.category.transactions
-          .sort((a, b) => {
-            const dateA = new Date(a.date).getTime();
-            const dateB = new Date(b.date).getTime();
-
-            return dateA - dateB;
-          })
-          .map((transaction, i) => (
-            <Transaction
-              key={i}
-              transaction={transaction}
-              deleteTransaction={() => {
-                this.props.dispatch(CategoryActions.deleteTransaction(i));
-                this.props.dispatch(setEdit(true));
-              }}
-            />
-          ))}
+        {this.renderTransactions()}
         <CategoryButton
           subCategory
           onClick={() => {
@@ -106,5 +73,51 @@ export default class CategoryPage extends React.Component {
       (sum, transaction) => sum + transaction.amount,
       0
     );
+  }
+
+  renderFooter() {
+    return (
+      <CategoryFooter
+        edit={this.props.edit}
+        editTransactions={() => this.props.dispatch(setEdit(true))}
+        saveTransactions={() => {
+          this.props.dispatch(setEdit(false));
+          this.props.dispatch(CategoryActions.saveCategoryToBudget());
+        }}
+        back={() => this.props.dispatch(setPage(Pages.BUDGET))}
+        cancel={() => {
+          this.props.dispatch(CategoryActions.resetCategory());
+          this.props.dispatch(setEdit(false));
+        }}
+      />
+    );
+  }
+
+  renderTransactions() {
+    return this.props.category.transactions
+      .sort((a, b) => DateService.compareDateStrings(a.date, b.date))
+      .map((transaction, i) => (
+        <Transaction
+          key={i}
+          transaction={transaction}
+          edit={this.props.edit}
+          updateDate={(month, day) =>
+            this.props.dispatch(
+              CategoryActions.updateTransactionDate({ month, day }, i)
+            )}
+          updateDescription={desc =>
+            this.props.dispatch(
+              CategoryActions.updateTransactionDescription(desc, i)
+            )}
+          updateAmount={amount =>
+            this.props.dispatch(
+              CategoryActions.updateTransactionAmount(amount, i)
+            )}
+          deleteTransaction={() => {
+            this.props.dispatch(CategoryActions.deleteTransaction(i));
+            this.props.dispatch(setEdit(true));
+          }}
+        />
+      ));
   }
 }

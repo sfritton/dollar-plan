@@ -59,7 +59,7 @@ export default class SubCategory extends React.Component {
   renderAmount() {
     if (this.props.edit) {
       return (
-        <div style={{ textAlign: "right" }}>
+        <div className="align-right">
           {`$${this.getActualAmount()} of `}
           <TextInput
             className="sub-category-input dollar"
