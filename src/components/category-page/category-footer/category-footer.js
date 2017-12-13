@@ -12,6 +12,17 @@ export default class CategoryFooter extends React.Component {
   }
 
   renderBackButton() {
+    if (this.props.edit) {
+      return (
+        <button
+          className="button"
+          onClick={this.props.cancel}
+        >
+          <Glyphicon glyph="remove" /> Cancel
+        </button>
+      );
+    }
+
     return (
       <button
         className="button"
@@ -21,7 +32,7 @@ export default class CategoryFooter extends React.Component {
       </button>
     );
   }
-  
+
   renderEditButton() {
     if (this.props.edit) {
       return (

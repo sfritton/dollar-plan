@@ -50,6 +50,8 @@ export default function reducer(state = { budgets: [] }, action) {
       return handleSetActiveCategory(state, payload);
     case Actions.SAVE_CATEGORY_TO_BUDGET:
       return handleSaveCategoryToBudget(state, payload);
+    case Actions.RESET_CATEGORY:
+      return handleResetCategory(state);
 
     // Transaction
     case Actions.UPDATE_TRANSACTION_DATE:
@@ -523,6 +525,28 @@ function handleSaveCategoryToBudget(state, payload) {
   return {
     ...state,
     budgets
+  };
+}
+
+function handleResetCategory(state) {
+  const categoryKey = state.activeCategoryKey;
+  // income
+  if (categoryKey.subCatId === undefined) {
+    return {
+      ...state,
+      category: {
+        ...state.budgets[state.activeBudgetIndex].incomes[categoryKey.catId]
+      }
+    };
+  }
+
+  // expense
+  return {
+    ...state,
+    category: {
+      ...state.budgets[state.activeBudgetIndex].expenses[categoryKey.catId]
+        .subCategories[categoryKey.subCatId]
+    }
   };
 }
 

@@ -25,6 +25,10 @@ export default class CategoryPage extends React.Component {
               this.props.dispatch(CategoryActions.saveCategoryToBudget());
             }}
             back={() => this.props.dispatch(setPage(Pages.BUDGET))}
+            cancel={() => {
+              this.props.dispatch(CategoryActions.resetCategory());
+              this.props.dispatch(setEdit(false));
+            }}
           />
         }
       >
@@ -40,8 +44,10 @@ export default class CategoryPage extends React.Component {
             <Transaction
               key={i}
               transaction={transaction}
-              deleteTransaction={() =>
-                this.props.dispatch(CategoryActions.deleteTransaction(i))}
+              deleteTransaction={() => {
+                this.props.dispatch(CategoryActions.deleteTransaction(i));
+                this.props.dispatch(setEdit(true));
+              }}
             />
           ))}
         <CategoryButton

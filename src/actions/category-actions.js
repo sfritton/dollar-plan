@@ -14,6 +14,13 @@ export function saveCategoryToBudget() {
   };
 }
 
+export function resetCategory() {
+  return {
+    type: Actions.RESET_CATEGORY,
+    payload: {}
+  };
+}
+
 export function updateTransactionDate(date) {
   return {
     type: Actions.UPDATE_TRANSACTION_DATE,
