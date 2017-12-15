@@ -4,6 +4,10 @@ const ONE_DAY = 1000 * 60 * 60 * 24; // one day in milliseconds
 
 export default class DateService {
   static encodeDate(month, year) {
+    if (month < 10) {
+      return `${year}-0${month}`;
+    }
+    
     return `${year}-${month}`;
   }
 

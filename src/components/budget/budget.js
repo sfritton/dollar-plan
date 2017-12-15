@@ -31,7 +31,10 @@ export default class Budget extends React.Component {
             balance={this.getIncome() - this.getExpenses()}
             edit={this.props.edit}
             adjust={() => this.props.dispatch(UIActions.setEdit(true))}
-            save={() => this.props.dispatch(UIActions.setEdit(false))}
+            save={() => {
+              this.props.dispatch(UIActions.setEdit(false));
+              this.props.dispatch(BudgetActions.saveBudget());
+            }}
           />
         }
       >

@@ -32,6 +32,13 @@ export function setActiveBudget(month, year) {
   };
 }
 
+export function saveBudget() {
+  return {
+    type: Actions.SAVE_BUDGET,
+    payload: { directory: DATA_DIRECTORY }
+  };
+}
+
 export function updateIncomeCategoryTitle(catId, title) {
   return {
     type: Actions.UPDATE_INCOME_CATEGORY_TITLE,

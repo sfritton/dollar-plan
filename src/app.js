@@ -4,7 +4,6 @@ import { Provider } from "react-redux";
 
 import store from "./store";
 import RootContainer from "./components/root/root-container";
-import FileService from "./services/file-service";
 require("./app.less");
 
 ReactDOM.render(

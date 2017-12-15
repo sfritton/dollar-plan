@@ -9,6 +9,7 @@ import SubCategory from "../sub-category/sub-category";
 import DateService from "../../services/date-service";
 import { setPage, setEdit } from "../../actions/ui-actions";
 import * as CategoryActions from "../../actions/category-actions";
+import { saveBudget } from "../../actions/budget-actions";
 import Pages from "../../constants/pages-enum";
 
 export default class CategoryPage extends React.Component {
@@ -83,6 +84,7 @@ export default class CategoryPage extends React.Component {
         saveTransactions={() => {
           this.props.dispatch(setEdit(false));
           this.props.dispatch(CategoryActions.saveCategoryToBudget());
+          this.props.dispatch(saveBudget());
         }}
         back={() => this.props.dispatch(setPage(Pages.BUDGET))}
         cancel={() => {

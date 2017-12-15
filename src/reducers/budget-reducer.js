@@ -16,6 +16,8 @@ export default function reducer(state = { budgets: [] }, action) {
       return handleCreateNewBudget(state, payload);
     case Actions.SET_ACTIVE_BUDGET:
       return handleSetActiveBudget(state, payload);
+    case Actions.SAVE_BUDGET:
+      return handleSaveBudget(state, payload);
 
     // Income Category
     case Actions.UPDATE_INCOME_CATEGORY_TITLE:
@@ -145,7 +147,9 @@ function handleSetActiveBudget(state, payload) {
     };
   }
 
-  let budget = JSON.parse(fs.readFileSync(`data\\${year}-${month}.json`));
+  const budget = JSON.parse(
+    fs.readFileSync(`data\\${DateService.encodeDate(month, year)}.json`)
+  );
   budget.loaded = true;
   const budgets = [...state.budgets];
   budgets[index] = budget;
@@ -155,6 +159,17 @@ function handleSetActiveBudget(state, payload) {
     budgets,
     activeBudgetIndex: index
   };
+}
+
+function handleSaveBudget(state, payload) {
+  const { date, incomes, expenses } = state.budgets[state.activeBudgetIndex];
+  const fileName = DateService.encodeDate(date.month, date.year) + ".json";
+
+  fs.writeFileSync(
+    `${payload.directory}\\${fileName}`,
+    JSON.stringify({ date, incomes, expenses })
+  );
+  return state;
 }
 
 /*****************************************************************************
