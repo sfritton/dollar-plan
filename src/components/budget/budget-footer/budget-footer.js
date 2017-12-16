@@ -1,22 +1,16 @@
 import React from "react";
 import { Glyphicon } from "react-bootstrap";
 
-class BudgetFooter extends React.Component {
+export default class BudgetFooter extends React.Component {
   render() {
     return (
       <div>
-        <div className="footer-msg">{"Balance: " + this.formatBalance()}</div>
+        <div className="footer-msg">{this.props.message}</div>
         <div className="footer-btn">{this.renderButton()}</div>
       </div>
     );
   }
-  formatBalance() {
-    if (this.props.balance < 0) {
-      return "-$" + this.props.balance * -1;
-    }
 
-    return "$" + this.props.balance;
-  }
   renderButton() {
     if (this.props.edit) {
       return (
@@ -33,5 +27,3 @@ class BudgetFooter extends React.Component {
     );
   }
 }
-
-export default BudgetFooter;

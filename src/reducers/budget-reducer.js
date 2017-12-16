@@ -78,7 +78,7 @@ export default function reducer(state = { budgets: [] }, action) {
 function handleGetAllBudgets(state, payload) {
   return {
     ...state,
-    budgets: payload.map(budget => ({
+    budgets: payload.reverse().map(budget => ({
       date: DateService.decodeDate(budget),
       loaded: false
     }))
