@@ -14,8 +14,12 @@ import BudgetFooter from "./budget-footer/budget-footer";
 
 export default class Budget extends React.Component {
   render() {
+    if (!this.props.budget) {
+      return <Page header={this.renderHeader()} />;
+    }
+
     return (
-      <Page header={this.renderHeader()} footer={this.renderFooter()}>
+      <Page header={this.renderHeader(this.props.budget.date)} footer={this.renderFooter()}>
         <div className="section-header">Income</div>
         {this.renderIncomes()}
         {this.props.edit ? (
@@ -41,11 +45,11 @@ export default class Budget extends React.Component {
     );
   }
 
-  renderHeader() {
+  renderHeader(date) {
     return (
       <BudgetHeader
         budgetDates={this.props.budgetDates || []}
-        date={this.props.budget.date}
+        date={date}
         setActiveBudget={(month, year) =>
           this.props.dispatch(BudgetActions.setActiveBudget(month, year))}
         createNewBudget={() =>

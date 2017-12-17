@@ -10,7 +10,6 @@ export default class Root extends React.Component {
   constructor(props) {
     super(props);
     props.dispatch(getAllBudgets());
-    props.dispatch(setActiveBudget(10, 2017)); // TODO: load first budget
   }
 
   render() {

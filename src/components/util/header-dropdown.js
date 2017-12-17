@@ -4,9 +4,7 @@ import { Route } from "react-router-dom";
 
 import DateService from "../../services/date-service";
 
-("use strict");
-
-class HeaderDropdown extends React.Component {
+export default class HeaderDropdown extends React.Component {
   constructor(props) {
     super(props);
 
@@ -18,7 +16,7 @@ class HeaderDropdown extends React.Component {
     return (
       <div className="nav-select">
         <div className="nav-select-button" onClick={() => this.toggleOpen()}>
-          {this.props.selected && this.props.selected.name}
+          {this.props.selected ? this.props.selected.name : "select a budget"}
           <Glyphicon glyph="triangle-bottom" className="nav-select-glyph" />
         </div>
         <Collapse in={this.state.open}>{this.renderOptions()}</Collapse>
@@ -78,5 +76,3 @@ class HeaderDropdown extends React.Component {
     this.setState(prevState => ({ open: !prevState.open }));
   }
 }
-
-export default HeaderDropdown;
