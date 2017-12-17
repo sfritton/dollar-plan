@@ -90,7 +90,7 @@ function handleGetBudget(state, payload) {
   budget.loaded = true;
   const { month, year } = budget.date;
   const index = state.budgets.findIndex(
-    budget => budget.date.month === month && budget.date.year === year
+    b => b.date.month === month && b.date.year === year
   );
   const budgets = [...state.budgets];
   budgets[index] = budget;

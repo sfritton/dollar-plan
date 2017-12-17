@@ -19,7 +19,10 @@ export default class Budget extends React.Component {
     }
 
     return (
-      <Page header={this.renderHeader(this.props.budget.date)} footer={this.renderFooter()}>
+      <Page
+        header={this.renderHeader(this.props.budget.date)}
+        footer={this.renderFooter()}
+      >
         <div className="section-header">Income</div>
         {this.renderIncomes()}
         {this.props.edit ? (
@@ -67,6 +70,11 @@ export default class Budget extends React.Component {
         save={() => {
           this.props.dispatch(UIActions.setEdit(false));
           this.props.dispatch(BudgetActions.saveBudget());
+        }}
+        cancel={() => {
+          const { month, year } = this.props.budget.date;
+          this.props.dispatch(UIActions.setEdit(false));
+          this.props.dispatch(BudgetActions.getBudget(month, year));
         }}
       />
     );

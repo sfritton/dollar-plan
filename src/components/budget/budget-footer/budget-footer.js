@@ -14,9 +14,18 @@ export default class BudgetFooter extends React.Component {
   renderButton() {
     if (this.props.edit) {
       return (
-        <button className="button" onClick={this.props.save}>
-          <Glyphicon glyph="ok" /> Save Budget
-        </button>
+        <div>
+          <button
+            className="button"
+            style={{ marginRight: "15px" }}
+            onClick={this.props.cancel}
+          >
+            <Glyphicon glyph="remove" /> Cancel
+          </button>
+          <button className="button" onClick={this.props.save}>
+            <Glyphicon glyph="ok" /> Save Budget
+          </button>
+        </div>
       );
     }
 

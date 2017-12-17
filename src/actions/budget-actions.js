@@ -1,5 +1,6 @@
 import * as fs from "fs";
 
+import DateService from "../services/date-service";
 import Actions from "../constants/actions-enum";
 
 const DATA_DIRECTORY = "data";
@@ -14,7 +15,9 @@ export function getAllBudgets() {
 export function getBudget(month, year) {
   return {
     type: Actions.GET_BUDGET,
-    payload: fs.readFileSync(`${DATA_DIRECTORY}\\${year}-${month}.json`)
+    payload: fs.readFileSync(
+      `${DATA_DIRECTORY}\\${DateService.encodeDate(month, year)}.json`
+    )
   };
 }
 

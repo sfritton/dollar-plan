@@ -24,7 +24,7 @@ export default class BudgetHeader extends React.Component {
 
   renderDaysLeft() {
     if (!this.props.date) {
-      return "No budget selected";
+      return "";
     }
 
     const { month, year } = this.props.date;
@@ -44,7 +44,7 @@ export default class BudgetHeader extends React.Component {
     if (!date) {
       return null;
     }
-    
+
     return {
       ...date,
       name: `${DateService.getMonthName(date.month)} ${date.year}`
