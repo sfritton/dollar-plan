@@ -3,13 +3,15 @@ import * as fs from "fs";
 import Actions from "../constants/actions-enum";
 import DateService from "../services/date-service";
 
+const DATA_DIRECTORY = "data";
+
 export default function reducer(state = { budgets: [] }, action) {
   const payload = action.payload;
 
   switch (action.type) {
     // Budget
     case Actions.GET_ALL_BUDGETS:
-      return handleGetAllBudgets(state, payload);
+      return handleGetAllBudgets(state);
     case Actions.GET_BUDGET:
       return handleGetBudget(state, payload);
     case Actions.CREATE_NEW_BUDGET:
@@ -17,7 +19,7 @@ export default function reducer(state = { budgets: [] }, action) {
     case Actions.SET_ACTIVE_BUDGET:
       return handleSetActiveBudget(state, payload);
     case Actions.SAVE_BUDGET:
-      return handleSaveBudget(state, payload);
+      return handleSaveBudget(state);
 
     // Income Category
     case Actions.UPDATE_INCOME_CATEGORY_TITLE:
@@ -75,20 +77,29 @@ export default function reducer(state = { budgets: [] }, action) {
 /*****************************************************************************
  * Budget
  *****************************************************************************/
-function handleGetAllBudgets(state, payload) {
+function handleGetAllBudgets(state) {
+  checkDirectorySync(DATA_DIRECTORY);
+
   return {
     ...state,
-    budgets: payload.reverse().map(budget => ({
-      date: DateService.decodeDate(budget),
-      loaded: false
-    }))
+    budgets: fs
+      .readdirSync(DATA_DIRECTORY)
+      .reverse()
+      .map(budget => ({
+        date: DateService.decodeDate(budget),
+        loaded: false
+      }))
   };
 }
 
 function handleGetBudget(state, payload) {
-  const budget = JSON.parse(payload);
+  const { month, year } = payload;
+  const budget = JSON.parse(
+    fs.readFileSync(
+      `${DATA_DIRECTORY}\\${DateService.encodeDate(month, year)}.json`
+    )
+  );
   budget.loaded = true;
-  const { month, year } = budget.date;
   const index = state.budgets.findIndex(
     b => b.date.month === month && b.date.year === year
   );
@@ -118,8 +129,6 @@ function handleCreateNewBudget(state, payload) {
     loaded: true
   };
 
-  // TODO: write to file?
-
   const budgets = state.budgets.concat(newBudget);
 
   return {
@@ -148,7 +157,9 @@ function handleSetActiveBudget(state, payload) {
   }
 
   const budget = JSON.parse(
-    fs.readFileSync(`data\\${DateService.encodeDate(month, year)}.json`)
+    fs.readFileSync(
+      `${DATA_DIRECTORY}\\${DateService.encodeDate(month, year)}.json`
+    )
   );
   budget.loaded = true;
   const budgets = [...state.budgets];
@@ -161,12 +172,12 @@ function handleSetActiveBudget(state, payload) {
   };
 }
 
-function handleSaveBudget(state, payload) {
+function handleSaveBudget(state) {
   const { date, incomes, expenses } = state.budgets[state.activeBudgetIndex];
   const fileName = DateService.encodeDate(date.month, date.year) + ".json";
 
   fs.writeFileSync(
-    `${payload.directory}\\${fileName}`,
+    `${DATA_DIRECTORY}\\${fileName}`,
     JSON.stringify({ date, incomes, expenses })
   );
   return state;
@@ -634,4 +645,13 @@ function handleDeleteTransaction(state, id) {
     ...state,
     category
   };
+}
+
+// Helpers
+function checkDirectorySync(directory) {
+  try {
+    fs.statSync(directory);
+  } catch (e) {
+    fs.mkdirSync(directory);
+  }
 }

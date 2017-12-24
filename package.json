@@ -50,7 +50,8 @@
     "lint": "eslint \"src/**\" --fix",
     "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
     "watch": "./node_modules/.bin/webpack-dev-server",
-    "electron-rebuild": "./node_modules/.bin/electron-rebuild"
+    "electron-rebuild": "./node_modules/.bin/electron-rebuild",
+    "package": "electron-packager ./ DollarPlan --Windows --version 1.0.0 --out ~/Desktop --overwrite --icon=./dollar-plan.ico"
   },
   "dependencies": {
     "electron": "^1.7.8",
