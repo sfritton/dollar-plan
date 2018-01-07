@@ -1,23 +1,17 @@
-import * as fs from "fs";
-
 import DateService from "../services/date-service";
 import Actions from "../constants/actions-enum";
-
-const DATA_DIRECTORY = "data";
 
 export function getAllBudgets() {
   return {
     type: Actions.GET_ALL_BUDGETS,
-    payload: fs.readdirSync(DATA_DIRECTORY)
+    payload: {}
   };
 }
 
 export function getBudget(month, year) {
   return {
     type: Actions.GET_BUDGET,
-    payload: fs.readFileSync(
-      `${DATA_DIRECTORY}\\${DateService.encodeDate(month, year)}.json`
-    )
+    payload: { month, year }
   };
 }
 
@@ -38,7 +32,7 @@ export function setActiveBudget(month, year) {
 export function saveBudget() {
   return {
     type: Actions.SAVE_BUDGET,
-    payload: { directory: DATA_DIRECTORY }
+    payload: {}
   };
 }
 
