@@ -3,6 +3,7 @@ import { Grid, Row, Col, Glyphicon } from "react-bootstrap";
 
 import DateService from "../../services/date-service";
 import TextInput from "../util/text-input";
+import DollarService from "../../services/dollar-service";
 
 export default class Transaction extends React.Component {
   render() {
@@ -73,7 +74,7 @@ export default class Transaction extends React.Component {
       return (
         <TextInput
           className="sub-category-input align-right"
-          value={this.props.transaction.amount.toFixed(2)}
+          value={DollarService.getDollarsAndCents(this.props.transaction.amount)}
           placeholder="0"
           onChange={e => this.props.updateAmount(parseFloat(e.target.value))}
         />
@@ -82,7 +83,7 @@ export default class Transaction extends React.Component {
 
     return (
       <div className="sub-category-amount">
-        {`$${this.props.transaction.amount.toFixed(2)}`}
+        {`$${DollarService.getDollarsAndCents(this.props.transaction.amount)}`}
       </div>
     );
   }

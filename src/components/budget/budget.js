@@ -11,6 +11,7 @@ import Category from "../category/category";
 import CategoryButton from "../util/category-button";
 import BudgetHeader from "./budget-header/budget-header";
 import BudgetFooter from "./budget-footer/budget-footer";
+import DollarService from "../../services/dollar-service";
 
 export default class Budget extends React.Component {
   render() {
@@ -154,10 +155,10 @@ export default class Budget extends React.Component {
 
   formatBalance(balance) {
     if (balance < 0) {
-      return "Balance: -$" + balance * -1;
+      return "Balance: -$" + DollarService.getDollarsAndCents(balance) * -1;
     }
 
-    return "Balance: $" + balance;
+    return "Balance: $" + DollarService.getDollarsAndCents(balance);
   }
 
   getActualBalance() {

@@ -5,6 +5,7 @@ import ProgressBar from "../util/progress-bar";
 import SubCategory from "../sub-category/sub-category";
 import CategoryButton from "../util/category-button";
 import TextInput from "../util/text-input";
+import DollarService from "../../services/dollar-service";
 
 export default class Category extends React.Component {
   constructor(props) {
@@ -28,9 +29,9 @@ export default class Category extends React.Component {
             </Col>
             <Col xs={3} md={2} lg={2}>
               <div className="category-amount">
-                {`$${this.getActualAmount().toFixed(
-                  0
-                )} of $${this.getPlannedAmount().toFixed(0)}`}
+                {`$${DollarService.getDollars(
+                  this.getActualAmount()
+                )} of $${DollarService.getDollars(this.getPlannedAmount())}`}
               </div>
             </Col>
             <Col

@@ -11,6 +11,7 @@ import { setPage, setEdit } from "../../actions/ui-actions";
 import * as CategoryActions from "../../actions/category-actions";
 import { saveBudget } from "../../actions/budget-actions";
 import Pages from "../../constants/pages-enum";
+import DollarService from "../../services/dollar-service";
 
 export default class CategoryPage extends React.Component {
   render() {
@@ -46,8 +47,8 @@ export default class CategoryPage extends React.Component {
   }
 
   generateMessage() {
-    const actual = this.getActualAmount();
-    const planned = this.props.category.plannedAmount;
+    const actual = DollarService.getDollars(this.getActualAmount());
+    const planned = DollarService.getDollars(this.props.category.plannedAmount);
 
     const baseMessage = `$${actual} of $${planned} `;
 
@@ -63,10 +64,14 @@ export default class CategoryPage extends React.Component {
 
   generateDifference(actual, planned, income) {
     if (actual <= planned) {
-      return `($${(planned - actual).toFixed(0)} ${income ? "to go" : "left"})`;
+      return `($${DollarService.getDollars(planned - actual)} ${income
+        ? "to go"
+        : "left"})`;
     }
 
-    return `($${(actual - planned).toFixed(0)} ${income ? "extra" : "over"})`;
+    return `($${DollarService.getDollars(planned - actual)} ${income
+      ? "extra"
+      : "over"})`;
   }
 
   getActualAmount() {

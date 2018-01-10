@@ -3,6 +3,7 @@ import { Grid, Row, Col, Glyphicon } from "react-bootstrap";
 
 import ProgressBar from "../util/progress-bar";
 import TextInput from "../util/text-input";
+import DollarService from "../../services/dollar-service";
 
 export default class SubCategory extends React.Component {
   render() {
@@ -64,7 +65,9 @@ export default class SubCategory extends React.Component {
           <TextInput
             className="sub-category-input dollar"
             width="50%"
-            value={this.props.subCategory.plannedAmount.toFixed(2)}
+            value={DollarService.getDollarsAndCents(
+              this.props.subCategory.plannedAmount
+            )}
             placeholder="0"
             onChange={e => this.props.updateAmount(parseFloat(e.target.value))}
           />
@@ -74,9 +77,11 @@ export default class SubCategory extends React.Component {
 
     return (
       <div className="sub-category-amount">
-        {`$${this.getActualAmount().toFixed(
-          0
-        )} of $${this.props.subCategory.plannedAmount.toFixed(0)}`}
+        {`$${DollarService.getDollars(
+          this.getActualAmount()
+        )} of $${DollarService.getDollars(
+          this.props.subCategory.plannedAmount
+        )}`}
       </div>
     );
   }
@@ -85,8 +90,8 @@ export default class SubCategory extends React.Component {
     if (this.getActualAmount() <= this.props.subCategory.plannedAmount) {
       return (
         "$" +
-        (this.props.subCategory.plannedAmount - this.getActualAmount()).toFixed(
-          0
+        DollarService.getDollars(
+          this.props.subCategory.plannedAmount - this.getActualAmount()
         ) +
         (this.props.income ? " to go" : " left")
       );
@@ -94,8 +99,8 @@ export default class SubCategory extends React.Component {
 
     return (
       "$" +
-      (this.getActualAmount() - this.props.subCategory.plannedAmount).toFixed(
-        0
+      DollarService.getDollars(
+        this.getActualAmount() - this.props.subCategory.plannedAmount
       ) +
       (this.props.income ? " extra" : " over")
     );
