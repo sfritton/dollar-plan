@@ -11,6 +11,7 @@
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-3": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.17",
     "css-loader": "^0.28.7",
     "electron-packager": "^9.1.0",
     "electron-rebuild": "^1.6.0",
@@ -20,6 +21,7 @@
     "eslint-plugin-react": "^7.4.0",
     "expect": "^21.2.1",
     "file-loader": "^1.1.5",
+    "html-webpack-plugin": "^2.30.1",
     "jsx-loader": "^0.13.2",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -37,18 +39,18 @@
     "redux-promise-middleware": "^5.0.0",
     "redux-thunk": "^2.2.0",
     "style-loader": "^0.18.2",
+    "uglifyjs-webpack-plugin": "^1.1.6",
     "url-loader": "^0.6.2",
-    "webpack": "^3.6.0",
-    "webpack-dev-server": "^2.9.1"
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.10.1",
+    "webpack-merge": "^4.1.1"
   },
   "scripts": {
-    "build": "webpack",
-    "start": "electron .",
+    "build": "webpack --config webpack.prod.js",
+    "start": "webpack-dev-server --open --config webpack.dev.js",
     "test": "karma start",
     "lint": "eslint \"src/**\" --fix",
     "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
-    "watch": "./node_modules/.bin/webpack-dev-server",
-    "electron-rebuild": "./node_modules/.bin/electron-rebuild",
     "package": "electron-packager ./ DollarPlan --Windows --version 1.0.0 --out ~/Desktop --overwrite --icon=./dollar-plan.ico"
   },
   "dependencies": {
