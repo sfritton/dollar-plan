@@ -47,7 +47,7 @@
   },
   "scripts": {
     "build": "webpack --config webpack.prod.js",
-    "start": "webpack-dev-server --open --config webpack.dev.js",
+    "start": "webpack-dev-server --config webpack.dev.js",
     "test": "karma start",
     "lint": "eslint \"src/**\" --fix",
     "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
