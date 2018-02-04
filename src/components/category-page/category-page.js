@@ -47,8 +47,10 @@ export default class CategoryPage extends React.Component {
   }
 
   generateMessage() {
-    const actual = DollarService.getDollars(this.getActualAmount());
-    const planned = DollarService.getDollars(this.props.category.plannedAmount);
+    const actual = DollarService.getDollarString(this.getActualAmount());
+    const planned = DollarService.getDollarString(
+      this.props.category.plannedAmount
+    );
 
     const baseMessage = `$${actual} of $${planned} `;
 
@@ -63,15 +65,13 @@ export default class CategoryPage extends React.Component {
   }
 
   generateDifference(actual, planned, income) {
-    if (actual <= planned) {
-      return `($${DollarService.getDollars(planned - actual)} ${income
-        ? "to go"
-        : "left"})`;
+    const difference = planned - actual;
+
+    if (difference >= 0) {
+      return `($${difference} ${income ? "to go" : "left"})`;
     }
 
-    return `($${DollarService.getDollars(actual - planned)} ${income
-      ? "extra"
-      : "over"})`;
+    return `($${difference * -1} ${income ? "extra" : "over"})`;
   }
 
   getActualAmount() {

@@ -74,18 +74,19 @@ export default class Transaction extends React.Component {
       return (
         <TextInput
           className="sub-category-input align-right"
-          value={DollarService.getDollarsAndCents(
-            this.props.transaction.amount
-          )}
+          value={DollarService.getCentString(this.props.transaction.amount)}
           placeholder="0"
-          onChange={e => this.props.updateAmount(parseFloat(e.target.value))}
+          onChange={e =>
+            this.props.updateAmount(
+              DollarService.getCentNumber(e.target.value)
+            )}
         />
       );
     }
 
     return (
       <div className="sub-category-amount">
-        {`$${DollarService.getDollarsAndCents(this.props.transaction.amount)}`}
+        {`$${DollarService.getCentString(this.props.transaction.amount)}`}
       </div>
     );
   }

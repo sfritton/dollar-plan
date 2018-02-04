@@ -155,10 +155,10 @@ export default class Budget extends React.Component {
 
   formatBalance(balance) {
     if (balance < 0) {
-      return "Balance: -$" + DollarService.getDollarsAndCents(balance) * -1;
+      return "Balance: -$" + DollarService.getCentString(balance) * -1;
     }
 
-    return "Balance: $" + DollarService.getDollarsAndCents(balance);
+    return "Balance: $" + DollarService.getCentString(balance);
   }
 
   getActualBalance() {

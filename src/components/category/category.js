@@ -29,9 +29,11 @@ export default class Category extends React.Component {
             </Col>
             <Col xs={3} md={2} lg={2}>
               <div className="category-amount">
-                {`$${DollarService.getDollars(
+                {`$${DollarService.getDollarString(
                   this.getActualAmount()
-                )} of $${DollarService.getDollars(this.getPlannedAmount())}`}
+                )} of $${DollarService.getDollarString(
+                  this.getPlannedAmount()
+                )}`}
               </div>
             </Col>
             <Col

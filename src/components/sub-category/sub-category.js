@@ -61,15 +61,18 @@ export default class SubCategory extends React.Component {
     if (this.props.edit) {
       return (
         <div className="align-right">
-          {`$${this.getActualAmount()} of `}
+          {`$${DollarService.getCentString(this.getActualAmount())} of `}
           <TextInput
             className="sub-category-input dollar"
             width="50%"
-            value={DollarService.getDollarsAndCents(
+            value={DollarService.getCentString(
               this.props.subCategory.plannedAmount
             )}
             placeholder="0"
-            onChange={e => this.props.updateAmount(parseFloat(e.target.value))}
+            onChange={e =>
+              this.props.updateAmount(
+                DollarService.getCentNumber(e.target.value)
+              )}
           />
         </div>
       );
@@ -77,9 +80,9 @@ export default class SubCategory extends React.Component {
 
     return (
       <div className="sub-category-amount">
-        {`$${DollarService.getDollars(
+        {`$${DollarService.getDollarString(
           this.getActualAmount()
-        )} of $${DollarService.getDollars(
+        )} of $${DollarService.getDollarString(
           this.props.subCategory.plannedAmount
         )}`}
       </div>
@@ -87,21 +90,20 @@ export default class SubCategory extends React.Component {
   }
 
   generateMessage() {
-    if (this.getActualAmount() <= this.props.subCategory.plannedAmount) {
+    const difference =
+      this.props.subCategory.plannedAmount - this.getActualAmount();
+
+    if (difference >= 0) {
       return (
         "$" +
-        DollarService.getDollars(
-          this.props.subCategory.plannedAmount - this.getActualAmount()
-        ) +
+        DollarService.getDollarString(difference) +
         (this.props.income ? " to go" : " left")
       );
     }
 
     return (
       "$" +
-      DollarService.getDollars(
-        this.getActualAmount() - this.props.subCategory.plannedAmount
-      ) +
+      DollarService.getDollarString(difference * -1) +
       (this.props.income ? " extra" : " over")
     );
   }
