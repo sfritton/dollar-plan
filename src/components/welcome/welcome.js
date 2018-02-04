@@ -22,9 +22,7 @@ export default class Welcome extends React.Component {
       <Page header="New budget">
         <div className="padding-10" />
         <Grid>
-          <Row>
-            {"Select a month and a year for the new budget"}
-          </Row>
+          <Row>{"Select a month and a year for the new budget"}</Row>
           <Row>
             <Dropdown
               options={Months}

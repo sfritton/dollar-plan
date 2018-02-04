@@ -7,7 +7,7 @@ export default class DateService {
     if (month < 10) {
       return `${year}-0${month}`;
     }
-    
+
     return `${year}-${month}`;
   }
 

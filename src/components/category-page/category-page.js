@@ -69,7 +69,7 @@ export default class CategoryPage extends React.Component {
         : "left"})`;
     }
 
-    return `($${DollarService.getDollars(planned - actual)} ${income
+    return `($${DollarService.getDollars(actual - planned)} ${income
       ? "extra"
       : "over"})`;
   }
