@@ -101,30 +101,28 @@ export default class CategoryPage extends React.Component {
   }
 
   renderTransactions() {
-    return this.props.category.transactions
-      .sort((a, b) => DateService.compareDateStrings(a.date, b.date))
-      .map((transaction, i) => (
-        <Transaction
-          key={i}
-          transaction={transaction}
-          edit={this.props.edit}
-          updateDate={(month, day) =>
-            this.props.dispatch(
-              CategoryActions.updateTransactionDate({ month, day }, i)
-            )}
-          updateDescription={desc =>
-            this.props.dispatch(
-              CategoryActions.updateTransactionDescription(desc, i)
-            )}
-          updateAmount={amount =>
-            this.props.dispatch(
-              CategoryActions.updateTransactionAmount(amount, i)
-            )}
-          deleteTransaction={() => {
-            this.props.dispatch(CategoryActions.deleteTransaction(i));
-            this.props.dispatch(setEdit(true));
-          }}
-        />
-      ));
+    return this.props.category.transactions.map((transaction, i) => (
+      <Transaction
+        key={i}
+        transaction={transaction}
+        edit={this.props.edit}
+        updateDate={(month, day) =>
+          this.props.dispatch(
+            CategoryActions.updateTransactionDate({ month, day }, i)
+          )}
+        updateDescription={desc =>
+          this.props.dispatch(
+            CategoryActions.updateTransactionDescription(desc, i)
+          )}
+        updateAmount={amount =>
+          this.props.dispatch(
+            CategoryActions.updateTransactionAmount(amount, i)
+          )}
+        deleteTransaction={() => {
+          this.props.dispatch(CategoryActions.deleteTransaction(i));
+          this.props.dispatch(setEdit(true));
+        }}
+      />
+    ));
   }
 }

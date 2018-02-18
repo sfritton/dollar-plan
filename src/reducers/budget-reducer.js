@@ -526,12 +526,18 @@ function handleSetActiveCategory(state, payload) {
 }
 
 function handleSaveCategoryToBudget(state, payload) {
+  const category = { ...state.category };
+  const transactions = [...category.transactions];
+
+  transactions.sort((a, b) => DateService.compareDateStrings(a.date, b.date));
+  category.transactions = transactions;
+
   const budget = { ...state.budgets[state.activeBudgetIndex] };
 
   if (state.activeCategoryKey.subCatId === undefined) {
     // income
     budget.incomes = [...budget.incomes];
-    budget.incomes[state.activeCategoryKey.catId] = state.category;
+    budget.incomes[state.activeCategoryKey.catId] = category;
   } else {
     // expense
     budget.expenses = [...budget.expenses];
@@ -539,8 +545,7 @@ function handleSaveCategoryToBudget(state, payload) {
       ...budget.expenses[state.activeCategoryKey.catId]
     };
     expenseCategory.subCategories = [...expenseCategory.subCategories];
-    expenseCategory.subCategories[state.activeCategoryKey.subCatId] =
-      state.category;
+    expenseCategory.subCategories[state.activeCategoryKey.subCatId] = category;
 
     budget.expenses[state.activeCategoryKey.catId] = expenseCategory;
   }
@@ -550,7 +555,8 @@ function handleSaveCategoryToBudget(state, payload) {
 
   return {
     ...state,
-    budgets
+    budgets,
+    category
   };
 }
 
