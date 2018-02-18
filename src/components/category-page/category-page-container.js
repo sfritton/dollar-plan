@@ -5,12 +5,16 @@ import CategoryPage from "./category-page";
 const CategoryPageContainer = connect(store => {
   const budget = store.budgets.budgets[store.budgets.activeBudgetIndex];
   const { month, year } = budget.date;
+  const income =
+    store.budgets.activeCategoryKey.subCatId === null ||
+    store.budgets.activeCategoryKey.subCatId === undefined;
 
   return {
     month,
     year,
     category: store.budgets.category,
-    edit: store.ui.edit
+    edit: store.ui.edit,
+    income
   };
 })(CategoryPage);
 

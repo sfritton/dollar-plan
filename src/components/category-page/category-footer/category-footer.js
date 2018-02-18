@@ -14,20 +14,14 @@ export default class CategoryFooter extends React.Component {
   renderBackButton() {
     if (this.props.edit) {
       return (
-        <button
-          className="button"
-          onClick={this.props.cancel}
-        >
+        <button className="button" onClick={this.props.cancel}>
           <Glyphicon glyph="remove" /> Cancel
         </button>
       );
     }
 
     return (
-      <button
-        className="button"
-        onClick={this.props.back}
-      >
+      <button className="button" onClick={this.props.back}>
         <Glyphicon glyph="arrow-left" /> Back to budget
       </button>
     );
