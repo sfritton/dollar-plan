@@ -5,6 +5,15 @@
   "repository": "https://github.com/sfritton/dollar-plan",
   "author": "Sam Fritton",
   "main": "main.js",
+  "scripts": {
+    "build": "webpack --config webpack.prod.js",
+    "watch": "webpack-dev-server --config webpack.dev.js",
+    "start": "electron .",
+    "test": "karma start",
+    "lint": "eslint \"src/**\" --fix",
+    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
+    "package": "electron-packager ./ DollarPlan --Windows --version 1.0.0 --out ~/Desktop --overwrite --icon=./dollar-plan.ico"
+  },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
@@ -44,14 +53,6 @@
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.10.1",
     "webpack-merge": "^4.1.1"
-  },
-  "scripts": {
-    "build": "webpack --config webpack.prod.js",
-    "start": "webpack-dev-server --config webpack.dev.js",
-    "test": "karma start",
-    "lint": "eslint \"src/**\" --fix",
-    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
-    "package": "electron-packager ./ DollarPlan --Windows --version 1.0.0 --out ~/Desktop --overwrite --icon=./dollar-plan.ico"
   },
   "dependencies": {
     "electron": "^1.7.8",
