@@ -104,11 +104,12 @@ export default class CategoryPage extends React.Component {
     return this.props.category.transactions.map((transaction, i) => (
       <Transaction
         key={i}
+        month={this.props.month}
         transaction={transaction}
         edit={this.props.edit}
-        updateDate={(month, day) =>
+        updateDate={date =>
           this.props.dispatch(
-            CategoryActions.updateTransactionDate({ month, day }, i)
+            CategoryActions.updateTransactionDate(date, i)
           )}
         updateDescription={desc =>
           this.props.dispatch(

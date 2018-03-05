@@ -588,12 +588,15 @@ function handleResetCategory(state) {
 function handleUpdateTransactionDate(state, payload) {
   const category = { ...state.category };
   const transaction = { ...category.transactions[payload.id] };
+  const { month, year } = state.budgets[state.activeBudgetIndex].date;
 
-  transaction.date = new Date(
-    new Date(transaction.date).getFullYear(),
-    payload.date.month - 1,
-    payload.date.day
-  ).toISOString();
+  const targetDate = new Date(year, month - 1, payload.date);
+
+  transaction.date = DateService.getClosestToDate(
+    month,
+    year,
+    targetDate
+  ).getDate();
 
   category.transactions = [...category.transactions];
   category.transactions[payload.id] = transaction;
@@ -628,9 +631,13 @@ function handleUpdateTransactionAmount(state, payload) {
 }
 
 function handleAddTransaction(state) {
+  const date = DateService.getClosestToToday(
+    state.budgets[state.activeBudgetIndex].date
+  );
+
   const category = { ...state.category };
   category.transactions = category.transactions.concat({
-    date: new Date().toISOString(),
+    date: date.getDate(),
     description: "",
     amount: 0
   });

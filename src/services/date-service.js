@@ -34,6 +34,12 @@ export default class DateService {
     return new Date(year, month - 1, 1);
   }
 
+  static getLastDayOfMonth(month, year) {
+    const nextMonth = this.getNextMonth(month, year);
+
+    return new Date(nextMonth.year, nextMonth.month - 1, 0);
+  }
+
   static getNextMonth(month, year) {
     if (month === 12) {
       return { month: 1, year: year + 1 };
@@ -90,5 +96,38 @@ export default class DateService {
     const dateB = new Date(b).getTime();
 
     return dateA - dateB;
+  }
+
+  /*
+   * Returns the day in the budget month that is closest to target date.
+   * If target date is in the budget month, returns target date.
+   * If budget month is in the past, returns last day of budget month.
+   * If budget month is in the future, returns 1st day of budget month.
+   */
+  static getClosestToDate(month, year, targetDate) {
+    const targetMonth = targetDate.getMonth() + 1;
+    const targetYear = targetDate.getFullYear();
+
+    if (year > targetYear) {
+      return this.getFirstDayOfMonth(month, year);
+    }
+
+    if (year < targetYear) {
+      return this.getLastDayOfMonth(month, year);
+    }
+
+    if (month > targetMonth) {
+      return this.getFirstDayOfMonth(month, year);
+    }
+
+    if (month < targetMonth) {
+      return this.getLastDayOfMonth(month, year);
+    }
+
+    return targetDate;
+  }
+
+  static getClosestToToday(date) {
+    return this.getClosestToDate(date.month, date.year, new Date());
   }
 }

@@ -20,28 +20,20 @@ export default class Transaction extends React.Component {
   }
 
   renderDate() {
-    const { month, day } = DateService.getMonthAndDay(
-      this.props.transaction.date
-    );
+    const month = this.props.month;
+    const day = this.props.transaction.date;
 
     if (this.props.edit) {
       return (
         <div>
-          <TextInput
-            className="sub-category-input"
-            value={month}
-            width={"40%"}
-            placeholder="12"
-            onChange={e => this.props.updateDate(parseInt(e.target.value), day)}
-          />
-          {" / "}
+          {`${month}/ `}
           <TextInput
             className="sub-category-input"
             value={day}
             width={"40%"}
             placeholder="25"
             onChange={e =>
-              this.props.updateDate(month, parseInt(e.target.value))}
+              this.props.updateDate(parseInt(e.target.value))}
           />
         </div>
       );
