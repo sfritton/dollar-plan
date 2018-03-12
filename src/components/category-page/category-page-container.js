@@ -9,12 +9,17 @@ const CategoryPageContainer = connect(store => {
     store.budgets.activeCategoryKey.subCatId === null ||
     store.budgets.activeCategoryKey.subCatId === undefined;
 
+  const superCategoryName = income
+    ? "Income"
+    : budget.expenses[store.budgets.activeCategoryKey.catId].title;
+
   return {
     month,
     year,
     category: store.budgets.category,
     edit: store.ui.edit,
-    income
+    income,
+    superCategoryName
   };
 })(CategoryPage);
 

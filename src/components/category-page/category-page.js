@@ -17,7 +17,7 @@ export default class CategoryPage extends React.Component {
   render() {
     return (
       <Page header={this.renderHeader()} footer={this.renderFooter()}>
-        <div className="section-header">Transactions</div>
+        <div className="section-header">{this.generateBreadcrumbs()}</div>
         {this.renderTransactions()}
         <CategoryButton
           subCategory
@@ -42,8 +42,7 @@ export default class CategoryPage extends React.Component {
   }
 
   generateTitle() {
-    return `${DateService.getMonthName(this.props.month)} ${this.props
-      .year} - ${this.props.category.title}`;
+    return `${DateService.getMonthName(this.props.month)} ${this.props.year}`;
   }
 
   generateMessage() {
@@ -81,6 +80,10 @@ export default class CategoryPage extends React.Component {
     );
   }
 
+  generateBreadcrumbs() {
+    return `${this.props.superCategoryName} - ${this.props.category.title}`;
+  }
+
   renderFooter() {
     return (
       <CategoryFooter
@@ -108,9 +111,7 @@ export default class CategoryPage extends React.Component {
         transaction={transaction}
         edit={this.props.edit}
         updateDate={date =>
-          this.props.dispatch(
-            CategoryActions.updateTransactionDate(date, i)
-          )}
+          this.props.dispatch(CategoryActions.updateTransactionDate(date, i))}
         updateDescription={desc =>
           this.props.dispatch(
             CategoryActions.updateTransactionDescription(desc, i)
