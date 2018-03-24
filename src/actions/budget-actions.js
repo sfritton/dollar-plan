@@ -15,10 +15,10 @@ export function getBudget(month, year) {
   };
 }
 
-export function createNewBudget(month, year) {
+export function createNewBudget(month, year, oldMonth, oldYear) {
   return {
     type: Actions.CREATE_NEW_BUDGET,
-    payload: { month, year }
+    payload: { month, year, oldMonth, oldYear }
   };
 }
 

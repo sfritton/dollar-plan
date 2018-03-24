@@ -113,12 +113,12 @@ function handleGetBudget(state, payload) {
 }
 
 function handleCreateNewBudget(state, payload) {
-  const { month, year } = payload;
-  if (
-    state.budgets.findIndex(
-      budget => budget.date.month === month && budget.date.year === year
-    ) !== -1
-  ) {
+  const { month, year, oldMonth, oldYear } = payload;
+  const newBudgetExists = state.budgets.some(
+    ({ date }) => date.month === month && date.year === year
+  );
+
+  if (newBudgetExists) {
     return state;
   }
 
@@ -128,6 +128,37 @@ function handleCreateNewBudget(state, payload) {
     expenses: [],
     loaded: true
   };
+
+  if (oldMonth && oldYear) {
+    let oldBudget = state.budgets.find(
+      budget => budget.date.month === oldMonth && budget.date.year === oldYear
+    );
+
+    if (oldBudget) {
+      if (!oldBudget.loaded) {
+        oldBudget = JSON.parse(
+          fs.readFileSync(
+            `${DATA_DIRECTORY}\\${DateService.encodeDate(oldMonth, oldYear)}.json`
+          )
+        );
+      }
+
+      newBudget.incomes = oldBudget.incomes.map(income => ({
+        title: income.title,
+        plannedAmount: income.plannedAmount,
+        transactions: []
+      }));
+
+      newBudget.expenses = oldBudget.expenses.map(expense => ({
+        title: expense.title,
+        subCategories: expense.subCategories.map(subCat => ({
+          title: subCat.title,
+          plannedAmount: subCat.plannedAmount,
+          transactions: []
+        }))
+      }));
+    }
+  }
 
   const budgets = state.budgets.concat(newBudget);
 
