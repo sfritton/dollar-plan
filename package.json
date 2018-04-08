@@ -12,7 +12,8 @@
     "test": "karma start",
     "lint": "eslint \"src/**\" --fix",
     "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
-    "package": "electron-packager ./ DollarPlan --Windows --version 1.0.0 --out ~/Desktop --overwrite --icon=./dollar-plan.ico"
+    "package:old": "electron-packager ./app/ DollarPlan --Windows --version 1.0.0 --out output/ --overwrite --icon=icon/dollar-plan.ico",
+    "package": "sh ./scripts/package.sh"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
