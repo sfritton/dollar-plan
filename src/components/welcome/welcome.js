@@ -12,12 +12,14 @@ import DateService from "../../services/date-service";
 export default class Welcome extends React.Component {
   constructor(props) {
     super(props);
+    const canCopy = this.props.budgetDates.length > 0;
 
     this.state = {
       month: Months[0].id,
       year: this.getNextTenYears()[0].id,
       copyOldBudget: false,
-      oldDate: this.props.budgetDates[0].id
+      canCopy,
+      oldDate: canCopy && this.props.budgetDates[0].id
     };
   }
   render() {
@@ -39,16 +41,18 @@ export default class Welcome extends React.Component {
               updateSelected={year => this.setState({ year: parseInt(year) })}
             />
           </Row>
-          <Row>
-            <input
-              type="checkbox"
-              onChange={() =>
-                this.setState(prevState => ({
-                  copyOldBudget: !prevState.copyOldBudget
-                }))}
-            />{" "}
-            Copy a previous budget
-          </Row>
+          {this.state.canCopy && (
+            <Row>
+              <input
+                type="checkbox"
+                onChange={() =>
+                  this.setState(prevState => ({
+                    copyOldBudget: !prevState.copyOldBudget
+                  }))}
+              />{" "}
+              Copy a previous budget
+            </Row>
+          )}
           {this.state.copyOldBudget && (
             <Row>
               <Dropdown
@@ -77,7 +81,6 @@ export default class Welcome extends React.Component {
                     createNewBudget(this.state.month, this.state.year)
                   );
                 }
-
                 this.props.dispatch(setEdit(true));
                 this.props.dispatch(setPage(Pages.BUDGET));
               }}

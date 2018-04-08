@@ -32,8 +32,7 @@ export default class Transaction extends React.Component {
             value={day}
             width={"40%"}
             placeholder="25"
-            onChange={e =>
-              this.props.updateDate(parseInt(e.target.value))}
+            onChange={e => this.props.updateDate(parseInt(e.target.value))}
           />
         </div>
       );
