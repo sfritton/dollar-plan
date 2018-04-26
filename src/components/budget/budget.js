@@ -66,7 +66,7 @@ export default class Budget extends React.Component {
     return (
       <BudgetFooter
         message={this.getBalanceMessage()}
-        edit={this.props.edit}
+        editing={this.props.edit}
         adjust={() => this.props.dispatch(UIActions.setEdit(true))}
         save={() => {
           this.props.dispatch(UIActions.setEdit(false));

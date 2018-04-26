@@ -1,38 +1,36 @@
 import React from "react";
-import { Glyphicon } from "react-bootstrap";
+import Button from "../../button/button";
+import "./budget-footer.less";
 
-export default class BudgetFooter extends React.Component {
-  render() {
-    return (
+const FooterButtons = ({ editing, save, cancel, adjust }) => (
+  <div className="float-right">
+    {editing ? (
       <div>
-        <div className="footer-msg">{this.props.message}</div>
-        <div className="footer-btn">{this.renderButton()}</div>
+        <Button secondary small onClick={cancel}>
+          Cancel
+        </Button>
+        <Button small onClick={save}>
+          Save budget
+        </Button>
       </div>
-    );
-  }
+    ) : (
+      <Button small onClick={adjust}>
+        Adjust budget
+      </Button>
+    )}
+  </div>
+);
 
-  renderButton() {
-    if (this.props.edit) {
-      return (
-        <div>
-          <button
-            className="button"
-            style={{ marginRight: "15px" }}
-            onClick={this.props.cancel}
-          >
-            <Glyphicon glyph="remove" /> Cancel
-          </button>
-          <button className="button" onClick={this.props.save}>
-            <Glyphicon glyph="ok" /> Save Budget
-          </button>
-        </div>
-      );
-    }
+const BudgetFooter = ({ message, editing, save, cancel, adjust }) => (
+  <div>
+    <h2>{message}</h2>
+    <FooterButtons
+      editing={editing}
+      save={save}
+      cancel={cancel}
+      adjust={adjust}
+    />
+  </div>
+);
 
-    return (
-      <button className="button" onClick={this.props.adjust}>
-        <Glyphicon glyph="pencil" /> Adjust Budget
-      </button>
-    );
-  }
-}
+export default BudgetFooter;
