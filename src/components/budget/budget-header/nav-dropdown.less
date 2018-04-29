@@ -1,0 +1,57 @@
+@import "../../../less/colors.less";
+
+.nav-dropdown {
+  display: inline-block;
+  width: 280px;
+  padding-right: 10px;
+  margin-right: 10px;
+  border-right: 1px solid @primary-light;
+
+  &--heading {
+    height: 60px;
+    margin: -10px;
+    padding: 10px;
+
+    &:focus {
+      outline: none;
+      text-decoration: underline;
+    }
+
+    &:hover {
+      background: @primary-dark-hover;
+      cursor: pointer;
+    }
+  }
+
+  &--list {
+    width: 290px;
+    background: #004c8b;
+    position: absolute;
+    list-style: none;
+    margin: 10px 0 0 -10px;
+    padding: 0;
+    box-shadow: 5px 5px 10px @shadow;
+  }
+
+  &--option a {
+    text-decoration: none;
+    color: @primary-dark-text;
+    display: inline-block;
+    width: 100%;
+    padding: 5px 10px 5px;
+
+    &:focus {
+      outline: none;
+      text-decoration: underline;
+    }
+
+    &:hover {
+      background: @primary-dark-hover;
+    }
+  }
+
+  &--divider {
+    border-bottom: 1px solid @primary-light;
+    margin: 0 10px;
+  }
+}

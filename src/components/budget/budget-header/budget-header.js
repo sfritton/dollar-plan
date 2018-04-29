@@ -1,7 +1,7 @@
 import React from "react";
 import "./budget-header.less";
 
-import HeaderDropdown from "../../util/header-dropdown";
+import NavDropdown from "./nav-dropdown";
 import DateService from "../../../services/date-service";
 
 const getDaysLeftMessage = date => {
@@ -36,10 +36,10 @@ const BudgetHeader = ({
   setActiveBudget
 }) => (
   <div>
-    <HeaderDropdown
+    <NavDropdown
       selected={mapDateToOption(date)}
       options={budgetDates.map(date => mapDateToOption(date))}
-      createNewBudget={() => createNewBudget()}
+      createNewBudget={createNewBudget}
       setActiveBudget={(month, year) => setActiveBudget(month, year)}
     />
     <h2 className="nav-message">{getDaysLeftMessage(date)}</h2>
