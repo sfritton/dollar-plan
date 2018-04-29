@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Row, Col, Glyphicon, Collapse } from "react-bootstrap";
 
-import ProgressBar from "../util/progress-bar";
+import ProgressBar from "../progress-bar/progress-bar";
 import SubCategory from "../sub-category/sub-category";
 import CategoryButton from "../util/category-button";
 import TextInput from "../util/text-input";
@@ -42,7 +42,9 @@ export default class Category extends React.Component {
               lg={this.props.edit ? 6 : 7}
             >
               <ProgressBar
-                percent={this.getActualAmount() / this.getPlannedAmount()}
+                numerator={this.getActualAmount()}
+                denominator={this.getPlannedAmount()}
+                danger
               />
             </Col>
             <Col xs={1} md={1} lg={1}>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Row, Col, Glyphicon } from "react-bootstrap";
 
-import ProgressBar from "../util/progress-bar";
+import ProgressBar from "../progress-bar/progress-bar";
 import TextInput from "../util/text-input";
 import DollarService from "../../services/dollar-service";
 
@@ -23,10 +23,9 @@ export default class SubCategory extends React.Component {
           </Col>
           <Col xs={2} md={this.props.edit ? 3 : 4} lg={this.props.edit ? 4 : 5}>
             <ProgressBar
-              income={this.props.income}
-              percent={
-                this.getActualAmount() / this.props.subCategory.plannedAmount
-              }
+              numerator={this.getActualAmount()}
+              denominator={this.props.subCategory.plannedAmount}
+              danger={!this.props.income}
             />
           </Col>
           <Col xs={3} md={2} lg={2}>

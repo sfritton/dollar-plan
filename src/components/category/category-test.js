@@ -5,7 +5,7 @@ import { Glyphicon } from "react-bootstrap";
 
 import Category from "./category";
 import SubCategory from "../sub-category/sub-category";
-import ProgressBar from "../util/progress-bar";
+import ProgressBar from "../progress-bar/progress-bar";
 import TextInput from "../util/text-input";
 
 describe("Category", function() {
