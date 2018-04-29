@@ -54,9 +54,8 @@ export default class NavDropdown extends React.Component {
         !selected || (month !== selected.month || year !== selected.year)
     );
 
-    const heading = this.props.selected
-      ? `${DateService.getMonthName(this.props.selected.month)} ${this.props
-          .selected.year}`
+    const heading = selected
+      ? `${DateService.getMonthName(selected.month)} ${selected.year}`
       : "select a budget";
 
     return (
