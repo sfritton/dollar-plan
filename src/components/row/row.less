@@ -1,0 +1,45 @@
+@import "../../less/colors.less";
+
+.row {
+  background: @primary-dark;
+  color: @primary-dark-text;
+  padding: 10px 20px;
+  min-height: 42px;
+}
+
+.row-focusable {
+  &:hover {
+    cursor: pointer;
+    background: @primary-dark-hover;
+  }
+
+  &:focus {
+    outline: none;
+
+    & div {
+      text-decoration: underline;
+    }
+  }
+
+  &:active {
+    box-shadow: inset 0px 3px 10px rgba(0, 0, 0, 0.25);
+    background: @primary-dark;
+  }
+}
+
+.header {
+  background: @primary-light;
+  color: black;
+
+  &.row-focusable:hover {
+    background: @primary-light-hover;
+  }
+
+  &.row-focusable:focus {
+    text-decoration: none;
+  }
+
+  &.row-focusable:active {
+    background: @primary-light;
+  }
+}

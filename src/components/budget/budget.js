@@ -24,27 +24,32 @@ export default class Budget extends React.Component {
         header={this.renderHeader(this.props.budget.date)}
         footer={this.renderFooter()}
       >
-        <div className="section-header">Income</div>
-        {this.renderIncomes()}
-        {this.props.edit ? (
-          <CategoryButton
-            subCategory
-            onClick={() =>
-              this.props.dispatch(BudgetActions.addIncomeCategory())}
-          >
-            <Glyphicon glyph="plus" /> Add a category
-          </CategoryButton>
-        ) : null}
-        <div className="section-header">Expenses</div>
-        {this.renderExpenses()}
-        {this.props.edit ? (
-          <CategoryButton
-            onClick={() =>
-              this.props.dispatch(BudgetActions.addExpenseCategory())}
-          >
-            <Glyphicon glyph="plus" /> Add a category
-          </CategoryButton>
-        ) : null}
+        <section>
+          <h2>Income</h2>
+          {this.renderIncomes()}
+          {this.props.edit ? (
+            <CategoryButton
+              subCategory
+              onClick={() =>
+                this.props.dispatch(BudgetActions.addIncomeCategory())}
+            >
+              <Glyphicon glyph="plus" /> Add a category
+            </CategoryButton>
+          ) : null}
+        </section>
+
+        <section>
+          <h2>Expenses</h2>
+          {this.renderExpenses()}
+          {this.props.edit ? (
+            <CategoryButton
+              onClick={() =>
+                this.props.dispatch(BudgetActions.addExpenseCategory())}
+            >
+              <Glyphicon glyph="plus" /> Add a category
+            </CategoryButton>
+          ) : null}
+        </section>
       </Page>
     );
   }
