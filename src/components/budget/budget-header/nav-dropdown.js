@@ -55,12 +55,15 @@ export default class NavDropdown extends React.Component {
           item.year !== this.props.selected.year)
     );
 
+    const heading = this.props.selected
+      ? `${DateService.getMonthName(this.props.selected.month)} ${this.props
+          .selected.year}`
+      : "select a budget";
+
     return (
       <div className="nav-dropdown">
         <div tabIndex="0" className="nav-dropdown--heading">
-          <h1 onClick={() => this.toggleOpen()}>
-            {this.props.selected ? this.props.selected.name : "select a budget"}
-          </h1>
+          <h1 onClick={() => this.toggleOpen()}>{heading}</h1>
         </div>
         {this.state.open && (
           <NavList options={otherBudgets} onSelect={this.onSelect} />

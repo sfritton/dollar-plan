@@ -20,15 +20,6 @@ const getDaysLeftMessage = date => {
   return `${DateService.getDaysLeft(month, year)} days left`;
 };
 
-const mapDateToOption = date => {
-  if (!date) return null;
-
-  return {
-    ...date,
-    name: `${DateService.getMonthName(date.month)} ${date.year}`
-  };
-};
-
 const BudgetHeader = ({
   date,
   budgetDates,
@@ -37,8 +28,8 @@ const BudgetHeader = ({
 }) => (
   <div>
     <NavDropdown
-      selected={mapDateToOption(date)}
-      options={budgetDates.map(date => mapDateToOption(date))}
+      selected={date}
+      options={budgetDates}
       createNewBudget={createNewBudget}
       setActiveBudget={(month, year) => setActiveBudget(month, year)}
     />
