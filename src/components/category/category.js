@@ -1,6 +1,7 @@
 import React from "react";
-import { Grid, Row, Col, Glyphicon, Collapse } from "react-bootstrap";
+import "./category.less";
 
+import Row from "../row/row";
 import ProgressBar from "../progress-bar/progress-bar";
 import SubCategory from "../sub-category/sub-category";
 import CategoryButton from "../util/category-button";
@@ -17,44 +18,27 @@ export default class Category extends React.Component {
   }
   render() {
     return (
-      <div className="category-wrapper">
-        <Grid className="category" onClick={() => this.toggleVisible()}>
-          <Row>
-            <Col
-              xs={3}
-              md={this.props.edit ? 4 : 3}
-              lg={this.props.edit ? 3 : 2}
-            >
-              {this.renderTitle()}
-            </Col>
-            <Col xs={3} md={2} lg={2}>
-              <div className="category-amount">
-                {`$${DollarService.getDollarString(
-                  this.getActualAmount()
-                )} of $${DollarService.getDollarString(
-                  this.getPlannedAmount()
-                )}`}
-              </div>
-            </Col>
-            <Col
-              xs={5}
-              md={this.props.edit ? 5 : 6}
-              lg={this.props.edit ? 6 : 7}
-            >
-              <ProgressBar
-                numerator={this.getActualAmount()}
-                denominator={this.getPlannedAmount()}
-                danger
-              />
-            </Col>
-            <Col xs={1} md={1} lg={1}>
-              {this.renderIcon()}
-            </Col>
-          </Row>
-        </Grid>
-        <Collapse in={this.props.edit || this.state.open}>
-          {this.renderSubCategories()}
-        </Collapse>
+      <div className="expense-group">
+        <Row focusable header>
+          <div className="category-title">
+            <h3>{this.props.category.title}</h3>
+          </div>
+          <div className="category-amount">
+            <h3>
+              {`$${DollarService.getDollarString(
+                this.getActualAmount()
+              )} of $${DollarService.getDollarString(
+                this.getPlannedAmount()
+              )}`}
+            </h3>
+          </div>
+          <ProgressBar
+            numerator={this.getActualAmount()}
+            denominator={this.getPlannedAmount()}
+            danger
+          />
+        </Row>
+        {this.renderSubCategories()}
       </div>
     );
   }
@@ -88,19 +72,6 @@ export default class Category extends React.Component {
       0
     );
   }
-  renderIcon() {
-    if (this.props.edit) {
-      return (
-        <Glyphicon glyph="trash" onClick={() => this.props.deleteCategory()} />
-      );
-    }
-    return (
-      <Glyphicon
-        className={"chevron chevron-" + (this.state.open ? "open" : "closed")}
-        glyph="chevron-down"
-      />
-    );
-  }
   renderSubCategories() {
     return (
       <div>
@@ -121,7 +92,7 @@ export default class Category extends React.Component {
             subCategory
             onClick={() => this.props.addSubCategory()}
           >
-            <Glyphicon glyph="plus" /> Add a category
+            Add a category
           </CategoryButton>
         ) : null}
       </div>
