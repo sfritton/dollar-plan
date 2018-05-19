@@ -8,6 +8,77 @@ import CategoryButton from "../util/category-button";
 import TextInput from "../util/text-input";
 import DollarService from "../../services/dollar-service";
 
+const getActualAmount = subCategories => subCategories.reduce(
+  (sum, subCategory) =>
+    sum + subCategory.transactions.reduce(
+      (sum, transaction) => sum + transaction.amount, 0),
+  0
+);
+
+const getPlannedAmount = subCategories => subCategories.reduce(
+  (sum, subCategory) => sum + subCategory.plannedAmount, 0
+);
+
+const CategoryTitle = ({ editing, title, updateTitle }) => {
+  if (editing) {
+    return (
+      <TextInput
+        className="category-input"
+        value={title}
+        placeholder="Category name"
+        onChange={e => updateTitle(e.target.value)}
+      />
+    );
+  }
+
+  return <div className="category-title"><h3>{title}</h3></div>
+};
+
+const CategoryAmount = ({ actualAmount, plannedAmount }) => {
+  const actualAmountStr = DollarService.getDollarString(actualAmount);
+  const plannedAmountStr = DollarService.getDollarString(plannedAmount);
+
+  return (
+    <div className="category-amount">
+      <h3>
+        {`$${actualAmountStr} of $${plannedAmountStr}`}
+      </h3>
+    </div>
+  );
+};
+
+const SubCategoryList = ({
+  subCategories,
+  editing,
+  updateSubCategoryTitle,
+  updateSubCategoryAmount,
+  deleteSubCategory,
+  openSubCategory,
+  addSubCategory
+}) => (
+  <div>
+    {subCategories.map((sub, i) => (
+      <SubCategory
+        key={i}
+        edit={editing}
+        subCategory={sub}
+        updateTitle={title => updateSubCategoryTitle(i, title)}
+        updateAmount={amount => updateSubCategoryAmount(i, amount)}
+        deleteSubCategory={() => deleteSubCategory(i)}
+        openCategory={() => openSubCategory(i)}
+      />
+    ))}
+    {editing ? (
+      <CategoryButton
+        subCategory
+        onClick={() => addSubCategory()}
+      >
+        Add a category
+      </CategoryButton>
+    ) : null}
+  </div>
+);
+
 export default class Category extends React.Component {
   constructor(props) {
     super(props);
@@ -16,88 +87,52 @@ export default class Category extends React.Component {
       open: props.defaultOpen || false
     };
   }
+
   render() {
+    const {
+      edit,
+      category: { title, subCategories },
+      updateTitle,
+      updateSubCategoryTitle,
+      updateSubCategoryAmount,
+      deleteSubCategory,
+      openSubCategory,
+      addSubCategory
+    } = this.props;
+    const actualAmount = getActualAmount(subCategories);
+    const plannedAmount = getPlannedAmount(subCategories);
+
     return (
       <div className="expense-group">
         <Row focusable header>
-          <div className="category-title">
-            <h3>{this.props.category.title}</h3>
-          </div>
-          <div className="category-amount">
-            <h3>
-              {`$${DollarService.getDollarString(
-                this.getActualAmount()
-              )} of $${DollarService.getDollarString(
-                this.getPlannedAmount()
-              )}`}
-            </h3>
-          </div>
+          <CategoryTitle
+            editing={edit}
+            title={title}
+            updateTitle={updateTitle}
+          />
+          <CategoryAmount
+            actualAmount={actualAmount}
+            plannedAmount={plannedAmount}
+          />
           <ProgressBar
-            numerator={this.getActualAmount()}
-            denominator={this.getPlannedAmount()}
+            numerator={actualAmount}
+            denominator={plannedAmount}
             danger
           />
         </Row>
-        {this.renderSubCategories()}
-      </div>
-    );
-  }
-  renderTitle() {
-    if (this.props.edit) {
-      return (
-        <TextInput
-          className="category-input"
-          value={this.props.category.title}
-          placeholder="Category name"
-          onChange={e => this.props.updateTitle(e.target.value)}
+        <SubCategoryList
+          subCategories={subCategories}
+          editing={edit}
+          updateSubCategoryTitle={updateSubCategoryTitle}
+          updateSubCategoryAmount={updateSubCategoryAmount}
+          deleteSubCategory={deleteSubCategory}
+          openSubCategory={openSubCategory}
+          addSubCategory={addSubCategory}
         />
-      );
-    }
-    return <div className="category-title">{this.props.category.title}</div>;
-  }
-  getActualAmount() {
-    return this.props.category.subCategories.reduce(
-      (sum, subCategory) =>
-        sum +
-        subCategory.transactions.reduce(
-          (sum, transaction) => sum + transaction.amount,
-          0
-        ),
-      0
-    );
-  }
-  getPlannedAmount() {
-    return this.props.category.subCategories.reduce(
-      (sum, subCategory) => sum + subCategory.plannedAmount,
-      0
-    );
-  }
-  renderSubCategories() {
-    return (
-      <div>
-        {this.props.category.subCategories.map((sub, i) => (
-          <SubCategory
-            key={i}
-            edit={this.props.edit}
-            subCategory={sub}
-            updateTitle={title => this.props.updateSubCategoryTitle(i, title)}
-            updateAmount={amount =>
-              this.props.updateSubCategoryAmount(i, amount)}
-            deleteSubCategory={() => this.props.deleteSubCategory(i)}
-            openCategory={() => this.props.openSubCategory(i)}
-          />
-        ))}
-        {this.props.edit ? (
-          <CategoryButton
-            subCategory
-            onClick={() => this.props.addSubCategory()}
-          >
-            Add a category
-          </CategoryButton>
-        ) : null}
       </div>
     );
   }
+
   toggleVisible() {
     if (!this.props.edit) {
       this.setState(prevState => ({ open: !prevState.open }));
