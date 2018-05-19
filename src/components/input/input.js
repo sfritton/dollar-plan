@@ -1,18 +1,14 @@
 import React from "react";
+import './input.less';
 
-class Input extends React.Component {
-  render() {
-    return (
-      <input
-        className={`text-input ${this.props.className}`}
-        style={{ width: this.props.width || "100%" }}
-        type="text"
-        value={this.props.value}
-        placeholder={this.props.placeholder}
-        onChange={this.props.onChange}
-      />
-    );
-  }
-}
+const Input = ({ className, value, placeholder, onChange }) => (
+  <input
+    className={className}
+    type="text"
+    value={value}
+    placeholder={placeholder}
+    onChange={onChange}
+  />
+);
 
 export default Input;

@@ -104,7 +104,7 @@ export default class Category extends React.Component {
 
     return (
       <div className="expense-group">
-        <Row focusable header>
+        <Row focusable={!edit} header>
           <CategoryTitle
             editing={edit}
             title={title}

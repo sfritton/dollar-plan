@@ -10,7 +10,7 @@ const Title = ({ editing, title, updateTitle }) => {
   if (editing) {
     return (
       <Input
-        className="sub-category-input"
+        className="category-title-input"
         value={title}
         placeholder="Category name"
         onChange={e => updateTitle(e.target.value)}
@@ -27,8 +27,7 @@ const Amount = ({ editing, actualAmount, plannedAmount, updateAmount }) => {
       <div className="category-amount">
         {`$${DollarService.getCentString(actualAmount)} of `}
         <Input
-          className="sub-category-input dollar"
-          width="50%"
+          className="category-amount-input"
           value={DollarService.getCentString(plannedAmount)}
           placeholder="0"
           onChange={e =>
