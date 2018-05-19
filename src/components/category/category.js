@@ -29,7 +29,7 @@ const CategoryTitle = ({ editing, title, updateTitle }) => {
   if (editing) {
     return (
       <Input
-        className="category-input"
+        className="category-title category-input"
         value={title}
         placeholder="Category name"
         onChange={e => updateTitle(e.target.value)}

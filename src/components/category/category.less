@@ -11,10 +11,29 @@
 }
 
 .category-amount {
-  width: calc(25% + 5px);
+  width: calc("25% + 5px");
   text-align: right;
 }
 
 .category-balance {
   display: inline-block;
+}
+
+.category-input {
+  vertical-align: text-top;
+  font-weight: bold;
+  border-bottom: 1px solid @primary-dark;
+
+  &:hover {
+    border-bottom: 2px solid @primary-dark;
+  }
+
+  &:focus {
+    border-bottom: 2px solid @primary-light-text;
+  }
+
+  &::placeholder {
+    font-weight: normal;
+    color: @primary-dark;
+  }
 }
