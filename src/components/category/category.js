@@ -8,16 +8,22 @@ import CategoryButton from "../util/category-button";
 import Input from "../input/input";
 import DollarService from "../../services/dollar-service";
 
-const getActualAmount = subCategories => subCategories.reduce(
-  (sum, subCategory) =>
-    sum + subCategory.transactions.reduce(
-      (sum, transaction) => sum + transaction.amount, 0),
-  0
-);
+const getActualAmount = subCategories =>
+  subCategories.reduce(
+    (sum, subCategory) =>
+      sum +
+      subCategory.transactions.reduce(
+        (sum, transaction) => sum + transaction.amount,
+        0
+      ),
+    0
+  );
 
-const getPlannedAmount = subCategories => subCategories.reduce(
-  (sum, subCategory) => sum + subCategory.plannedAmount, 0
-);
+const getPlannedAmount = subCategories =>
+  subCategories.reduce(
+    (sum, subCategory) => sum + subCategory.plannedAmount,
+    0
+  );
 
 const CategoryTitle = ({ editing, title, updateTitle }) => {
   if (editing) {
@@ -31,7 +37,11 @@ const CategoryTitle = ({ editing, title, updateTitle }) => {
     );
   }
 
-  return <div className="category-title"><h3>{title}</h3></div>
+  return (
+    <div className="category-title">
+      <h3>{title}</h3>
+    </div>
+  );
 };
 
 const CategoryAmount = ({ actualAmount, plannedAmount }) => {
@@ -40,9 +50,7 @@ const CategoryAmount = ({ actualAmount, plannedAmount }) => {
 
   return (
     <div className="category-amount">
-      <h3>
-        {`$${actualAmountStr} of $${plannedAmountStr}`}
-      </h3>
+      <h3>{`$${actualAmountStr} of $${plannedAmountStr}`}</h3>
     </div>
   );
 };
@@ -69,10 +77,7 @@ const SubCategoryList = ({
       />
     ))}
     {editing ? (
-      <CategoryButton
-        subCategory
-        onClick={() => addSubCategory()}
-      >
+      <CategoryButton subCategory onClick={() => addSubCategory()}>
         Add a category
       </CategoryButton>
     ) : null}

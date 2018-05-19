@@ -168,10 +168,7 @@ describe("Category", function() {
         subCategories={this.subCategories}
       />
     );
-    const titles = TestUtils.scryRenderedComponentsWithType(
-      category,
-      Input
-    );
+    const titles = TestUtils.scryRenderedComponentsWithType(category, Input);
 
     expect(titles[0].props.value).toEqual(this.title);
   });

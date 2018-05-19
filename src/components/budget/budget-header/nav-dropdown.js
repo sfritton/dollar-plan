@@ -60,7 +60,10 @@ export default class NavDropdown extends React.Component {
 
     return (
       <div className="nav-dropdown">
-        <button onClick={() => this.toggleOpen()} className="nav-dropdown--heading">
+        <button
+          onClick={() => this.toggleOpen()}
+          className="nav-dropdown--heading"
+        >
           <h1>{heading}</h1>
         </button>
         {this.state.open && (

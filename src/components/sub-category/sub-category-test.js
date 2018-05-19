@@ -62,10 +62,7 @@ describe("SubCategory", function() {
 
   it("renders exactly 2 Input components in edit mode", function() {
     const category = TestUtils.renderIntoDocument(<SubCategory edit />);
-    const inputs = TestUtils.scryRenderedComponentsWithType(
-      category,
-      Input
-    );
+    const inputs = TestUtils.scryRenderedComponentsWithType(category, Input);
     expect(inputs.length).toEqual(2);
   });
 

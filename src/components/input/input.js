@@ -1,5 +1,5 @@
 import React from "react";
-import './input.less';
+import "./input.less";
 
 const Input = ({ className, value, placeholder, onChange }) => (
   <input
