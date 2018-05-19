@@ -1,6 +1,6 @@
 import React from "react";
 
-class TextInput extends React.Component {
+class Input extends React.Component {
   render() {
     return (
       <input
@@ -15,4 +15,4 @@ class TextInput extends React.Component {
   }
 }
 
-export default TextInput;
+export default Input;

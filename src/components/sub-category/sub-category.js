@@ -3,13 +3,13 @@ import "./sub-category.less";
 
 import Row from "../row/row";
 import ProgressBar from "../progress-bar/progress-bar";
-import TextInput from "../util/text-input";
+import Input from "../input/input";
 import DollarService from "../../services/dollar-service";
 
 const Title = ({ editing, title, updateTitle }) => {
   if (editing) {
     return (
-      <TextInput
+      <Input
         className="sub-category-input"
         value={title}
         placeholder="Category name"
@@ -26,7 +26,7 @@ const Amount = ({ editing, actualAmount, plannedAmount, updateAmount }) => {
     return (
       <div className="category-amount">
         {`$${DollarService.getCentString(actualAmount)} of `}
-        <TextInput
+        <Input
           className="sub-category-input dollar"
           width="50%"
           value={DollarService.getCentString(plannedAmount)}

@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Row, Col, Glyphicon } from "react-bootstrap";
 
 import DateService from "../../services/date-service";
-import TextInput from "../util/text-input";
+import Input from "../input/input";
 import DollarService from "../../services/dollar-service";
 
 export default class Transaction extends React.Component {
@@ -27,7 +27,7 @@ export default class Transaction extends React.Component {
       return (
         <div>
           {`${month}/ `}
-          <TextInput
+          <Input
             className="sub-category-input"
             value={day}
             width={"40%"}
@@ -44,7 +44,7 @@ export default class Transaction extends React.Component {
   renderDescription() {
     if (this.props.edit) {
       return (
-        <TextInput
+        <Input
           className="sub-category-input"
           value={this.props.transaction.description}
           placeholder="description"
@@ -63,7 +63,7 @@ export default class Transaction extends React.Component {
   renderAmount() {
     if (this.props.edit) {
       return (
-        <TextInput
+        <Input
           className="sub-category-input align-right"
           value={DollarService.getCentString(this.props.transaction.amount)}
           placeholder="0"

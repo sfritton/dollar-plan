@@ -5,7 +5,7 @@ import Row from "../row/row";
 import ProgressBar from "../progress-bar/progress-bar";
 import SubCategory from "../sub-category/sub-category";
 import CategoryButton from "../util/category-button";
-import TextInput from "../util/text-input";
+import Input from "../input/input";
 import DollarService from "../../services/dollar-service";
 
 const getActualAmount = subCategories => subCategories.reduce(
@@ -22,7 +22,7 @@ const getPlannedAmount = subCategories => subCategories.reduce(
 const CategoryTitle = ({ editing, title, updateTitle }) => {
   if (editing) {
     return (
-      <TextInput
+      <Input
         className="category-input"
         value={title}
         placeholder="Category name"

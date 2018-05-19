@@ -5,7 +5,7 @@ import { Glyphicon } from "react-bootstrap";
 
 import SubCategory from "./sub-category";
 import ProgressBar from "../progress-bar/progress-bar";
-import TextInput from "../util/text-input";
+import Input from "../input/input";
 
 describe("SubCategory", function() {
   beforeEach(function() {
@@ -60,11 +60,11 @@ describe("SubCategory", function() {
     expect(messages.length).toEqual(1);
   });
 
-  it("renders exactly 2 TextInput components in edit mode", function() {
+  it("renders exactly 2 Input components in edit mode", function() {
     const category = TestUtils.renderIntoDocument(<SubCategory edit />);
     const inputs = TestUtils.scryRenderedComponentsWithType(
       category,
-      TextInput
+      Input
     );
     expect(inputs.length).toEqual(2);
   });

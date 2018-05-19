@@ -6,7 +6,7 @@ import { Glyphicon } from "react-bootstrap";
 import Category from "./category";
 import SubCategory from "../sub-category/sub-category";
 import ProgressBar from "../progress-bar/progress-bar";
-import TextInput from "../util/text-input";
+import Input from "../input/input";
 
 describe("Category", function() {
   beforeEach(function() {
@@ -170,7 +170,7 @@ describe("Category", function() {
     );
     const titles = TestUtils.scryRenderedComponentsWithType(
       category,
-      TextInput
+      Input
     );
 
     expect(titles[0].props.value).toEqual(this.title);
