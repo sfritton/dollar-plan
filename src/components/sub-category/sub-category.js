@@ -74,7 +74,7 @@ const SubCategory = ({
   updateTitle,
   updateAmount
 }) => (
-  <Row focusable={!edit} onClick={() => !edit && openCategory()}>
+  <Row clickable={!edit} onClick={() => !edit && openCategory()}>
     <Title editing={edit} title={subCategory.title} updateTitle={updateTitle} />
     <Amount
       editing={edit}

@@ -4,7 +4,6 @@ import "./category.less";
 import Row from "../row/row";
 import ProgressBar from "../progress-bar/progress-bar";
 import SubCategory from "../sub-category/sub-category";
-import CategoryButton from "../util/category-button";
 import Input from "../input/input";
 import DollarService from "../../services/dollar-service";
 
@@ -77,9 +76,9 @@ const SubCategoryList = ({
       />
     ))}
     {editing ? (
-      <CategoryButton subCategory onClick={() => addSubCategory()}>
-        Add a category
-      </CategoryButton>
+      <Row clickable onClick={() => addSubCategory()}>
+        + add a category
+      </Row>
     ) : null}
   </div>
 );
@@ -109,7 +108,7 @@ export default class Category extends React.Component {
 
     return (
       <div className="expense-group">
-        <Row focusable={!edit} header>
+        <Row clickable={!edit} header>
           <CategoryTitle
             editing={edit}
             title={title}

@@ -1,14 +1,13 @@
 import React from "react";
-import { Glyphicon } from "react-bootstrap";
 
 import * as BudgetActions from "../../actions/budget-actions";
 import * as CategoryActions from "../../actions/category-actions";
 import * as UIActions from "../../actions/ui-actions";
 import Pages from "../../constants/pages-enum";
 import Page from "../page/page";
+import Row from "../row/row";
 import SubCategory from "../sub-category/sub-category";
 import Category from "../category/category";
-import CategoryButton from "../util/category-button";
 import BudgetHeader from "./budget-header/budget-header";
 import BudgetFooter from "./budget-footer/budget-footer";
 import DollarService from "../../services/dollar-service";
@@ -27,28 +26,30 @@ export default class Budget extends React.Component {
         <section>
           <h2>Income</h2>
           {this.renderIncomes()}
-          {this.props.edit ? (
-            <CategoryButton
-              subCategory
+          {this.props.edit && (
+            <Row
+              clickable
               onClick={() =>
                 this.props.dispatch(BudgetActions.addIncomeCategory())}
             >
-              <Glyphicon glyph="plus" /> Add a category
-            </CategoryButton>
-          ) : null}
+              + add a category
+            </Row>
+          )}
         </section>
 
         <section>
           <h2>Expenses</h2>
           {this.renderExpenses()}
-          {this.props.edit ? (
-            <CategoryButton
+          {this.props.edit && (
+            <Row
+              clickable
+              header
               onClick={() =>
                 this.props.dispatch(BudgetActions.addExpenseCategory())}
             >
-              <Glyphicon glyph="plus" /> Add a category
-            </CategoryButton>
-          ) : null}
+              + add a category group
+            </Row>
+          )}
         </section>
       </Page>
     );

@@ -5,41 +5,47 @@
   color: @primary-dark-text;
   padding: 10px 20px;
   min-height: 42px;
-}
 
-.row-focusable {
-  &:hover {
-    cursor: pointer;
-    background: @primary-dark-hover;
-  }
+  &--btn {
+    font-size: 16px;
+    display: block;
+    width: 100%;
+    text-align: left;
+    border: none;
 
-  &:focus {
-    outline: none;
+    &:hover {
+      cursor: pointer;
+      background: @primary-dark-hover;
+    }
 
-    & div {
-      text-decoration: underline;
+    &:focus {
+      outline: none;
+
+      & div {
+        text-decoration: underline;
+      }
+    }
+
+    &:active {
+      box-shadow: inset 0px 3px 10px @shadow;
+      background: @primary-dark;
     }
   }
 
-  &:active {
-    box-shadow: inset 0px 3px 10px rgba(0, 0, 0, 0.25);
-    background: @primary-dark;
-  }
-}
-
-.header {
-  background: @primary-light;
-  color: black;
-
-  &.row-focusable:hover {
-    background: @primary-light-hover;
-  }
-
-  &.row-focusable:focus {
-    text-decoration: none;
-  }
-
-  &.row-focusable:active {
+  &--header {
     background: @primary-light;
+    color: black;
+
+    &.row--btn:hover {
+      background: @primary-light-hover;
+    }
+
+    &.row--btn:focus {
+      text-decoration: none;
+    }
+
+    &.row--btn:active {
+      background: @primary-light;
+    }
   }
 }
