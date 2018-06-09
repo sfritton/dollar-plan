@@ -17,17 +17,19 @@ export default class CategoryPage extends React.Component {
   render() {
     return (
       <Page header={this.renderHeader()} footer={this.renderFooter()}>
-        <div className="section-header">{this.generateBreadcrumbs()}</div>
-        {this.renderTransactions()}
-        <CategoryButton
-          subCategory
-          onClick={() => {
-            this.props.dispatch(CategoryActions.addTransaction());
-            this.props.dispatch(setEdit(true));
-          }}
-        >
-          <Glyphicon glyph="plus" /> Add a transaction
-        </CategoryButton>
+        <section>
+          <h2>{this.generateBreadcrumbs()}</h2>
+          {this.renderTransactions()}
+          <CategoryButton
+            subCategory
+            onClick={() => {
+              this.props.dispatch(CategoryActions.addTransaction());
+              this.props.dispatch(setEdit(true));
+            }}
+          >
+            <Glyphicon glyph="plus" /> Add a transaction
+          </CategoryButton>
+        </section>
       </Page>
     );
   }
