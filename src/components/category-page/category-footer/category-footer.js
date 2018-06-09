@@ -1,45 +1,21 @@
 import React from "react";
-import { Glyphicon } from "react-bootstrap";
+import Button from "../../button/button";
 
-export default class CategoryFooter extends React.Component {
-  render() {
-    return (
-      <div>
-        <div className="footer-msg">{this.renderBackButton()}</div>
-        <div className="footer-btn">{this.renderEditButton()}</div>
-      </div>
-    );
-  }
+const CategoryFooter = ({
+  edit,
+  cancel,
+  back,
+  saveTransactions,
+  editTransactions
+}) => (
+  <div className="float-right">
+    <Button secondary small onClick={edit ? cancel : back}>
+      {edit ? 'Cancel' : 'Back to budget'}
+    </Button>
+    <Button small onClick={edit ? saveTransactions : editTransactions}>
+      {edit ? 'Save transactions' : 'Edit transactions'}
+    </Button>
+  </div>
+);
 
-  renderBackButton() {
-    if (this.props.edit) {
-      return (
-        <button className="button" onClick={this.props.cancel}>
-          <Glyphicon glyph="remove" /> Cancel
-        </button>
-      );
-    }
-
-    return (
-      <button className="button" onClick={this.props.back}>
-        <Glyphicon glyph="arrow-left" /> Back to budget
-      </button>
-    );
-  }
-
-  renderEditButton() {
-    if (this.props.edit) {
-      return (
-        <button className="button" onClick={this.props.saveTransactions}>
-          <Glyphicon glyph="ok" /> Save Transactions
-        </button>
-      );
-    }
-
-    return (
-      <button className="button" onClick={this.props.editTransactions}>
-        <Glyphicon glyph="pencil" /> Edit Transactions
-      </button>
-    );
-  }
-}
+export default CategoryFooter;

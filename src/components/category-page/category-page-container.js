@@ -19,7 +19,8 @@ const CategoryPageContainer = connect(store => {
     category: store.budgets.category,
     edit: store.ui.edit,
     income,
-    superCategoryName
+    superCategoryName,
+    budgetDates: store.budgets.budgets.map(budget => budget.date)
   };
 })(CategoryPage);
 

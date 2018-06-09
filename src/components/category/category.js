@@ -2,10 +2,8 @@ import React from "react";
 import "./category.less";
 
 import Row from "../row/row";
-import ProgressBar from "../progress-bar/progress-bar";
+import CategoryHeader from "./category-header";
 import SubCategory from "../sub-category/sub-category";
-import Input from "../input/input";
-import DollarService from "../../services/dollar-service";
 
 const getActualAmount = subCategories =>
   subCategories.reduce(
@@ -23,36 +21,6 @@ const getPlannedAmount = subCategories =>
     (sum, subCategory) => sum + subCategory.plannedAmount,
     0
   );
-
-const CategoryTitle = ({ editing, title, updateTitle }) => {
-  if (editing) {
-    return (
-      <Input
-        className="category-title category-input"
-        value={title}
-        placeholder="Category name"
-        onChange={e => updateTitle(e.target.value)}
-      />
-    );
-  }
-
-  return (
-    <div className="category-title">
-      <h3>{title}</h3>
-    </div>
-  );
-};
-
-const CategoryAmount = ({ actualAmount, plannedAmount }) => {
-  const actualAmountStr = DollarService.getDollarString(actualAmount);
-  const plannedAmountStr = DollarService.getDollarString(plannedAmount);
-
-  return (
-    <div className="category-amount">
-      <h3>{`$${actualAmountStr} of $${plannedAmountStr}`}</h3>
-    </div>
-  );
-};
 
 const SubCategoryList = ({
   subCategories,
@@ -108,22 +76,13 @@ export default class Category extends React.Component {
 
     return (
       <div className="expense-group">
-        <Row clickable={!edit} header>
-          <CategoryTitle
-            editing={edit}
-            title={title}
-            updateTitle={updateTitle}
-          />
-          <CategoryAmount
-            actualAmount={actualAmount}
-            plannedAmount={plannedAmount}
-          />
-          <ProgressBar
-            numerator={actualAmount}
-            denominator={plannedAmount}
-            danger
-          />
-        </Row>
+        <CategoryHeader
+          editing={edit}
+          title={title}
+          actualAmount={actualAmount}
+          plannedAmount={plannedAmount}
+          updateTitle={updateTitle}
+        />
         <SubCategoryList
           subCategories={subCategories}
           editing={edit}

@@ -1,11 +1,11 @@
 import React from "react";
-import { Glyphicon } from "react-bootstrap";
 
 import Page from "../page/page";
+import Row from "../row/row";
+import BudgetHeader from "../budget/budget-header/budget-header";
+import CategoryHeader from "../category/category-header";
 import Transaction from "../transaction/transaction";
-import CategoryButton from "../util/category-button";
 import CategoryFooter from "./category-footer/category-footer";
-import SubCategory from "../sub-category/sub-category";
 import DateService from "../../services/date-service";
 import { setPage, setEdit } from "../../actions/ui-actions";
 import * as CategoryActions from "../../actions/category-actions";
@@ -18,17 +18,23 @@ export default class CategoryPage extends React.Component {
     return (
       <Page header={this.renderHeader()} footer={this.renderFooter()}>
         <section>
-          <h2>{this.generateBreadcrumbs()}</h2>
+          <h2>{this.props.superCategoryName}</h2>
+          <CategoryHeader
+            title={this.props.category.title}
+            actualAmount={this.getActualAmount()}
+            plannedAmount={this.props.category.plannedAmount}
+            income={this.props.income}
+          />
           {this.renderTransactions()}
-          <CategoryButton
-            subCategory
+          <Row
+            clickable
             onClick={() => {
               this.props.dispatch(CategoryActions.addTransaction());
               this.props.dispatch(setEdit(true));
             }}
           >
-            <Glyphicon glyph="plus" /> Add a transaction
-          </CategoryButton>
+            + Add a transaction
+          </Row>
         </section>
       </Page>
     );
@@ -36,43 +42,11 @@ export default class CategoryPage extends React.Component {
 
   renderHeader() {
     return (
-      <div>
-        <div className="category-header-left">{this.generateTitle()}</div>
-        <div className="category-header-right">{this.generateMessage()}</div>
-      </div>
+      <BudgetHeader
+        budgetDates={this.props.budgetDates || []}
+        date={{ month: this.props.month, year: this.props.year }}
+      />
     );
-  }
-
-  generateTitle() {
-    return `${DateService.getMonthName(this.props.month)} ${this.props.year}`;
-  }
-
-  generateMessage() {
-    const actual = DollarService.getDollarString(this.getActualAmount());
-    const planned = DollarService.getDollarString(
-      this.props.category.plannedAmount
-    );
-
-    const baseMessage = `$${actual} of $${planned} `;
-
-    return (
-      <span>
-        {baseMessage}
-        <span className="accent">
-          {this.generateDifference(actual, planned, this.props.income)}
-        </span>
-      </span>
-    );
-  }
-
-  generateDifference(actual, planned, income) {
-    const difference = planned - actual;
-
-    if (difference >= 0) {
-      return `($${difference} ${income ? "to go" : "left"})`;
-    }
-
-    return `($${difference * -1} ${income ? "extra" : "over"})`;
   }
 
   getActualAmount() {
@@ -80,10 +54,6 @@ export default class CategoryPage extends React.Component {
       (sum, transaction) => sum + transaction.amount,
       0
     );
-  }
-
-  generateBreadcrumbs() {
-    return `${this.props.superCategoryName} - ${this.props.category.title}`;
   }
 
   renderFooter() {
