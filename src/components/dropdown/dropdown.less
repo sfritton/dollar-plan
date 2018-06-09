@@ -1,0 +1,33 @@
+@import "../../less/colors.less";
+
+select {
+  background: inherit;
+  color: inherit;
+  border: none;
+  border-bottom: 1px solid @primary-light;
+  font-size: 16px;
+
+  &::placeholder {
+    color: @primary-light;
+  }
+
+  &:hover {
+    border-bottom: 2px solid @primary-light;
+  }
+
+  &:focus {
+    outline: none;
+    border-bottom: 2px solid @primary-text;
+  }
+}
+
+option {
+  color: #000;
+}
+
+.select-wrapper {
+  display: inline-block;
+  margin-right: 20px;
+  height: 21px;
+}
+
