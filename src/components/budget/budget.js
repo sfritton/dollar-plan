@@ -1,14 +1,13 @@
 import React from "react";
-import { Glyphicon } from "react-bootstrap";
 
 import * as BudgetActions from "../../actions/budget-actions";
 import * as CategoryActions from "../../actions/category-actions";
 import * as UIActions from "../../actions/ui-actions";
 import Pages from "../../constants/pages-enum";
 import Page from "../page/page";
+import Row from "../row/row";
 import SubCategory from "../sub-category/sub-category";
 import Category from "../category/category";
-import CategoryButton from "../util/category-button";
 import BudgetHeader from "./budget-header/budget-header";
 import BudgetFooter from "./budget-footer/budget-footer";
 import DollarService from "../../services/dollar-service";
@@ -24,27 +23,34 @@ export default class Budget extends React.Component {
         header={this.renderHeader(this.props.budget.date)}
         footer={this.renderFooter()}
       >
-        <div className="section-header">Income</div>
-        {this.renderIncomes()}
-        {this.props.edit ? (
-          <CategoryButton
-            subCategory
-            onClick={() =>
-              this.props.dispatch(BudgetActions.addIncomeCategory())}
-          >
-            <Glyphicon glyph="plus" /> Add a category
-          </CategoryButton>
-        ) : null}
-        <div className="section-header">Expenses</div>
-        {this.renderExpenses()}
-        {this.props.edit ? (
-          <CategoryButton
-            onClick={() =>
-              this.props.dispatch(BudgetActions.addExpenseCategory())}
-          >
-            <Glyphicon glyph="plus" /> Add a category
-          </CategoryButton>
-        ) : null}
+        <section>
+          <h2>Income</h2>
+          {this.renderIncomes()}
+          {this.props.edit && (
+            <Row
+              clickable
+              onClick={() =>
+                this.props.dispatch(BudgetActions.addIncomeCategory())}
+            >
+              + add a category
+            </Row>
+          )}
+        </section>
+
+        <section>
+          <h2>Expenses</h2>
+          {this.renderExpenses()}
+          {this.props.edit && (
+            <Row
+              clickable
+              header
+              onClick={() =>
+                this.props.dispatch(BudgetActions.addExpenseCategory())}
+            >
+              + add a category group
+            </Row>
+          )}
+        </section>
       </Page>
     );
   }
@@ -66,7 +72,7 @@ export default class Budget extends React.Component {
     return (
       <BudgetFooter
         message={this.getBalanceMessage()}
-        edit={this.props.edit}
+        editing={this.props.edit}
         adjust={() => this.props.dispatch(UIActions.setEdit(true))}
         save={() => {
           this.props.dispatch(UIActions.setEdit(false));

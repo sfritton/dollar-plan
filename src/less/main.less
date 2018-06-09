@@ -1,0 +1,31 @@
+@import "./colors.less";
+@import "./old-styles.less";
+@import "./util.less";
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  color: @primary-text;
+  background: @primary;
+  font-family: Arial;
+  margin: 0;
+}
+
+h1, h2, h3 {
+  margin: 0;
+}
+
+h2 {
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+section {
+  margin-top: 20px;
+}

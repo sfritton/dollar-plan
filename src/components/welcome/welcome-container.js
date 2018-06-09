@@ -5,7 +5,7 @@ import DateService from "../../services/date-service";
 
 const WelcomeContainer = connect(store => ({
   budgetDates: store.budgets.budgets.map(({ date }) => ({
-    id: DateService.encodeDate(date.month, date.year),
+    value: DateService.encodeDate(date.month, date.year),
     name: `${DateService.getMonthName(date.month)} ${date.year}`
   }))
 }))(Welcome);

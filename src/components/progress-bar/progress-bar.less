@@ -1,0 +1,35 @@
+@import "../../less/colors.less";
+
+.progress-bar {
+  border-radius: 5px;
+  display: inline-block;
+  box-shadow: inset 0 3px 5px @shadow;
+  margin-right: 20px;
+  background: white;
+  width: ~"calc(40% - 80px)";
+  height: 10px;
+  min-width: 10px;
+
+  &--full {
+    background: @secondary-dark;
+    box-shadow: none;
+  }
+
+  &--null {
+    background: @null;
+    box-shadow: none;
+  }
+
+  &--danger {
+    background: @danger;
+    box-shadow: none;
+  }
+
+  & div {
+    border-radius: 5px;
+    background: @secondary-dark;
+    height: 100%;
+    min-width: 10px;
+  }
+}
+

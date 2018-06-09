@@ -1,0 +1,54 @@
+@import "../../less/colors.less";
+
+.row {
+  background: @primary-dark;
+  color: @primary-dark-text;
+  padding: 10px 20px;
+  min-height: 42px;
+
+  &--btn {
+    font-size: 16px;
+    display: block;
+    width: 100%;
+    text-align: left;
+    border: none;
+
+    &:hover {
+      cursor: pointer;
+      background: @primary-dark-hover;
+      position: relative;
+      box-shadow: 0px 3px 10px @shadow;
+    }
+
+    &:focus {
+      outline: none;
+
+      & div {
+        text-decoration: underline;
+      }
+    }
+
+    &:active {
+      box-shadow: inset 0px 3px 10px @shadow;
+      background: @primary-dark;
+    }
+  }
+
+  &--header {
+    background: @primary-light;
+    color: black;
+    min-height: 45px;
+
+    &.row--btn:hover {
+      background: @primary-light-hover;
+    }
+
+    &.row--btn:focus {
+      text-decoration: none;
+    }
+
+    &.row--btn:active {
+      background: @primary-light;
+    }
+  }
+}

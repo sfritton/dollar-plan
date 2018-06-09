@@ -1,131 +1,98 @@
 import React from "react";
-import { Grid, Row, Col, Glyphicon } from "react-bootstrap";
+import "./sub-category.less";
 
-import ProgressBar from "../util/progress-bar";
-import TextInput from "../util/text-input";
+import Row from "../row/row";
+import ProgressBar from "../progress-bar/progress-bar";
+import Input from "../input/input";
 import DollarService from "../../services/dollar-service";
 
-export default class SubCategory extends React.Component {
-  render() {
+const Title = ({ editing, title, updateTitle }) => {
+  if (editing) {
     return (
-      <Grid
-        className="sub-category"
-        onClick={() => {
-          if (!this.props.edit) this.props.openCategory();
-        }}
-      >
-        <Row>
-          <Col xs={3} md={3} lg={2}>
-            {this.renderTitle()}
-          </Col>
-          <Col xs={2} md={this.props.edit ? 3 : 2} lg={this.props.edit ? 3 : 2}>
-            {this.renderAmount()}
-          </Col>
-          <Col xs={2} md={this.props.edit ? 3 : 4} lg={this.props.edit ? 4 : 5}>
-            <ProgressBar
-              income={this.props.income}
-              percent={
-                this.getActualAmount() / this.props.subCategory.plannedAmount
-              }
-            />
-          </Col>
-          <Col xs={3} md={2} lg={2}>
-            <div className="sub-category-message">{this.generateMessage()}</div>
-          </Col>
-          <Col xs={1} md={1} lg={1}>
-            {this.renderIcon()}
-          </Col>
-        </Row>
-      </Grid>
+      <Input
+        className="category-title-input"
+        value={title}
+        placeholder="Category name"
+        onChange={e => updateTitle(e.target.value)}
+      />
     );
   }
 
-  renderTitle() {
-    if (this.props.edit) {
-      return (
-        <TextInput
-          className="sub-category-input"
-          value={this.props.subCategory.title}
-          placeholder="Category name"
-          onChange={e => this.props.updateTitle(e.target.value)}
+  return <div className="category-title">{title}</div>;
+};
+
+const Amount = ({ editing, actualAmount, plannedAmount, updateAmount }) => {
+  if (editing) {
+    return (
+      <div className="category-amount">
+        {`$${DollarService.getCentString(actualAmount)} of `}
+        <Input
+          className="category-amount-input"
+          value={DollarService.getCentString(plannedAmount)}
+          placeholder="0"
+          onChange={e =>
+            updateAmount(DollarService.getCentNumber(e.target.value))}
         />
-      );
-    }
-
-    return (
-      <div className="sub-category-title">{this.props.subCategory.title}</div>
-    );
-  }
-
-  renderAmount() {
-    if (this.props.edit) {
-      return (
-        <div className="align-right">
-          {`$${DollarService.getCentString(this.getActualAmount())} of `}
-          <TextInput
-            className="sub-category-input dollar"
-            width="50%"
-            value={DollarService.getCentString(
-              this.props.subCategory.plannedAmount
-            )}
-            placeholder="0"
-            onChange={e =>
-              this.props.updateAmount(
-                DollarService.getCentNumber(e.target.value)
-              )}
-          />
-        </div>
-      );
-    }
-
-    return (
-      <div className="sub-category-amount">
-        {`$${DollarService.getDollarString(
-          this.getActualAmount()
-        )} of $${DollarService.getDollarString(
-          this.props.subCategory.plannedAmount
-        )}`}
       </div>
     );
   }
 
-  generateMessage() {
-    const difference =
-      this.props.subCategory.plannedAmount - this.getActualAmount();
+  return (
+    <div className="category-amount">
+      {`$${DollarService.getDollarString(
+        actualAmount
+      )} of $${DollarService.getDollarString(plannedAmount)}`}
+    </div>
+  );
+};
 
-    if (difference >= 0) {
-      return (
-        "$" +
-        DollarService.getDollarString(difference) +
-        (this.props.income ? " to go" : " left")
-      );
-    }
+const Balance = ({ plannedAmount, actualAmount, income }) => {
+  const difference = plannedAmount - actualAmount;
+  let message;
 
-    return (
-      "$" +
-      DollarService.getDollarString(difference * -1) +
-      (this.props.income ? " extra" : " over")
-    );
+  if (difference >= 0) {
+    message = `$${DollarService.getDollarString(difference)} ${income
+      ? "to go"
+      : "left"}`;
+  } else {
+    message = `$${DollarService.getDollarString(difference * -1)} ${income
+      ? "extra"
+      : "over"}`;
   }
 
-  renderIcon() {
-    if (this.props.edit) {
-      return (
-        <Glyphicon
-          className="icon-btn"
-          glyph="trash"
-          onClick={() => {
-            this.props.deleteSubCategory();
-          }}
-        />
-      );
-    }
-  }
+  return <div className="category-balance">{message}</div>;
+};
 
-  getActualAmount() {
-    return this.props.subCategory.transactions.reduce(
-      (sum, transaction) => sum + transaction.amount,
-      0
-    );
-  }
-}
+const getActualAmount = transactions =>
+  transactions.reduce((sum, transaction) => sum + transaction.amount, 0);
+
+const SubCategory = ({
+  edit,
+  income,
+  openCategory,
+  subCategory,
+  updateTitle,
+  updateAmount
+}) => (
+  <Row clickable={!edit} onClick={() => !edit && openCategory()}>
+    <Title editing={edit} title={subCategory.title} updateTitle={updateTitle} />
+    <Amount
+      editing={edit}
+      actualAmount={getActualAmount(subCategory.transactions)}
+      plannedAmount={subCategory.plannedAmount}
+      updateAmount={updateAmount}
+    />
+    <ProgressBar
+      numerator={getActualAmount(subCategory.transactions)}
+      denominator={subCategory.plannedAmount}
+      danger={!income}
+    />
+    <Balance
+      actualAmount={getActualAmount(subCategory.transactions)}
+      plannedAmount={subCategory.plannedAmount}
+      income={income}
+    />
+  </Row>
+);
+
+export default SubCategory;
