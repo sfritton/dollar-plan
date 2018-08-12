@@ -22,6 +22,7 @@
 
     &:focus {
       outline: none;
+      text-decoration: underline;
 
       & div {
         text-decoration: underline;
@@ -44,7 +45,12 @@
     }
 
     &.row--btn:focus {
-      text-decoration: none;
+      outline: none;
+      text-decoration: underline;
+
+      & div {
+        text-decoration: underline;
+      }
     }
 
     &.row--btn:active {
