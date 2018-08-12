@@ -10,16 +10,6 @@
   height: 10px;
   min-width: 10px;
 
-  @media(max-width: 600px) {
-    width: 0;
-    margin: 0;
-    min-width: 0;
-
-    & div {
-      min-width: 0;
-    }
-  }
-
   &--full {
     background: @secondary-dark;
     box-shadow: none;
@@ -40,6 +30,16 @@
     background: @secondary-dark;
     height: 100%;
     min-width: 10px;
+  }
+
+  @media(max-width: 600px) {
+    width: 0;
+    margin: 0;
+    min-width: 0;
+
+    & div {
+      min-width: 0;
+    }
   }
 }
 
