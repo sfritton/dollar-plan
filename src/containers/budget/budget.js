@@ -1,18 +1,19 @@
-import React from "react";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
 import * as BudgetActions from "../../actions/budget-actions";
 import * as CategoryActions from "../../actions/category-actions";
 import * as UIActions from "../../actions/ui-actions";
 import Pages from "../../constants/pages-enum";
-import Page from "../page/page";
-import Row from "../row/row";
-import SubCategory from "../sub-category/sub-category";
-import Category from "../category/category";
-import BudgetHeader from "./budget-header/budget-header";
-import BudgetFooter from "./budget-footer/budget-footer";
+import Page from "../../components/page/page";
+import Row from "../../components/row/row";
+import SubCategory from "../../components/sub-category/sub-category";
+import Category from "../../components/category/category";
+import BudgetHeader from "../../components/header/header";
+import BudgetFooter from "../../components/footer/footer";
 import DollarService from "../../services/dollar-service";
 
-export default class Budget extends React.Component {
+class Budget extends Component {
   render() {
     if (!this.props.budget) {
       return <Page header={this.renderHeader()} />;
@@ -223,3 +224,11 @@ export default class Budget extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  edit: state.ui.edit,
+  budget: state.budgets.budgets[state.budgets.activeBudgetIndex],
+  budgetDates: state.budgets.budgets.map(budget => budget.date)
+});
+
+export default connect(mapStateToProps)(Budget);

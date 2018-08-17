@@ -1,6 +1,6 @@
 import React from "react";
-import Button from "../../button/button";
-import "./budget-footer.less";
+import Button from "../button/button";
+import "./footer.less";
 
 const FooterButtons = ({ editing, save, cancel, adjust }) => (
   <div className="float-right">
@@ -21,7 +21,7 @@ const FooterButtons = ({ editing, save, cancel, adjust }) => (
   </div>
 );
 
-const BudgetFooter = ({ message, editing, save, cancel, adjust }) => (
+const Footer = ({ message, editing, save, cancel, adjust }) => (
   <div>
     <h2>{message}</h2>
     <FooterButtons
@@ -33,4 +33,4 @@ const BudgetFooter = ({ message, editing, save, cancel, adjust }) => (
   </div>
 );
 
-export default BudgetFooter;
+export default Footer;

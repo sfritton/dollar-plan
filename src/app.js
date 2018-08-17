@@ -1,14 +1,14 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { render } from "react-dom";
 import { Provider } from "react-redux";
 
 import store from "./store";
-import RootContainer from "./components/root/root-container";
+import Root from "./containers/root/root";
 import "./less/main.less";
 
-ReactDOM.render(
+render(
   <Provider store={store}>
-    <RootContainer />
+    <Root />
   </Provider>,
   document.getElementById("content")
 );

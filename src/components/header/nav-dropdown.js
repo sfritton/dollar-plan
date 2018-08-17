@@ -1,7 +1,7 @@
 import React from "react";
 
 import "./nav-dropdown.less";
-import DateService from "../../../services/date-service";
+import DateService from "../../services/date-service";
 
 const NavList = ({ options, onSelect }) => (
   <ul className="nav-dropdown--list">

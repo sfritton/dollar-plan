@@ -1,8 +1,8 @@
 import React from "react";
-import "./budget-header.less";
+import "./header.less";
 
 import NavDropdown from "./nav-dropdown";
-import DateService from "../../../services/date-service";
+import DateService from "../../services/date-service";
 
 const getDaysLeftMessage = date => {
   if (!date) return "";

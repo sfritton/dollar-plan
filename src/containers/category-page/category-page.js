@@ -1,10 +1,11 @@
 import React from "react";
+import { connect } from "react-redux";
 
-import Page from "../page/page";
-import Row from "../row/row";
-import BudgetHeader from "../budget/budget-header/budget-header";
-import CategoryHeader from "../category/category-header";
-import Transaction from "../transaction/transaction";
+import Page from "../../components/page/page";
+import Row from "../../components/row/row";
+import BudgetHeader from "../../components/header/header";
+import CategoryHeader from "../../components/category/category-header";
+import Transaction from "../../components/transaction/transaction";
 import CategoryFooter from "./category-footer/category-footer";
 import DateService from "../../services/date-service";
 import { setPage, setEdit } from "../../actions/ui-actions";
@@ -13,7 +14,7 @@ import { saveBudget } from "../../actions/budget-actions";
 import Pages from "../../constants/pages-enum";
 import DollarService from "../../services/dollar-service";
 
-export default class CategoryPage extends React.Component {
+class CategoryPage extends React.Component {
   render() {
     return (
       <Page header={this.renderHeader()} footer={this.renderFooter()}>
@@ -100,3 +101,27 @@ export default class CategoryPage extends React.Component {
     ));
   }
 }
+
+const mapStateToProps = state => {
+  const budget = state.budgets.budgets[state.budgets.activeBudgetIndex];
+  const { month, year } = budget.date;
+  const income =
+    state.budgets.activeCategoryKey.subCatId === null ||
+    state.budgets.activeCategoryKey.subCatId === undefined;
+
+  const superCategoryName = income
+    ? "Income"
+    : budget.expenses[state.budgets.activeCategoryKey.catId].title;
+
+  return {
+    month,
+    year,
+    category: state.budgets.category,
+    edit: state.ui.edit,
+    income,
+    superCategoryName,
+    budgetDates: state.budgets.budgets.map(budget => budget.date)
+  };
+};
+
+export default connect(mapStateToProps)(CategoryPage);
