@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 
 import Page from "../../components/page/page";
 import Row from "../../components/row/row";
-import BudgetHeader from "../../components/header/header";
+import Header from "../../components/header/header";
+import Footer from "../../components/footer/footer";
 import CategoryHeader from "../../components/category/category-header";
 import Transaction from "../../components/transaction/transaction";
-import CategoryFooter from "./category-footer/category-footer";
 import DateService from "../../services/date-service";
 import { setPage, setEdit } from "../../actions/ui-actions";
 import * as CategoryActions from "../../actions/category-actions";
@@ -43,7 +43,7 @@ class CategoryPage extends React.Component {
 
   renderHeader() {
     return (
-      <BudgetHeader
+      <Header
         budgetDates={this.props.budgetDates || []}
         date={{ month: this.props.month, year: this.props.year }}
       />
@@ -59,19 +59,19 @@ class CategoryPage extends React.Component {
 
   renderFooter() {
     return (
-      <CategoryFooter
-        edit={this.props.edit}
-        editTransactions={() => this.props.dispatch(setEdit(true))}
-        saveTransactions={() => {
+      <Footer
+        editing={this.props.edit}
+        primaryDefault={{ label: 'Edit transactions', onClick: () => this.props.dispatch(setEdit(true)) }}
+        primaryEditing={{ label: 'Save transactions', onClick: () => {
           this.props.dispatch(setEdit(false));
           this.props.dispatch(CategoryActions.saveCategoryToBudget());
           this.props.dispatch(saveBudget());
-        }}
-        back={() => this.props.dispatch(setPage(Pages.BUDGET))}
-        cancel={() => {
+        } }}
+        secondaryDefault={{ label: 'Back to budget', onClick: () => this.props.dispatch(setPage(Pages.BUDGET)) }}
+        secondaryEditing={{ label: 'Cancel', onClick: () => {
           this.props.dispatch(CategoryActions.resetCategory());
           this.props.dispatch(setEdit(false));
-        }}
+        } }}
       />
     );
   }

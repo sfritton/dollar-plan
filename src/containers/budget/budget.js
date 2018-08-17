@@ -9,8 +9,8 @@ import Page from "../../components/page/page";
 import Row from "../../components/row/row";
 import SubCategory from "../../components/sub-category/sub-category";
 import Category from "../../components/category/category";
-import BudgetHeader from "../../components/header/header";
-import BudgetFooter from "../../components/footer/footer";
+import Header from "../../components/header/header";
+import Footer from "../../components/footer/footer";
 import DollarService from "../../services/dollar-service";
 
 class Budget extends Component {
@@ -58,7 +58,7 @@ class Budget extends Component {
 
   renderHeader(date) {
     return (
-      <BudgetHeader
+      <Header
         budgetDates={this.props.budgetDates || []}
         date={date}
         setActiveBudget={(month, year) =>
@@ -71,19 +71,19 @@ class Budget extends Component {
 
   renderFooter() {
     return (
-      <BudgetFooter
+      <Footer
         message={this.getBalanceMessage()}
         editing={this.props.edit}
-        adjust={() => this.props.dispatch(UIActions.setEdit(true))}
-        save={() => {
+        primaryDefault={{ label: 'Adjust budget', onClick: () => this.props.dispatch(UIActions.setEdit(true)) }}
+        primaryEditing={{ label: 'Save budget', onClick: () => {
           this.props.dispatch(UIActions.setEdit(false));
           this.props.dispatch(BudgetActions.saveBudget());
-        }}
-        cancel={() => {
+        }}}
+        secondaryEditing={{ label: 'Cancel', onClick: () => {
           const { month, year } = this.props.budget.date;
           this.props.dispatch(UIActions.setEdit(false));
           this.props.dispatch(BudgetActions.getBudget(month, year));
-        }}
+        } }}
       />
     );
   }
