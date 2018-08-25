@@ -6,9 +6,7 @@ import Pages from "../../constants/pages-enum";
 import Months from "../../constants/months";
 import { createNewBudget } from "../../actions/budget-actions";
 import { setPage, setEdit } from "../../actions/ui-actions";
-import Dropdown from "../../components/dropdown/dropdown";
-import Button from "../../components/button/button";
-import Page from "../../components/page/page";
+import { Button, Dropdown, Page } from "Components";
 import DateService from "../../services/date-service";
 
 const currentYear = new Date().getFullYear();

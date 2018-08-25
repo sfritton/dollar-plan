@@ -5,12 +5,7 @@ import * as BudgetActions from "../../actions/budget-actions";
 import * as CategoryActions from "../../actions/category-actions";
 import * as UIActions from "../../actions/ui-actions";
 import Pages from "../../constants/pages-enum";
-import Page from "../../components/page/page";
-import Row from "../../components/row/row";
-import SubCategory from "../../components/sub-category/sub-category";
-import Category from "../../components/category/category";
-import Header from "../../components/header/header";
-import Footer from "../../components/footer/footer";
+import { Page, Row, SubCategory, Category, Header, Footer } from "Components";
 import DollarService from "../../services/dollar-service";
 
 class Budget extends Component {

@@ -9,6 +9,7 @@
     "build": "webpack --config webpack.prod.js",
     "watch": "webpack-dev-server --config webpack.dev.js",
     "start": "electron .",
+    "component:index": "node ./src/components/createIndex.js",
     "test": "karma start",
     "lint": "eslint \"src/**\" --fix",
     "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
