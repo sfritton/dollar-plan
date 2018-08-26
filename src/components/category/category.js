@@ -2,7 +2,7 @@ import React from "react";
 import "./category.less";
 
 import Row from "../row/row";
-import CategoryHeader from "./category-header";
+import GroupHeader from "../group-header/group-header";
 import SubCategory from "../sub-category/sub-category";
 
 const getActualAmount = subCategories =>
@@ -76,7 +76,7 @@ export default class Category extends React.Component {
 
     return (
       <div className="expense-group">
-        <CategoryHeader
+        <GroupHeader
           editing={edit}
           title={title}
           actualAmount={actualAmount}

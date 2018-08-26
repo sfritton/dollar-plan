@@ -1,8 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { Page, Row, Header, Footer, Transaction } from "Components";
-import CategoryHeader from "Components/category/category-header";
+import { Page, Row, Header, GroupHeader, Footer, Transaction } from "Components";
 import { setPage, setEdit } from "Redux/actions/ui-actions";
 import * as CategoryActions from "Redux/actions/category-actions";
 import { saveBudget } from "Redux/actions/budget-actions";
@@ -14,7 +13,7 @@ class CategoryPage extends React.Component {
       <Page header={this.renderHeader()} footer={this.renderFooter()}>
         <section>
           <h2>{this.props.superCategoryName}</h2>
-          <CategoryHeader
+          <GroupHeader
             title={this.props.category.title}
             actualAmount={this.getActualAmount()}
             plannedAmount={this.props.category.plannedAmount}

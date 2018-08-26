@@ -1,18 +1,17 @@
 import React from 'react';
-import "./category.less";
 
 import Row from '../row/row';
 import ProgressBar from '../progress-bar/progress-bar';
 import Input from "../input/input";
 import { getDollarString } from "Util/currency";
 
-const CategoryTitle = ({ editing, title, updateTitle }) => {
+const GroupTitle = ({ editing, title, updateTitle }) => {
   if (editing) {
     return (
       <Input
         className="category-title category-input"
         value={title}
-        placeholder="Category name"
+        placeholder="Group name"
         onChange={e => updateTitle(e.target.value)}
       />
     );
@@ -25,7 +24,7 @@ const CategoryTitle = ({ editing, title, updateTitle }) => {
   );
 };
 
-const CategoryAmount = ({ actualAmount, plannedAmount }) => {
+const GroupAmount = ({ actualAmount, plannedAmount }) => {
   const actualAmountStr = getDollarString(actualAmount);
   const plannedAmountStr = getDollarString(plannedAmount);
 
@@ -36,7 +35,7 @@ const CategoryAmount = ({ actualAmount, plannedAmount }) => {
   );
 };
 
-const CategoryHeader = ({
+const GroupHeader = ({
   editing,
   title,
   actualAmount,
@@ -45,12 +44,12 @@ const CategoryHeader = ({
   income
 }) => (
   <Row header>
-    <CategoryTitle
+    <GroupTitle
       editing={editing}
       title={title}
       updateTitle={updateTitle}
     />
-    <CategoryAmount
+    <GroupAmount
       actualAmount={actualAmount}
       plannedAmount={plannedAmount}
     />
@@ -62,4 +61,4 @@ const CategoryHeader = ({
   </Row>
 );
 
-export default CategoryHeader;
+export default GroupHeader;
