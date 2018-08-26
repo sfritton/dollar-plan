@@ -5,7 +5,6 @@ import Row from '../row/row';
 import Input from "../input/input";
 import Button from "../button/button";
 
-import DateService from "../../services/date-service";
 import DollarService from "../../services/dollar-service";
 
 const TransactionDate = ({ editing, month, day, updateDate }) => {

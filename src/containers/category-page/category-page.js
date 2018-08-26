@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 
 import { Page, Row, Header, Footer, Transaction } from "Components";
 import CategoryHeader from "Components/category/category-header";
-import DateService from "../../services/date-service";
 import { setPage, setEdit } from "../../actions/ui-actions";
 import * as CategoryActions from "../../actions/category-actions";
 import { saveBudget } from "../../actions/budget-actions";

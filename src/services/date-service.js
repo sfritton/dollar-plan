@@ -2,132 +2,117 @@ import Months from "../constants/months";
 
 const ONE_DAY = 1000 * 60 * 60 * 24; // one day in milliseconds
 
-export default class DateService {
-  static encodeDate(month, year) {
-    if (month < 10) {
-      return `${year}-0${month}`;
-    }
+const getFirstDayOfMonth = (month, year) => new Date(year, month - 1, 1);
 
-    return `${year}-${month}`;
-  }
+function getLastDayOfMonth(month, year) {
+  const nextMonth = getNextMonth(month, year);
 
-  static decodeDate(dateStr) {
-    let splitStr = dateStr.split(".")[0].split("-");
-    return { year: parseInt(splitStr[0]), month: parseInt(splitStr[1]) };
-  }
-
-  static getMonthName(month) {
-    if (
-      month === null ||
-      month === undefined ||
-      isNaN(month) ||
-      month < 1 ||
-      month > 12
-    ) {
-      return "Frittembruary";
-    }
-
-    return Months[month - 1].name;
-  }
-
-  static getFirstDayOfMonth(month, year) {
-    return new Date(year, month - 1, 1);
-  }
-
-  static getLastDayOfMonth(month, year) {
-    const nextMonth = this.getNextMonth(month, year);
-
-    return new Date(nextMonth.year, nextMonth.month - 1, 0);
-  }
-
-  static getNextMonth(month, year) {
-    if (month === 12) {
-      return { month: 1, year: year + 1 };
-    }
-
-    return { month: month + 1, year };
-  }
-
-  static compareToToday(date) {
-    const today = new Date();
-
-    return Math.round((date.getTime() - today.getTime()) / ONE_DAY);
-  }
-
-  static hasMonthStarted(month, year) {
-    const monthBeginning = this.getFirstDayOfMonth(month, year);
-
-    return this.compareToToday(monthBeginning) <= 0;
-  }
-
-  static hasMonthEnded(month, year) {
-    const nextMonth = this.getNextMonth(month, year);
-
-    const nextMonthBeginning = this.getFirstDayOfMonth(
-      nextMonth.month,
-      nextMonth.year
-    );
-
-    return this.compareToToday(nextMonthBeginning) < 0;
-  }
-
-  static getDaysLeft(month, year) {
-    const nextMonth = this.getNextMonth(month, year);
-
-    const nextMonthBeginning = this.getFirstDayOfMonth(
-      nextMonth.month,
-      nextMonth.year
-    );
-
-    return this.compareToToday(nextMonthBeginning);
-  }
-
-  static getMonthAndDay(dateStr) {
-    const date = new Date(dateStr);
-
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-
-    return { month, day };
-  }
-
-  static compareDateStrings(a, b) {
-    const dateA = new Date(a).getTime();
-    const dateB = new Date(b).getTime();
-
-    return dateA - dateB;
-  }
-
-  /*
-   * Returns the day in the budget month that is closest to target date.
-   * If target date is in the budget month, returns target date.
-   * If budget month is in the past, returns last day of budget month.
-   * If budget month is in the future, returns 1st day of budget month.
-   */
-  static getClosestToDate(month, year, targetDate) {
-    const targetMonth = targetDate.getMonth() + 1;
-    const targetYear = targetDate.getFullYear();
-
-    if (year > targetYear) {
-      return this.getFirstDayOfMonth(month, year);
-    }
-
-    if (year < targetYear) {
-      return this.getLastDayOfMonth(month, year);
-    }
-
-    if (month > targetMonth) {
-      return this.getFirstDayOfMonth(month, year);
-    }
-
-    if (month < targetMonth) {
-      return this.getLastDayOfMonth(month, year);
-    }
-
-    return targetDate;
-  }
-
-  static getClosestToToday(date) {
-    return this.getClosestToDate(date.month, date.year, new Date());
-  }
+  return new Date(nextMonth.year, nextMonth.month - 1, 0);
 }
+
+function getNextMonth(month, year) {
+  if (month === 12) {
+    return { month: 1, year: year + 1 };
+  }
+
+  return { month: month + 1, year };
+}
+
+function compareToToday(date) {
+  const today = new Date();
+
+  return Math.round((date.getTime() - today.getTime()) / ONE_DAY);
+}
+
+export function encodeDate(month, year) {
+  if (month < 10) {
+    return `${year}-0${month}`;
+  }
+
+  return `${year}-${month}`;
+}
+
+export function decodeDate(dateStr) {
+  const [ yearStr, monthStr ] = dateStr.split(".")[0].split("-");
+  return { year: parseInt(yearStr), month: parseInt(monthStr) };
+}
+
+export function getMonthName(month) {
+  if (
+    month === null ||
+    month === undefined ||
+    isNaN(month) ||
+    month < 1 ||
+    month > 12
+  ) {
+    return "Frittembruary";
+  }
+
+  return Months[month - 1].name;
+}
+
+export function hasMonthStarted(month, year) {
+  const monthBeginning = getFirstDayOfMonth(month, year);
+
+  return compareToToday(monthBeginning) <= 0;
+}
+
+export function hasMonthEnded(month, year) {
+  const nextMonth = getNextMonth(month, year);
+
+  const nextMonthBeginning = getFirstDayOfMonth(
+    nextMonth.month,
+    nextMonth.year
+  );
+
+  return compareToToday(nextMonthBeginning) < 0;
+}
+
+export function getDaysLeft(month, year) {
+  const nextMonth = getNextMonth(month, year);
+
+  const nextMonthBeginning = getFirstDayOfMonth(
+    nextMonth.month,
+    nextMonth.year
+  );
+
+  return compareToToday(nextMonthBeginning);
+}
+
+export function compareDateStrings(a, b) {
+  const dateA = new Date(a).getTime();
+  const dateB = new Date(b).getTime();
+
+  return dateA - dateB;
+}
+
+/*
+ * Returns the day in the budget month that is closest to target date.
+ * If target date is in the budget month, returns target date.
+ * If budget month is in the past, returns last day of budget month.
+ * If budget month is in the future, returns 1st day of budget month.
+ */
+export function getClosestToDate(month, year, targetDate) {
+  const targetMonth = targetDate.getMonth() + 1;
+  const targetYear = targetDate.getFullYear();
+
+  if (year > targetYear) {
+    return getFirstDayOfMonth(month, year);
+  }
+
+  if (year < targetYear) {
+    return getLastDayOfMonth(month, year);
+  }
+
+  if (month > targetMonth) {
+    return getFirstDayOfMonth(month, year);
+  }
+
+  if (month < targetMonth) {
+    return getLastDayOfMonth(month, year);
+  }
+
+  return targetDate;
+}
+
+export const getClosestToToday = date => getClosestToDate(date.month, date.year, new Date());

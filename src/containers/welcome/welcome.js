@@ -7,7 +7,7 @@ import Months from "../../constants/months";
 import { createNewBudget } from "../../actions/budget-actions";
 import { setPage, setEdit } from "../../actions/ui-actions";
 import { Button, Dropdown, Page } from "Components";
-import DateService from "../../services/date-service";
+import { encodeDate, decodeDate, getMonthName } from "../../services/date-service";
 
 const currentYear = new Date().getFullYear();
 const nextTenYears = new Array(10)
@@ -39,7 +39,7 @@ class Welcome extends Component {
     const { month, year, copyOldBudget, oldDate } = this.state;
 
     if (copyOldBudget) {
-      const decodedOldDate = DateService.decodeDate(oldDate);
+      const decodedOldDate = decodeDate(oldDate);
       dispatch(createNewBudget(month, year, decodedOldDate.month, decodedOldDate.year));
     } else {
       dispatch(createNewBudget(month, year));
@@ -74,7 +74,7 @@ class Welcome extends Component {
             <Dropdown
               options={nextTenYears}
               value={year}
-              onChange={year => this.setState({ year: parseInt(y) })}
+              onChange={y => this.setState({ year: parseInt(y) })}
             />
           </FormSection>
 
@@ -112,8 +112,8 @@ class Welcome extends Component {
 
 const mapStateToProps = state => ({
   budgetDates: state.budgets.budgets.map(({ date }) => ({
-    value: DateService.encodeDate(date.month, date.year),
-    name: `${DateService.getMonthName(date.month)} ${date.year}`
+    value: encodeDate(date.month, date.year),
+    name: `${getMonthName(date.month)} ${date.year}`
   }))
 });
 

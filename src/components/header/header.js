@@ -2,22 +2,22 @@ import React from "react";
 import "./header.less";
 
 import NavDropdown from "./nav-dropdown";
-import DateService from "../../services/date-service";
+import { hasMonthStarted, hasMonthEnded, getDaysLeft } from "../../services/date-service";
 
 const getDaysLeftMessage = date => {
   if (!date) return "";
 
   const { month, year } = date;
 
-  if (!DateService.hasMonthStarted(month, year)) {
+  if (!hasMonthStarted(month, year)) {
     return "Month has not started";
   }
 
-  if (DateService.hasMonthEnded(month, year)) {
+  if (hasMonthEnded(month, year)) {
     return "Month has ended";
   }
 
-  return `${DateService.getDaysLeft(month, year)} days left`;
+  return `${getDaysLeft(month, year)} days left`;
 };
 
 const BudgetHeader = ({

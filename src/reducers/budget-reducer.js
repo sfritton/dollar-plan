@@ -1,7 +1,13 @@
 import * as fs from "fs";
 
 import Actions from "../constants/actions-enum";
-import DateService from "../services/date-service";
+import {
+  encodeDate,
+  decodeDate,
+  compareDateStrings,
+  getClosestToDate,
+  getClosestToToday
+} from "../services/date-service";
 
 const DATA_DIRECTORY = "data";
 
@@ -86,7 +92,7 @@ function handleGetAllBudgets(state) {
       .readdirSync(DATA_DIRECTORY)
       .reverse()
       .map(budget => ({
-        date: DateService.decodeDate(budget),
+        date: decodeDate(budget),
         loaded: false
       }))
   };
@@ -96,7 +102,7 @@ function handleGetBudget(state, payload) {
   const { month, year } = payload;
   const budget = JSON.parse(
     fs.readFileSync(
-      `${DATA_DIRECTORY}\\${DateService.encodeDate(month, year)}.json`
+      `${DATA_DIRECTORY}\\${encodeDate(month, year)}.json`
     )
   );
   budget.loaded = true;
@@ -138,7 +144,7 @@ function handleCreateNewBudget(state, payload) {
       if (!oldBudget.loaded) {
         oldBudget = JSON.parse(
           fs.readFileSync(
-            `${DATA_DIRECTORY}\\${DateService.encodeDate(oldMonth, oldYear)}.json`
+            `${DATA_DIRECTORY}\\${encodeDate(oldMonth, oldYear)}.json`
           )
         );
       }
@@ -189,7 +195,7 @@ function handleSetActiveBudget(state, payload) {
 
   const budget = JSON.parse(
     fs.readFileSync(
-      `${DATA_DIRECTORY}\\${DateService.encodeDate(month, year)}.json`
+      `${DATA_DIRECTORY}\\${encodeDate(month, year)}.json`
     )
   );
   budget.loaded = true;
@@ -205,7 +211,7 @@ function handleSetActiveBudget(state, payload) {
 
 function handleSaveBudget(state) {
   const { date, incomes, expenses } = state.budgets[state.activeBudgetIndex];
-  const fileName = DateService.encodeDate(date.month, date.year) + ".json";
+  const fileName = encodeDate(date.month, date.year) + ".json";
 
   fs.writeFileSync(
     `${DATA_DIRECTORY}\\${fileName}`,
@@ -560,7 +566,7 @@ function handleSaveCategoryToBudget(state, payload) {
   const category = { ...state.category };
   const transactions = [...category.transactions];
 
-  transactions.sort((a, b) => DateService.compareDateStrings(a.date, b.date));
+  transactions.sort((a, b) => compareDateStrings(a.date, b.date));
   category.transactions = transactions;
 
   const budget = { ...state.budgets[state.activeBudgetIndex] };
@@ -623,7 +629,7 @@ function handleUpdateTransactionDate(state, payload) {
 
   const targetDate = new Date(year, month - 1, payload.date);
 
-  transaction.date = DateService.getClosestToDate(
+  transaction.date = getClosestToDate(
     month,
     year,
     targetDate
@@ -662,7 +668,7 @@ function handleUpdateTransactionAmount(state, payload) {
 }
 
 function handleAddTransaction(state) {
-  const date = DateService.getClosestToToday(
+  const date = getClosestToToday(
     state.budgets[state.activeBudgetIndex].date
   );
 
