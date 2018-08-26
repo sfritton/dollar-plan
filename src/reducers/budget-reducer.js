@@ -250,17 +250,17 @@ function handleUpdateIncomeCategoryTitle(state, payload) {
 }
 
 function handleUpdateIncomeCategoryAmount(state, payload) {
+  const { catId, amount } = payload;
+
   if (
-    payload.catId === null ||
-    payload.catId === undefined ||
-    payload.catId < 0 ||
-    isNaN(payload.amount) ||
-    payload.amount < 0
+    catId === null ||
+    catId === undefined ||
+    catId < 0 ||
+    isNaN(amount) ||
+    amount < 0
   ) {
     return state;
   }
-
-  const { catId, amount } = payload;
 
   const budget = { ...state.budgets[state.activeBudgetIndex] };
   const income = {
@@ -655,14 +655,26 @@ function handleUpdateTransactionDescription(state, payload) {
 }
 
 function handleUpdateTransactionAmount(state, payload) {
+  const { id, amount } = payload;
+
+  if (
+    id === null ||
+    id === undefined ||
+    id < 0 ||
+    isNaN(amount) ||
+    amount < 0
+  ) {
+    return state;
+  }
+
   const category = { ...state.category };
   const transaction = {
-    ...category.transactions[payload.id],
-    amount: payload.amount
+    ...category.transactions[id],
+    amount
   };
 
   category.transactions = [...category.transactions];
-  category.transactions[payload.id] = transaction;
+  category.transactions[id] = transaction;
 
   return { ...state, category };
 }

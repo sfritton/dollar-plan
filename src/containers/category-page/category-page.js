@@ -7,7 +7,6 @@ import { setPage, setEdit } from "../../actions/ui-actions";
 import * as CategoryActions from "../../actions/category-actions";
 import { saveBudget } from "../../actions/budget-actions";
 import Pages from "../../constants/pages-enum";
-import DollarService from "../../services/dollar-service";
 
 class CategoryPage extends React.Component {
   render() {

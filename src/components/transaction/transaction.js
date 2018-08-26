@@ -5,7 +5,7 @@ import Row from '../row/row';
 import Input from "../input/input";
 import Button from "../button/button";
 
-import DollarService from "../../services/dollar-service";
+import { getCentString, getCentNumber } from "../../services/dollar-service";
 
 const TransactionDate = ({ editing, month, day, updateDate }) => {
   if (editing) {
@@ -29,16 +29,16 @@ const TransactionAmount = ({ editing, amount, updateAmount }) => {
     return (
       <Input
         className="transaction transaction--amount"
-        value={DollarService.getCentString(amount)}
+        value={getCentString(amount)}
         placeholder="0.00"
-        onChange={e => updateAmount(DollarService.getCentNumber(e.target.value))}
+        onChange={e => updateAmount(getCentNumber(e.target.value))}
       />
     );
   }
 
   return (
     <div className="transaction transaction--amount">
-      {`$${DollarService.getCentString(amount)}`}
+      {`$${getCentString(amount)}`}
     </div>
   );
 }

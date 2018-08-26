@@ -6,7 +6,7 @@ import * as CategoryActions from "../../actions/category-actions";
 import * as UIActions from "../../actions/ui-actions";
 import Pages from "../../constants/pages-enum";
 import { Page, Row, SubCategory, Category, Header, Footer } from "Components";
-import DollarService from "../../services/dollar-service";
+import { getCentString } from "../../services/dollar-service";
 
 class Budget extends Component {
   render() {
@@ -157,10 +157,10 @@ class Budget extends Component {
 
   formatBalance(balance) {
     if (balance < 0) {
-      return "Balance: -$" + DollarService.getCentString(balance) * -1;
+      return "Balance: -$" + getCentString(balance) * -1;
     }
 
-    return "Balance: $" + DollarService.getCentString(balance);
+    return "Balance: $" + getCentString(balance);
   }
 
   getActualBalance() {

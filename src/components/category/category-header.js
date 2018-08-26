@@ -4,7 +4,7 @@ import "./category.less";
 import Row from '../row/row';
 import ProgressBar from '../progress-bar/progress-bar';
 import Input from "../input/input";
-import DollarService from "../../services/dollar-service";
+import { getDollarString } from "../../services/dollar-service";
 
 const CategoryTitle = ({ editing, title, updateTitle }) => {
   if (editing) {
@@ -26,8 +26,8 @@ const CategoryTitle = ({ editing, title, updateTitle }) => {
 };
 
 const CategoryAmount = ({ actualAmount, plannedAmount }) => {
-  const actualAmountStr = DollarService.getDollarString(actualAmount);
-  const plannedAmountStr = DollarService.getDollarString(plannedAmount);
+  const actualAmountStr = getDollarString(actualAmount);
+  const plannedAmountStr = getDollarString(plannedAmount);
 
   return (
     <div className="category-amount">

@@ -4,7 +4,7 @@ import "./sub-category.less";
 import Row from "../row/row";
 import ProgressBar from "../progress-bar/progress-bar";
 import Input from "../input/input";
-import DollarService from "../../services/dollar-service";
+import { getCentString, getCentNumber, getDollarString } from "../../services/dollar-service";
 
 const Title = ({ editing, title, updateTitle }) => {
   if (editing) {
@@ -25,13 +25,13 @@ const Amount = ({ editing, actualAmount, plannedAmount, updateAmount }) => {
   if (editing) {
     return (
       <div className="category-amount">
-        {`$${DollarService.getCentString(actualAmount)} of `}
+        {`$${getCentString(actualAmount)} of `}
         <Input
           className="category-amount-input"
-          value={DollarService.getCentString(plannedAmount)}
+          value={getCentString(plannedAmount)}
           placeholder="0"
           onChange={e =>
-            updateAmount(DollarService.getCentNumber(e.target.value))}
+            updateAmount(getCentNumber(e.target.value))}
         />
       </div>
     );
@@ -39,9 +39,9 @@ const Amount = ({ editing, actualAmount, plannedAmount, updateAmount }) => {
 
   return (
     <div className="category-amount">
-      {`$${DollarService.getDollarString(
+      {`$${getDollarString(
         actualAmount
-      )} of $${DollarService.getDollarString(plannedAmount)}`}
+      )} of $${getDollarString(plannedAmount)}`}
     </div>
   );
 };
@@ -51,11 +51,11 @@ const Balance = ({ plannedAmount, actualAmount, income }) => {
   let message;
 
   if (difference >= 0) {
-    message = `$${DollarService.getDollarString(difference)} ${income
+    message = `$${getDollarString(difference)} ${income
       ? "to go"
       : "left"}`;
   } else {
-    message = `$${DollarService.getDollarString(difference * -1)} ${income
+    message = `$${getDollarString(difference * -1)} ${income
       ? "extra"
       : "over"}`;
   }
