@@ -2,12 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import './welcome.less';
 
-import Pages from "../../constants/pages-enum";
-import Months from "../../constants/months";
-import { createNewBudget } from "../../actions/budget-actions";
-import { setPage, setEdit } from "../../actions/ui-actions";
+import Pages from "Redux/actions/pages-enum";
+import { createNewBudget } from "Redux/actions/budget-actions";
+import { setPage, setEdit } from "Redux/actions/ui-actions";
 import { Button, Dropdown, Page } from "Components";
-import { encodeDate, decodeDate, getMonthName } from "../../services/date-service";
+import { encodeDate, decodeDate, getMonthName, months } from "Util/date";
 
 const currentYear = new Date().getFullYear();
 const nextTenYears = new Array(10)
@@ -24,7 +23,7 @@ class Welcome extends Component {
     const canCopy = props.budgetDates.length > 0;
 
     this.state = {
-      month: Months[0].value,
+      month: months[0].value,
       year: nextTenYears[0].value,
       copyOldBudget: false,
       canCopy,
@@ -67,7 +66,7 @@ class Welcome extends Component {
 
           <FormSection>
             <Dropdown
-              options={Months}
+              options={months}
               value={month}
               onChange={m => this.setState({ month: parseInt(m) })}
             />

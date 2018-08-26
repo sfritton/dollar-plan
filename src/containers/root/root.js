@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import Pages from "../../constants/pages-enum";
+import Pages from "Redux/actions/pages-enum";
 import Budget from "../budget/budget";
 import Welcome from "../welcome/welcome";
 import CategoryPage from "../category-page/category-page";
-import { getAllBudgets, setActiveBudget } from "../../actions/budget-actions";
+import { getAllBudgets, setActiveBudget } from "Redux/actions/budget-actions";
 
 class Root extends Component {
   constructor(props) {

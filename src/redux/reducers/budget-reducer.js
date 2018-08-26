@@ -1,13 +1,13 @@
 import * as fs from "fs";
 
-import Actions from "../constants/actions-enum";
+import Actions from "../actions/actions-enum";
 import {
   encodeDate,
   decodeDate,
   compareDateStrings,
   getClosestToDate,
   getClosestToToday
-} from "../services/date-service";
+} from "Util/date";
 
 const DATA_DIRECTORY = "data";
 

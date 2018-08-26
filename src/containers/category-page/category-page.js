@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 
 import { Page, Row, Header, Footer, Transaction } from "Components";
 import CategoryHeader from "Components/category/category-header";
-import { setPage, setEdit } from "../../actions/ui-actions";
-import * as CategoryActions from "../../actions/category-actions";
-import { saveBudget } from "../../actions/budget-actions";
-import Pages from "../../constants/pages-enum";
+import { setPage, setEdit } from "Redux/actions/ui-actions";
+import * as CategoryActions from "Redux/actions/category-actions";
+import { saveBudget } from "Redux/actions/budget-actions";
+import Pages from "Redux/actions/pages-enum";
 
 class CategoryPage extends React.Component {
   render() {

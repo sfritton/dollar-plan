@@ -5,7 +5,7 @@ import Row from '../row/row';
 import Input from "../input/input";
 import Button from "../button/button";
 
-import { getCentString, getCentNumber } from "../../services/dollar-service";
+import { getCentString, getCentNumber } from "Util/currency";
 
 const TransactionDate = ({ editing, month, day, updateDate }) => {
   if (editing) {

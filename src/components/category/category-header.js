@@ -4,7 +4,7 @@ import "./category.less";
 import Row from '../row/row';
 import ProgressBar from '../progress-bar/progress-bar';
 import Input from "../input/input";
-import { getDollarString } from "../../services/dollar-service";
+import { getDollarString } from "Util/currency";
 
 const CategoryTitle = ({ editing, title, updateTitle }) => {
   if (editing) {

@@ -1,5 +1,5 @@
-import Actions from "../constants/actions-enum";
-import Pages from "../constants/pages-enum";
+import Actions from "../actions/actions-enum";
+import Pages from "../actions/pages-enum";
 
 export default function reducer(
   state = { page: Pages.BUDGET, loading: false, edit: false },

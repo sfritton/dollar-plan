@@ -1,7 +1,7 @@
 import React from "react";
 
 import "./nav-dropdown.less";
-import { encodeDate, getMonthName } from "../../services/date-service";
+import { encodeDate, getMonthName } from "Util/date";
 
 const NavList = ({ options, onSelect }) => (
   <ul className="nav-dropdown--list">

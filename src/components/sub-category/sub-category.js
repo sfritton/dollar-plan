@@ -4,7 +4,7 @@ import "./sub-category.less";
 import Row from "../row/row";
 import ProgressBar from "../progress-bar/progress-bar";
 import Input from "../input/input";
-import { getCentString, getCentNumber, getDollarString } from "../../services/dollar-service";
+import { getCentString, getCentNumber, getDollarString } from "Util/currency";
 
 const Title = ({ editing, title, updateTitle }) => {
   if (editing) {

@@ -2,7 +2,7 @@ import React from "react";
 import "./header.less";
 
 import NavDropdown from "./nav-dropdown";
-import { hasMonthStarted, hasMonthEnded, getDaysLeft } from "../../services/date-service";
+import { hasMonthStarted, hasMonthEnded, getDaysLeft } from "Util/date";
 
 const getDaysLeftMessage = date => {
   if (!date) return "";

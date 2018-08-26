@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import * as BudgetActions from "../../actions/budget-actions";
-import * as CategoryActions from "../../actions/category-actions";
-import * as UIActions from "../../actions/ui-actions";
-import Pages from "../../constants/pages-enum";
+import * as BudgetActions from "Redux/actions/budget-actions";
+import * as CategoryActions from "Redux/actions/category-actions";
+import * as UIActions from "Redux/actions/ui-actions";
+import Pages from "Redux/actions/pages-enum";
 import { Page, Row, SubCategory, Category, Header, Footer } from "Components";
-import { getCentString } from "../../services/dollar-service";
+import { getCentString } from "Util/currency";
 
 class Budget extends Component {
   render() {
