@@ -15,7 +15,7 @@ export const months = [
 
 const ONE_DAY = 1000 * 60 * 60 * 24; // one day in milliseconds
 
-const getFirstDayOfMonth = (month, year) => new Date(year, month - 1, 1);
+export const getFirstDayOfMonth = (month, year) => new Date(year, month - 1, 1);
 
 function getLastDayOfMonth(month, year) {
   const nextMonth = getNextMonth(month, year);
