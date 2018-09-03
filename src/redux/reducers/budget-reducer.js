@@ -566,7 +566,7 @@ function handleSaveCategoryToBudget(state, payload) {
   const category = { ...state.category };
   const transactions = [...category.transactions];
 
-  transactions.sort((a, b) => compareDateStrings(a.date, b.date));
+  transactions.sort((a, b) => compareDateStrings(b.date, a.date));
   category.transactions = transactions;
 
   const budget = { ...state.budgets[state.activeBudgetIndex] };

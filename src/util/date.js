@@ -15,15 +15,9 @@ export const months = [
 
 const ONE_DAY = 1000 * 60 * 60 * 24; // one day in milliseconds
 
-export const getFirstDayOfMonth = (month, year) => new Date(year, month - 1, 1);
+export const getFirstDayOfMonth = (month, year) => new Date(year, month - 1);
 
-function getLastDayOfMonth(month, year) {
-  const nextMonth = getNextMonth(month, year);
-
-  return new Date(nextMonth.year, nextMonth.month - 1, 0);
-}
-
-function getNextMonth(month, year) {
+export function getNextMonth(month, year) {
   if (month === 12) {
     return { month: 1, year: year + 1 };
   }
@@ -31,11 +25,17 @@ function getNextMonth(month, year) {
   return { month: month + 1, year };
 }
 
-function compareToToday(date) {
-  const today = new Date();
+export function getLastDayOfMonth(month, year) {
+  const nextMonth = getNextMonth(month, year);
 
-  return Math.round((date.getTime() - today.getTime()) / ONE_DAY);
+  return new Date(nextMonth.year, nextMonth.month - 1, 0);
 }
+
+// returns the number of days between two dates
+export const compareDates = (date1, date2) =>
+  Math.floor((date2.getTime() - date1.getTime()) / ONE_DAY);
+
+export const compareToToday = date => compareDates(new Date(), date);
 
 export function encodeDate(month, year) {
   if (month < 10) {
@@ -96,7 +96,7 @@ export function compareDateStrings(a, b) {
   const dateA = new Date(a).getTime();
   const dateB = new Date(b).getTime();
 
-  return dateA - dateB;
+  return dateB - dateA;
 }
 
 /*
