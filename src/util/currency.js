@@ -6,7 +6,7 @@ export function getDollarString(number) {
 }
 
 export function getCentString(number) {
-  const dollarStr = "" + number;
+  const dollarStr = number ? number.toString() : "";
 
   switch (dollarStr.length) {
     case 0:
