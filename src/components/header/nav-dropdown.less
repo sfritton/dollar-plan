@@ -36,6 +36,17 @@
     margin: 10px 0 0 -10px;
     padding: 0;
     box-shadow: 5px 5px 10px @shadow;
+    max-height: 200px;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar-track {
+      background-color: @primary-dark;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: @primary;
+      border: 5px solid @primary-dark;
+    }
   }
 
   &--option a {

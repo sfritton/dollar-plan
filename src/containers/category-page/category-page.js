@@ -19,6 +19,11 @@ class CategoryPage extends React.Component {
             plannedAmount={this.props.category.plannedAmount}
             income={this.props.income}
           />
+          {this.props.category.notes && (
+            <Row>
+              <b>Notes:</b> {this.props.category.notes}
+            </Row>
+          )}
           {this.renderTransactions()}
           <Row
             clickable
