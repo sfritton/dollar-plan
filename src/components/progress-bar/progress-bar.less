@@ -9,6 +9,7 @@
   width: ~"calc(100% - 490px)";
   height: 10px;
   min-width: 10px;
+  overflow: hidden;
 
   &--full {
     background: @secondary-dark;
@@ -26,20 +27,14 @@
   }
 
   & div {
-    border-radius: 5px;
     background: @secondary-dark;
     height: 100%;
-    min-width: 10px;
   }
 
   @media(max-width: 600px) {
     width: 0;
     margin: 0;
     min-width: 0;
-
-    & div {
-      min-width: 0;
-    }
   }
 }
 
