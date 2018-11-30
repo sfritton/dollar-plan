@@ -70,26 +70,41 @@ const SubCategory = ({
   edit,
   income,
   openCategory,
-  subCategory,
+  subCategory: {
+    title = '',
+    transactions,
+    plannedAmount,
+    notes = ''
+  },
   updateTitle,
-  updateAmount
+  updateAmount,
+  updateNotes
 }) => (
   <Row clickable={!edit} onClick={() => !edit && openCategory()}>
-    <Title editing={edit} title={subCategory.title} updateTitle={updateTitle} />
+    <Title editing={edit} title={title} updateTitle={updateTitle} />
     <Amount
       editing={edit}
-      actualAmount={getActualAmount(subCategory.transactions)}
-      plannedAmount={subCategory.plannedAmount}
+      actualAmount={getActualAmount(transactions)}
+      plannedAmount={plannedAmount}
       updateAmount={updateAmount}
     />
-    <ProgressBar
-      numerator={getActualAmount(subCategory.transactions)}
-      denominator={subCategory.plannedAmount}
-      danger={!income}
-    />
+    {edit ? (
+      <Input
+        className="category-notes-input"
+        value={notes}
+        placeholder="Notes"
+        onChange={e => updateNotes(e.target.value)}
+      />
+    ) : (
+      <ProgressBar
+        numerator={getActualAmount(transactions)}
+        denominator={plannedAmount}
+        danger={!income}
+      />
+    )}
     <Balance
-      actualAmount={getActualAmount(subCategory.transactions)}
-      plannedAmount={subCategory.plannedAmount}
+      actualAmount={getActualAmount(transactions)}
+      plannedAmount={plannedAmount}
       income={income}
     />
   </Row>

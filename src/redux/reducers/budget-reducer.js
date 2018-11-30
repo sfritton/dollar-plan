@@ -32,6 +32,8 @@ export default function reducer(state = { budgets: [] }, action) {
       return handleUpdateIncomeCategoryTitle(state, payload);
     case Actions.UPDATE_INCOME_CATEGORY_AMOUNT:
       return handleUpdateIncomeCategoryAmount(state, payload);
+    case Actions.UPDATE_INCOME_CATEGORY_NOTES:
+      return handleUpdateIncomeCategoryNotes(state, payload);
     case Actions.ADD_INCOME_CATEGORY:
       return handleAddIncomeCategory(state);
     case Actions.DELETE_INCOME_CATEGORY:
@@ -50,6 +52,8 @@ export default function reducer(state = { budgets: [] }, action) {
       return handleUpdateExpenseSubCategoryTitle(state, payload);
     case Actions.UPDATE_EXPENSE_SUB_CATEGORY_AMOUNT:
       return handleUpdateExpenseSubCategoryAmount(state, payload);
+    case Actions.UPDATE_EXPENSE_SUB_CATEGORY_NOTES:
+      return handleUpdateExpenseSubCategoryNotes(state, payload);
     case Actions.ADD_EXPENSE_SUB_CATEGORY:
       return handleAddExpenseSubCategory(state, payload);
     case Actions.DELETE_EXPENSE_SUB_CATEGORY:
@@ -280,6 +284,36 @@ function handleUpdateIncomeCategoryAmount(state, payload) {
   };
 }
 
+function handleUpdateIncomeCategoryNotes(state, payload) {
+  const { catId, notes } = payload;
+
+  if (
+    catId === null ||
+    catId === undefined ||
+    catId < 0 ||
+    notes === undefined
+  ) {
+    return state;
+  }
+
+  const budget = { ...state.budgets[state.activeBudgetIndex] };
+  const income = {
+    ...budget.incomes[catId],
+    notes
+  };
+
+  budget.incomes = [...budget.incomes];
+  budget.incomes[catId] = income;
+
+  const budgets = [...state.budgets];
+  budgets[state.activeBudgetIndex] = budget;
+
+  return {
+    ...state,
+    budgets
+  };
+}
+
 function handleAddIncomeCategory(state) {
   const budget = { ...state.budgets[state.activeBudgetIndex] };
   budget.incomes = budget.incomes.concat({
@@ -446,6 +480,42 @@ function handleUpdateExpenseSubCategoryAmount(state, payload) {
   category.subCategories[subCatId] = {
     ...category.subCategories[subCatId],
     plannedAmount: amount
+  };
+
+  budget.expenses[catId] = category;
+
+  const budgets = [...state.budgets];
+  budgets[state.activeBudgetIndex] = budget;
+
+  return {
+    ...state,
+    budgets
+  };
+}
+
+function handleUpdateExpenseSubCategoryNotes(state, payload) {
+  if (
+    payload.catId === null ||
+    payload.catId === undefined ||
+    payload.catId < 0 ||
+    payload.subCatId === null ||
+    payload.subCatId === undefined ||
+    payload.subCatId < 0 ||
+    payload.notes === undefined
+  ) {
+    return state;
+  }
+
+  const { catId, subCatId, notes } = payload;
+
+  const budget = { ...state.budgets[state.activeBudgetIndex] };
+  budget.expenses = [...budget.expenses];
+
+  const category = { ...budget.expenses[catId] };
+  category.subCategories = [...category.subCategories];
+  category.subCategories[subCatId] = {
+    ...category.subCategories[subCatId],
+    notes
   };
 
   budget.expenses[catId] = category;

@@ -49,6 +49,13 @@ export function updateIncomeCategoryAmount(catId, amount) {
   };
 }
 
+export function updateIncomeCategoryNotes(catId, notes) {
+  return {
+    type: Actions.UPDATE_INCOME_CATEGORY_NOTES,
+    payload: { catId, notes }
+  };
+}
+
 export function addIncomeCategory() {
   return {
     type: Actions.ADD_INCOME_CATEGORY,
@@ -95,6 +102,13 @@ export function updateExpenseSubCategoryAmount(catId, subCatId, amount) {
   return {
     type: Actions.UPDATE_EXPENSE_SUB_CATEGORY_AMOUNT,
     payload: { catId, subCatId, amount }
+  };
+}
+
+export function updateExpenseSubCategoryNotes(catId, subCatId, notes) {
+  return {
+    type: Actions.UPDATE_EXPENSE_SUB_CATEGORY_NOTES,
+    payload: { catId, subCatId, notes }
   };
 }
 

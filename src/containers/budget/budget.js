@@ -98,6 +98,10 @@ class Budget extends Component {
           this.props.dispatch(
             BudgetActions.updateIncomeCategoryAmount(i, amount)
           )}
+        updateNotes={notes =>
+          this.props.dispatch(
+            BudgetActions.updateIncomeCategoryNotes(i, notes)
+          )}
         deleteSubCategory={() =>
           this.props.dispatch(BudgetActions.deleteIncomeCategory(i))}
         openCategory={() => {
@@ -128,6 +132,10 @@ class Budget extends Component {
         updateSubCategoryAmount={(subCatId, amount) =>
           this.props.dispatch(
             BudgetActions.updateExpenseSubCategoryAmount(i, subCatId, amount)
+          )}
+        updateSubCategoryNotes={(subCatId, notes) =>
+          this.props.dispatch(
+            BudgetActions.updateExpenseSubCategoryNotes(i, subCatId, notes)
           )}
         addSubCategory={() =>
           this.props.dispatch(BudgetActions.addExpenseSubCategory(i))}

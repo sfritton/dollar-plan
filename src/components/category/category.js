@@ -27,6 +27,7 @@ const SubCategoryList = ({
   editing,
   updateSubCategoryTitle,
   updateSubCategoryAmount,
+  updateSubCategoryNotes,
   deleteSubCategory,
   openSubCategory,
   addSubCategory
@@ -39,6 +40,7 @@ const SubCategoryList = ({
         subCategory={sub}
         updateTitle={title => updateSubCategoryTitle(i, title)}
         updateAmount={amount => updateSubCategoryAmount(i, amount)}
+        updateNotes={notes => updateSubCategoryNotes(i, notes)}
         deleteSubCategory={() => deleteSubCategory(i)}
         openCategory={() => openSubCategory(i)}
       />
@@ -67,6 +69,7 @@ export default class Category extends React.Component {
       updateTitle,
       updateSubCategoryTitle,
       updateSubCategoryAmount,
+      updateSubCategoryNotes,
       deleteSubCategory,
       openSubCategory,
       addSubCategory
@@ -88,6 +91,7 @@ export default class Category extends React.Component {
           editing={edit}
           updateSubCategoryTitle={updateSubCategoryTitle}
           updateSubCategoryAmount={updateSubCategoryAmount}
+          updateSubCategoryNotes={updateSubCategoryNotes}
           deleteSubCategory={deleteSubCategory}
           openSubCategory={openSubCategory}
           addSubCategory={addSubCategory}
