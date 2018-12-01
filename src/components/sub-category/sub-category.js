@@ -46,8 +46,17 @@ const Amount = ({ editing, actualAmount, plannedAmount, updateAmount }) => {
   );
 };
 
+const generateBalanceClass = (difference, income) => {
+  const base = 'category-balance';
+
+  if (difference >= 0) return base;
+
+  return `${base} ${income ? 'category-balance--extra' : 'category-balance--over'}`; 
+}
+
 const Balance = ({ plannedAmount, actualAmount, income }) => {
   const difference = plannedAmount - actualAmount;
+  const className = generateBalanceClass(difference, income);
   let message;
 
   if (difference >= 0) {
@@ -60,7 +69,7 @@ const Balance = ({ plannedAmount, actualAmount, income }) => {
       : "over"}`;
   }
 
-  return <div className="category-balance">{message}</div>;
+  return <div className={className}>{message}</div>;
 };
 
 const getActualAmount = transactions =>
