@@ -154,16 +154,14 @@ function handleCreateNewBudget(state, payload) {
       }
 
       newBudget.incomes = oldBudget.incomes.map(income => ({
-        title: income.title,
-        plannedAmount: income.plannedAmount,
+        ...income,
         transactions: []
       }));
 
       newBudget.expenses = oldBudget.expenses.map(expense => ({
         title: expense.title,
         subCategories: expense.subCategories.map(subCat => ({
-          title: subCat.title,
-          plannedAmount: subCat.plannedAmount,
+          ...subCat,
           transactions: []
         }))
       }));
