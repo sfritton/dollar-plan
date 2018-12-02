@@ -11,25 +11,17 @@ import {
 
 const DATA_DIRECTORY = "data_new";
 
-const defaultState = {
-  budget: {},
-  budgets: {},
-  category: {}
-};
-
-export default function reducer(state = defaultState, action) {
+export default function reducer(state = {}, action) {
   const payload = action.payload;
 
   switch (action.type) {
     // Budget
     case Actions.GET_ALL_BUDGETS:
-      return handleGetAllBudgets(state);
+      return handleGetAllBudgets();
     case Actions.GET_BUDGET:
       return handleGetBudget(state, payload);
     case Actions.CREATE_NEW_BUDGET:
       return handleCreateNewBudget(state, payload);
-    case Actions.SET_ACTIVE_BUDGET:
-      return handleSetActiveBudget(state, payload);
     case Actions.SAVE_BUDGET:
       return handleSaveBudget(state);
 
@@ -93,7 +85,7 @@ export default function reducer(state = defaultState, action) {
 /*****************************************************************************
  * Budget
  *****************************************************************************/
-function handleGetAllBudgets(state) {
+function handleGetAllBudgets() {
   checkDirectorySync(DATA_DIRECTORY);
 
   const budgets = {};
@@ -103,7 +95,7 @@ function handleGetAllBudgets(state) {
       budgets[date.replace(/\.json$/, '')] = { isLoaded: false };
     });
 
-  return { ...state, budgets };
+  return budgets;
 }
 
 function handleGetBudget(state, payload) {
@@ -178,40 +170,6 @@ function handleCreateNewBudget(state, payload) {
     ...state,
     budgets,
     activeBudgetIndex: budgets.length - 1
-  };
-}
-
-function handleSetActiveBudget(state, payload) {
-  const { month, year } = payload;
-  const index = state.budgets.findIndex(
-    budget => budget.date.month === month && budget.date.year === year
-  );
-
-  if (index < 0) {
-    console.log("Cannot set active budget. Budget not found.");
-    return state;
-  }
-
-  if (state.budgets[index].loaded) {
-    return {
-      ...state,
-      activeBudgetIndex: index
-    };
-  }
-
-  const budget = JSON.parse(
-    fs.readFileSync(
-      `${DATA_DIRECTORY}\\${encodeDate(month, year)}.json`
-    )
-  );
-  budget.loaded = true;
-  const budgets = [...state.budgets];
-  budgets[index] = budget;
-
-  return {
-    ...state,
-    budgets,
-    activeBudgetIndex: index
   };
 }
 

@@ -5,25 +5,25 @@ import Row from "../row/row";
 import GroupHeader from "../group-header/group-header";
 import SubCategory from "../sub-category/sub-category";
 
-const getActualAmount = subCategories =>
-  subCategories.reduce(
-    (sum, subCategory) =>
+const getActualAmount = categories =>
+  Object.values(categories).reduce(
+    (sum, category) =>
       sum +
-      subCategory.transactions.reduce(
+      category.transactions.reduce(
         (sum, transaction) => sum + transaction.amount,
         0
       ),
     0
   );
 
-const getPlannedAmount = subCategories =>
-  subCategories.reduce(
-    (sum, subCategory) => sum + subCategory.plannedAmount,
+const getPlannedAmount = categories =>
+  Object.values(categories).reduce(
+    (sum, category) => sum + category.plannedAmount,
     0
   );
 
 const SubCategoryList = ({
-  subCategories,
+  categories,
   editing,
   updateSubCategoryTitle,
   updateSubCategoryAmount,
@@ -33,16 +33,16 @@ const SubCategoryList = ({
   addSubCategory
 }) => (
   <div>
-    {subCategories.map((sub, i) => (
+    {Object.entries(categories).map(([id, category]) => (
       <SubCategory
-        key={i}
+        key={id}
         edit={editing}
-        subCategory={sub}
-        updateTitle={title => updateSubCategoryTitle(i, title)}
-        updateAmount={amount => updateSubCategoryAmount(i, amount)}
-        updateNotes={notes => updateSubCategoryNotes(i, notes)}
-        deleteSubCategory={() => deleteSubCategory(i)}
-        openCategory={() => openSubCategory(i)}
+        subCategory={category}
+        updateTitle={title => updateSubCategoryTitle(id, title)}
+        updateAmount={amount => updateSubCategoryAmount(id, amount)}
+        updateNotes={notes => updateSubCategoryNotes(id, notes)}
+        deleteSubCategory={() => deleteSubCategory(id)}
+        openCategory={() => openSubCategory(id)}
       />
     ))}
     {editing ? (
@@ -65,7 +65,7 @@ export default class Category extends React.Component {
   render() {
     const {
       edit,
-      category: { title, subCategories },
+      categoryGroup: { title, categories },
       updateTitle,
       updateSubCategoryTitle,
       updateSubCategoryAmount,
@@ -74,8 +74,8 @@ export default class Category extends React.Component {
       openSubCategory,
       addSubCategory
     } = this.props;
-    const actualAmount = getActualAmount(subCategories);
-    const plannedAmount = getPlannedAmount(subCategories);
+    const actualAmount = getActualAmount(categories);
+    const plannedAmount = getPlannedAmount(categories);
 
     return (
       <div className="expense-group">
@@ -87,7 +87,7 @@ export default class Category extends React.Component {
           updateTitle={updateTitle}
         />
         <SubCategoryList
-          subCategories={subCategories}
+          categories={categories}
           editing={edit}
           updateSubCategoryTitle={updateSubCategoryTitle}
           updateSubCategoryAmount={updateSubCategoryAmount}

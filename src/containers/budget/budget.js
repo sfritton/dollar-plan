@@ -11,7 +11,7 @@ import { decodeDate } from "Util/date";
 
 class Budget extends Component {
   render() {
-    if (!this.props.budget) {
+    if (!this.props.budget.date) {
       return <Page header={this.renderHeader()} />;
     }
 
@@ -85,71 +85,74 @@ class Budget extends Component {
   }
 
   renderIncomes() {
-    return this.props.budget.incomes.map((incomeCategory, i) => (
-      <SubCategory
-        key={i}
-        income
-        subCategory={incomeCategory}
-        updateTitle={title =>
-          this.props.dispatch(
-            BudgetActions.updateIncomeCategoryTitle(i, title)
-          )}
-        edit={this.props.edit}
-        updateAmount={amount =>
-          this.props.dispatch(
-            BudgetActions.updateIncomeCategoryAmount(i, amount)
-          )}
-        updateNotes={notes =>
-          this.props.dispatch(
-            BudgetActions.updateIncomeCategoryNotes(i, notes)
-          )}
-        deleteSubCategory={() =>
-          this.props.dispatch(BudgetActions.deleteIncomeCategory(i))}
-        openCategory={() => {
-          this.props.dispatch(CategoryActions.setActiveCategory(i));
-          this.props.dispatch(UIActions.setPage(Pages.CATEGORY));
-        }}
-      />
-    ));
+    return Object.entries(this.props.budget.categoryGroups.income.categories)
+      .map(([id, category]) => (
+        <SubCategory
+          key={id}
+          income
+          subCategory={category}
+          updateTitle={title =>
+            this.props.dispatch(
+              BudgetActions.updateIncomeCategoryTitle(id, title)
+            )}
+          edit={this.props.edit}
+          updateAmount={amount =>
+            this.props.dispatch(
+              BudgetActions.updateIncomeCategoryAmount(id, amount)
+            )}
+          updateNotes={notes =>
+            this.props.dispatch(
+              BudgetActions.updateIncomeCategoryNotes(id, notes)
+            )}
+          deleteSubCategory={() =>
+            this.props.dispatch(BudgetActions.deleteIncomeCategory(id))}
+          openCategory={() => {
+            this.props.dispatch(CategoryActions.setActiveCategory(id));
+            this.props.dispatch(UIActions.setPage(Pages.CATEGORY));
+          }}
+        />
+      ));
   }
 
   renderExpenses() {
-    return this.props.budget.expenses.map((expenseCategory, i) => (
-      <Category
-        key={i}
-        edit={this.props.edit}
-        defaultOpen
-        category={expenseCategory}
-        deleteCategory={() =>
-          this.props.dispatch(BudgetActions.deleteExpenseCategory(i))}
-        updateTitle={title =>
-          this.props.dispatch(
-            BudgetActions.updateExpenseCategoryTitle(i, title)
-          )}
-        updateSubCategoryTitle={(subCatId, title) =>
-          this.props.dispatch(
-            BudgetActions.updateExpenseSubCategoryTitle(i, subCatId, title)
-          )}
-        updateSubCategoryAmount={(subCatId, amount) =>
-          this.props.dispatch(
-            BudgetActions.updateExpenseSubCategoryAmount(i, subCatId, amount)
-          )}
-        updateSubCategoryNotes={(subCatId, notes) =>
-          this.props.dispatch(
-            BudgetActions.updateExpenseSubCategoryNotes(i, subCatId, notes)
-          )}
-        addSubCategory={() =>
-          this.props.dispatch(BudgetActions.addExpenseSubCategory(i))}
-        deleteSubCategory={subCatId =>
-          this.props.dispatch(
-            BudgetActions.deleteExpenseSubCategory(i, subCatId)
-          )}
-        openSubCategory={subCatId => {
-          this.props.dispatch(CategoryActions.setActiveCategory(i, subCatId));
-          this.props.dispatch(UIActions.setPage(Pages.CATEGORY));
-        }}
-      />
-    ));
+    return Object.entries(this.props.budget.categoryGroups)
+      .filter(([id]) => id !== 'income')
+      .map(([id, categoryGroup]) => (
+        <Category
+          key={id}
+          edit={this.props.edit}
+          defaultOpen
+          categoryGroup={categoryGroup}
+          deleteCategory={() =>
+            this.props.dispatch(BudgetActions.deleteExpenseCategory(id))}
+          updateTitle={title =>
+            this.props.dispatch(
+              BudgetActions.updateExpenseCategoryTitle(id, title)
+            )}
+          updateSubCategoryTitle={(subCatId, title) =>
+            this.props.dispatch(
+              BudgetActions.updateExpenseSubCategoryTitle(id, subCatId, title)
+            )}
+          updateSubCategoryAmount={(subCatId, amount) =>
+            this.props.dispatch(
+              BudgetActions.updateExpenseSubCategoryAmount(id, subCatId, amount)
+            )}
+          updateSubCategoryNotes={(subCatId, notes) =>
+            this.props.dispatch(
+              BudgetActions.updateExpenseSubCategoryNotes(id, subCatId, notes)
+            )}
+          addSubCategory={() =>
+            this.props.dispatch(BudgetActions.addExpenseSubCategory(id))}
+          deleteSubCategory={subCatId =>
+            this.props.dispatch(
+              BudgetActions.deleteExpenseSubCategory(id, subCatId)
+            )}
+          openSubCategory={subCatId => {
+            this.props.dispatch(CategoryActions.setActiveCategory(id, subCatId));
+            this.props.dispatch(UIActions.setPage(Pages.CATEGORY));
+          }}
+        />
+      ));
   }
 
   getBalanceMessage() {
@@ -181,58 +184,46 @@ class Budget extends Component {
   }
 
   getActualIncome() {
-    return this.props.budget.incomes.reduce(
-      (sum, income) =>
-        sum +
-        income.transactions.reduce(
-          (sum, transaction) => sum + transaction.amount,
-          0
-        ),
-      0
-    );
+    return Object.values(this.props.budget.categoryGroups.income.categories)
+      .reduce((sum, category) => sum + this.reduceTransactions(category), 0);
+  }
+
+  reduceTransactions({ transactions }) {
+    return transactions.reduce((sum, { amount }) => sum + amount, 0);
   }
 
   getPlannedIncome() {
-    return this.props.budget.incomes.reduce(
-      (sum, income) => sum + income.plannedAmount,
-      0
-    );
+    return Object.values(this.props.budget.categoryGroups.income)
+      .reduce((sum, { plannedAmount }) => sum + plannedAmount, 0);
   }
 
   getActualExpenses() {
-    return this.props.budget.expenses.reduce(
-      (sum, expense) =>
-        sum +
-        expense.subCategories.reduce(
-          (sum, subCat) =>
-            sum +
-            subCat.transactions.reduce(
-              (sum, transaction) => sum + transaction.amount,
-              0
-            ),
-          0
-        ),
-      0
-    );
+    return Object.entries(this.props.budget.categoryGroups)
+      .filter(([id]) => id !=='income')
+      .reduce((sum, [, expense]) =>
+          sum +
+          Object.values(expense.categories)
+            .reduce((sum, category) => sum + this.reduceTransactions(category), 0),
+        0
+      );
   }
 
   getPlannedExpenses() {
-    return this.props.budget.expenses.reduce(
-      (sum, expense) =>
-        sum +
-        expense.subCategories.reduce(
-          (sum, subCat) => sum + subCat.plannedAmount,
-          0
-        ),
-      0
-    );
+    return Object.entries(this.props.budget.categoryGroups)
+      .filter(([id]) => id !=='income')
+      .reduce((sum, [, expense]) =>
+          sum +
+          Object.values(expense.categories)
+            .reduce((sum, { plannedAmount }) => sum + plannedAmount, 0),
+        0
+      );
   }
 }
 
 const mapStateToProps = state => ({
   edit: state.ui.edit,
-  budget: state.budgets.budgets[state.budgets.activeBudgetIndex],
-  budgetDates: Object.keys(state.budgets.budgets)
+  budget: state.budget,
+  budgetDates: Object.keys(state.budgets)
     .sort()
     .reverse()
     .map(decodeDate)
