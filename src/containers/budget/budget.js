@@ -7,6 +7,7 @@ import * as UIActions from "Redux/actions/ui-actions";
 import Pages from "Redux/actions/pages-enum";
 import { Page, Row, SubCategory, Category, Header, Footer } from "Components";
 import { getCentString } from "Util/currency";
+import { decodeDate } from "Util/date";
 
 class Budget extends Component {
   render() {
@@ -231,7 +232,10 @@ class Budget extends Component {
 const mapStateToProps = state => ({
   edit: state.ui.edit,
   budget: state.budgets.budgets[state.budgets.activeBudgetIndex],
-  budgetDates: state.budgets.budgets.map(budget => budget.date)
+  budgetDates: Object.keys(state.budgets.budgets)
+    .sort()
+    .reverse()
+    .map(decodeDate)
 });
 
 export default connect(mapStateToProps)(Budget);

@@ -9,9 +9,15 @@ import {
   getClosestToToday
 } from "Util/date";
 
-const DATA_DIRECTORY = "data";
+const DATA_DIRECTORY = "data_new";
 
-export default function reducer(state = { budgets: [] }, action) {
+const defaultState = {
+  budget: {},
+  budgets: {},
+  category: {}
+};
+
+export default function reducer(state = defaultState, action) {
   const payload = action.payload;
 
   switch (action.type) {
@@ -90,16 +96,14 @@ export default function reducer(state = { budgets: [] }, action) {
 function handleGetAllBudgets(state) {
   checkDirectorySync(DATA_DIRECTORY);
 
-  return {
-    ...state,
-    budgets: fs
-      .readdirSync(DATA_DIRECTORY)
-      .reverse()
-      .map(budget => ({
-        date: decodeDate(budget),
-        loaded: false
-      }))
-  };
+  const budgets = {};
+
+  fs.readdirSync(DATA_DIRECTORY)
+    .forEach(date => {
+      budgets[date.replace(/\.json$/, '')] = { isLoaded: false };
+    });
+
+  return { ...state, budgets };
 }
 
 function handleGetBudget(state, payload) {
