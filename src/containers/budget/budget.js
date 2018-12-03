@@ -8,22 +8,23 @@ import Pages from "Redux/actions/pages-enum";
 import { Page, Row, SubCategory, Category, Header, Footer } from "Components";
 import { getCentString } from "Util/currency";
 import { decodeDate } from "Util/date";
+import { objectToArray } from "Util";
 
 class Budget extends Component {
   render() {
-    if (!this.props.budget.date) {
+    if (!this.props.isBudgetLoaded) {
       return <Page header={this.renderHeader()} />;
     }
 
     return (
       <Page
-        header={this.renderHeader(this.props.budget.date)}
+        header={this.renderHeader(this.props.date)}
         footer={this.renderFooter()}
       >
         <section>
           <h2>Income</h2>
           {this.renderIncomes()}
-          {this.props.edit && (
+          {this.props.editing && (
             <Row
               clickable
               onClick={() =>
@@ -37,7 +38,7 @@ class Budget extends Component {
         <section>
           <h2>Expenses</h2>
           {this.renderExpenses()}
-          {this.props.edit && (
+          {this.props.editing && (
             <Row
               clickable
               header
@@ -69,14 +70,14 @@ class Budget extends Component {
     return (
       <Footer
         message={this.getBalanceMessage()}
-        editing={this.props.edit}
+        editing={this.props.editing}
         primaryDefault={{ label: 'Adjust budget', onClick: () => this.props.dispatch(UIActions.setEdit(true)) }}
         primaryEditing={{ label: 'Save budget', onClick: () => {
           this.props.dispatch(UIActions.setEdit(false));
           this.props.dispatch(BudgetActions.saveBudget());
         }}}
         secondaryEditing={{ label: 'Cancel', onClick: () => {
-          const { month, year } = this.props.budget.date;
+          const { month, year } = this.props.date;
           this.props.dispatch(UIActions.setEdit(false));
           this.props.dispatch(BudgetActions.getBudget(month, year));
         } }}
@@ -85,7 +86,7 @@ class Budget extends Component {
   }
 
   renderIncomes() {
-    return Object.entries(this.props.budget.categoryGroups.income.categories)
+    return Object.entries(this.props.incomes.categories)
       .map(([id, category]) => (
         <SubCategory
           key={id}
@@ -95,7 +96,7 @@ class Budget extends Component {
             this.props.dispatch(
               BudgetActions.updateIncomeCategoryTitle(id, title)
             )}
-          edit={this.props.edit}
+          edit={this.props.editing}
           updateAmount={amount =>
             this.props.dispatch(
               BudgetActions.updateIncomeCategoryAmount(id, amount)
@@ -115,12 +116,11 @@ class Budget extends Component {
   }
 
   renderExpenses() {
-    return Object.entries(this.props.budget.categoryGroups)
-      .filter(([id]) => id !== 'income')
-      .map(([id, categoryGroup]) => (
+    return this.props.expenses
+      .map(({ id, ...categoryGroup }) => (
         <Category
           key={id}
-          edit={this.props.edit}
+          edit={this.props.editing}
           defaultOpen
           categoryGroup={categoryGroup}
           deleteCategory={() =>
@@ -156,7 +156,7 @@ class Budget extends Component {
   }
 
   getBalanceMessage() {
-    if (this.props.edit) {
+    if (this.props.editing) {
       return this.formatBalance(this.getPlannedBalance());
     }
 
@@ -184,7 +184,7 @@ class Budget extends Component {
   }
 
   getActualIncome() {
-    return Object.values(this.props.budget.categoryGroups.income.categories)
+    return Object.values(this.props.incomes.categories)
       .reduce((sum, category) => sum + this.reduceTransactions(category), 0);
   }
 
@@ -193,27 +193,25 @@ class Budget extends Component {
   }
 
   getPlannedIncome() {
-    return Object.values(this.props.budget.categoryGroups.income)
+    return Object.values(this.props.incomes.categories)
       .reduce((sum, { plannedAmount }) => sum + plannedAmount, 0);
   }
 
   getActualExpenses() {
-    return Object.entries(this.props.budget.categoryGroups)
-      .filter(([id]) => id !=='income')
-      .reduce((sum, [, expense]) =>
+    return this.props.expenses
+      .reduce((sum, { categories }) =>
           sum +
-          Object.values(expense.categories)
+          Object.values(categories)
             .reduce((sum, category) => sum + this.reduceTransactions(category), 0),
         0
       );
   }
 
   getPlannedExpenses() {
-    return Object.entries(this.props.budget.categoryGroups)
-      .filter(([id]) => id !=='income')
-      .reduce((sum, [, expense]) =>
+    return this.props.expenses
+      .reduce((sum, { categories }) =>
           sum +
-          Object.values(expense.categories)
+          Object.values(categories)
             .reduce((sum, { plannedAmount }) => sum + plannedAmount, 0),
         0
       );
@@ -221,8 +219,11 @@ class Budget extends Component {
 }
 
 const mapStateToProps = state => ({
-  edit: state.ui.edit,
-  budget: state.budget,
+  editing: state.ui.edit,
+  isBudgetLoaded: !!state.budget.date,
+  date: state.budget.date,
+  incomes: state.budget.categoryGroups ? state.budget.categoryGroups.income : {},
+  expenses: objectToArray(state.budget.categoryGroups).filter(({ id }) => id !== 'income'),
   budgetDates: Object.keys(state.budgets)
     .sort()
     .reverse()
