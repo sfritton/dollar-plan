@@ -13,7 +13,14 @@ import { objectToArray } from "Util";
 
 class Budget extends Component {
   render() {
-    if (!this.props.isBudgetLoaded) {
+    const {
+      isBudgetLoaded,
+      editing,
+      addIncomeCategory,
+      addExpenseCategory,
+    } = this.props;
+
+    if (!isBudgetLoaded) {
       return <Page header={<Header />} />;
     }
 
@@ -25,12 +32,8 @@ class Budget extends Component {
         <section>
           <h2>Income</h2>
           {this.renderIncomes()}
-          {this.props.editing && (
-            <Row
-              clickable
-              onClick={() =>
-                this.props.dispatch(BudgetActions.addIncomeCategory())}
-            >
+          {editing && (
+            <Row clickable onClick={addIncomeCategory}>
               + add a category
             </Row>
           )}
@@ -39,13 +42,8 @@ class Budget extends Component {
         <section>
           <h2>Expenses</h2>
           {this.renderExpenses()}
-          {this.props.editing && (
-            <Row
-              clickable
-              header
-              onClick={() =>
-                this.props.dispatch(BudgetActions.addExpenseCategory())}
-            >
+          {editing && (
+            <Row clickable header onClick={addExpenseCategory}>
               + add a category group
             </Row>
           )}
@@ -55,20 +53,20 @@ class Budget extends Component {
   }
 
   renderFooter() {
+    const {
+      editing,
+      adjustBudget,
+      saveBudget,
+      cancelEdit
+    } = this.props;
+
     return (
       <Footer
         message={this.getBalanceMessage()}
-        editing={this.props.editing}
-        primaryDefault={{ label: 'Adjust budget', onClick: () => this.props.dispatch(UIActions.setEdit(true)) }}
-        primaryEditing={{ label: 'Save budget', onClick: () => {
-          this.props.dispatch(UIActions.setEdit(false));
-          this.props.dispatch(BudgetActions.saveBudget());
-        }}}
-        secondaryEditing={{ label: 'Cancel', onClick: () => {
-          const { month, year } = this.props.date;
-          this.props.dispatch(UIActions.setEdit(false));
-          this.props.dispatch(BudgetActions.getBudget(month, year));
-        } }}
+        editing={editing}
+        primaryDefault={{ label: 'Adjust budget', onClick: adjustBudget }}
+        primaryEditing={{ label: 'Save budget', onClick: saveBudget }}
+        secondaryEditing={{ label: 'Cancel', onClick: cancelEdit }}
       />
     );
   }
@@ -216,6 +214,21 @@ const mapStateToProps = state => ({
     .sort()
     .reverse()
     .map(decodeDate)
+});
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  addIncomeCategory: () => dispatch(BudgetActions.addIncomeCategory()),
+  addExpenseCategory: () => dispatch(BudgetActions.addExpenseCategory()),
+  adjustBudget: () => dispatch(UIActions.setEdit(true)),
+  saveBudget: () => {
+    dispatch(UIActions.setEdit(false));
+    dispatch(BudgetActions.saveBudget());
+  },
+  cancelEdit: () => {
+    const { month, year } = ownProps.date;
+    dispatch(UIActions.setEdit(false));
+    dispatch(BudgetActions.getBudget(month, year));
+  }
 });
 
 export default connect(mapStateToProps)(Budget);
