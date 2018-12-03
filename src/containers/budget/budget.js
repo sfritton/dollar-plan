@@ -5,7 +5,8 @@ import * as BudgetActions from "Redux/actions/budget-actions";
 import * as CategoryActions from "Redux/actions/category-actions";
 import * as UIActions from "Redux/actions/ui-actions";
 import Pages from "Redux/actions/pages-enum";
-import { Page, Row, SubCategory, Category, Header, Footer } from "Components";
+import { Page, Row, SubCategory, Category, Footer } from "Components";
+import Header from "../header/header";
 import { getCentString } from "Util/currency";
 import { decodeDate } from "Util/date";
 import { objectToArray } from "Util";
@@ -13,12 +14,12 @@ import { objectToArray } from "Util";
 class Budget extends Component {
   render() {
     if (!this.props.isBudgetLoaded) {
-      return <Page header={this.renderHeader()} />;
+      return <Page header={<Header />} />;
     }
 
     return (
       <Page
-        header={this.renderHeader(this.props.date)}
+        header={<Header />}
         footer={this.renderFooter()}
       >
         <section>
@@ -50,19 +51,6 @@ class Budget extends Component {
           )}
         </section>
       </Page>
-    );
-  }
-
-  renderHeader(date) {
-    return (
-      <Header
-        budgetDates={this.props.budgetDates || []}
-        date={date}
-        setActiveBudget={(month, year) =>
-          this.props.dispatch(BudgetActions.setActiveBudget(month, year))}
-        createNewBudget={() =>
-          this.props.dispatch(UIActions.setPage(Pages.WELCOME))}
-      />
     );
   }
 

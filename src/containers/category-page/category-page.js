@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { Page, Row, Header, GroupHeader, Footer, Transaction } from "Components";
+import { Page, Row, GroupHeader, Footer, Transaction } from "Components";
+import Header from "../header/header";
 import { setPage, setEdit } from "Redux/actions/ui-actions";
 import * as CategoryActions from "Redux/actions/category-actions";
 import { saveBudget } from "Redux/actions/budget-actions";
@@ -10,7 +11,7 @@ import Pages from "Redux/actions/pages-enum";
 class CategoryPage extends React.Component {
   render() {
     return (
-      <Page header={this.renderHeader()} footer={this.renderFooter()}>
+      <Page header={<Header />} footer={this.renderFooter()}>
         <section>
           <h2>{this.props.superCategoryName}</h2>
           <GroupHeader
@@ -36,15 +37,6 @@ class CategoryPage extends React.Component {
           </Row>
         </section>
       </Page>
-    );
-  }
-
-  renderHeader() {
-    return (
-      <Header
-        budgetDates={this.props.budgetDates || []}
-        date={{ month: this.props.month, year: this.props.year }}
-      />
     );
   }
 
@@ -102,7 +94,7 @@ class CategoryPage extends React.Component {
 
 const mapStateToProps = state => {
   const budget = state.budgets.budgets[state.budgets.activeBudgetIndex];
-  const { month, year } = budget.date;
+  const { month } = budget.date;
   const income =
     state.budgets.activeCategoryKey.subCatId === null ||
     state.budgets.activeCategoryKey.subCatId === undefined;
@@ -113,12 +105,10 @@ const mapStateToProps = state => {
 
   return {
     month,
-    year,
     category: state.budgets.category,
     edit: state.ui.edit,
     income,
     superCategoryName,
-    budgetDates: state.budgets.budgets.map(budget => budget.date)
   };
 };
 
