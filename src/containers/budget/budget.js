@@ -76,30 +76,7 @@ class Budget extends Component {
   renderIncomes() {
     return Object.entries(this.props.incomes.categories)
       .map(([id, category]) => (
-        <Category
-          key={id}
-          income
-          category={category}
-          updateTitle={title =>
-            this.props.dispatch(
-              BudgetActions.updateIncomeCategoryTitle(id, title)
-            )}
-          edit={this.props.editing}
-          updateAmount={amount =>
-            this.props.dispatch(
-              BudgetActions.updateIncomeCategoryAmount(id, amount)
-            )}
-          updateNotes={notes =>
-            this.props.dispatch(
-              BudgetActions.updateIncomeCategoryNotes(id, notes)
-            )}
-          deleteSubCategory={() =>
-            this.props.dispatch(BudgetActions.deleteIncomeCategory(id))}
-          openCategory={() => {
-            this.props.dispatch(CategoryActions.setActiveCategory(id));
-            this.props.dispatch(UIActions.setPage(Pages.CATEGORY));
-          }}
-        />
+        <Category key={id} income groupId="income" categoryId={id} />
       ));
   }
 
@@ -108,6 +85,7 @@ class Budget extends Component {
       .map(({ id, ...categoryGroup }) => (
         <CategoryGroup
           key={id}
+          groupId={id}
           edit={this.props.editing}
           defaultOpen
           categoryGroup={categoryGroup}

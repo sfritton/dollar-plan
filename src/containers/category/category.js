@@ -1,6 +1,10 @@
 import React from "react";
 import "./category.less";
+import { connect } from "react-redux";
 
+import * as BudgetActions from "Redux/actions/budget-actions";
+import * as CategoryActions from "Redux/actions/category-actions";
+import * as UIActions from "Redux/actions/ui-actions";
 import { Row, ProgressBar, Input } from 'Components';
 import { getCentString, getCentNumber, getDollarString } from "Util/currency";
 
@@ -74,28 +78,28 @@ const getActualAmount = transactions =>
   transactions.reduce((sum, transaction) => sum + transaction.amount, 0);
 
 const Category = ({
-  edit,
+  editing,
   income,
-  openCategory,
   category: {
     title = '',
     transactions,
     plannedAmount,
     notes = ''
   },
+  openCategory,
   updateTitle,
   updateAmount,
   updateNotes
 }) => (
-  <Row clickable={!edit} onClick={() => !edit && openCategory()}>
-    <Title editing={edit} title={title} updateTitle={updateTitle} />
+  <Row clickable={!editing} onClick={() => !editing && openCategory()}>
+    <Title editing={editing} title={title} updateTitle={updateTitle} />
     <Amount
-      editing={edit}
+      editing={editing}
       actualAmount={getActualAmount(transactions)}
       plannedAmount={plannedAmount}
       updateAmount={updateAmount}
     />
-    {edit ? (
+    {editing ? (
       <Input
         className="category-notes-input"
         value={notes}
@@ -117,4 +121,24 @@ const Category = ({
   </Row>
 );
 
-export default Category;
+const mapStateToProps = (state, ownProps) => ({
+  editing: state.ui.edit,
+  category: state.budget.categoryGroups[ownProps.groupId].categories[ownProps.categoryId]
+});
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  updateTitle: title =>
+    dispatch(BudgetActions.updateIncomeCategoryTitle(ownProps.categoryId, title)),
+  updateAmount: amount =>
+    dispatch(BudgetActions.updateIncomeCategoryAmount(ownProps.categoryId, amount)),
+  updateNotes: notes =>
+    dispatch(BudgetActions.updateIncomeCategoryNotes(ownProps.categoryId, notes)),
+  deleteSubCategory: () =>
+    dispatch(BudgetActions.deleteIncomeCategory(ownProps.categoryId)),
+  openCategory: () => {
+    dispatch(CategoryActions.setActiveCategory(ownProps.categoryId));
+    dispatch(UIActions.setPage(Pages.CATEGORY));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Category);

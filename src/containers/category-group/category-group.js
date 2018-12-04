@@ -23,26 +23,13 @@ const getPlannedAmount = categories =>
 
 const CategoryList = ({
   categories,
+  groupId,
   editing,
-  updateSubCategoryTitle,
-  updateSubCategoryAmount,
-  updateSubCategoryNotes,
-  deleteSubCategory,
-  openSubCategory,
   addSubCategory
 }) => (
   <div>
-    {Object.entries(categories).map(([id, category]) => (
-      <Category
-        key={id}
-        edit={editing}
-        category={category}
-        updateTitle={title => updateSubCategoryTitle(id, title)}
-        updateAmount={amount => updateSubCategoryAmount(id, amount)}
-        updateNotes={notes => updateSubCategoryNotes(id, notes)}
-        deleteSubCategory={() => deleteSubCategory(id)}
-        openCategory={() => openSubCategory(id)}
-      />
+    {Object.keys(categories).map(id => (
+      <Category key={id} groupId={groupId} categoryId={id} />
     ))}
     {editing ? (
       <Row clickable onClick={() => addSubCategory()}>
@@ -65,6 +52,7 @@ export default class CategoryGroup extends React.Component {
     const {
       edit,
       categoryGroup: { title, categories },
+      groupId,
       updateTitle,
       updateSubCategoryTitle,
       updateSubCategoryAmount,
@@ -87,6 +75,7 @@ export default class CategoryGroup extends React.Component {
         />
         <CategoryList
           categories={categories}
+          groupId={groupId}
           editing={edit}
           updateSubCategoryTitle={updateSubCategoryTitle}
           updateSubCategoryAmount={updateSubCategoryAmount}
