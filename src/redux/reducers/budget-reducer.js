@@ -11,16 +11,7 @@ import {
 
 const DATA_DIRECTORY = "data_new";
 
-export default function reducer(state = {}, { type, payload }) {
-  switch(type) {
-    case Actions.SET_ACTIVE_BUDGET:
-      return handleSetActiveBudget(payload);
-    default:
-      return state;
-  }
-}
-
-function handleSetActiveBudget({ month, year }) {
+export function handleSetActiveBudget(state, { month, year }) {
   const budget = JSON.parse(
     fs.readFileSync(
       `${DATA_DIRECTORY}\\${encodeDate(month, year)}.json`
@@ -31,3 +22,15 @@ function handleSetActiveBudget({ month, year }) {
 
   return budget;
 }
+
+const actionHandlers = {
+  [Actions.SET_ACTIVE_BUDGET]: handleSetActiveBudget
+};
+
+export default function reducer(state = {}, { type, payload }) {
+  const handler = actionHandlers[type];
+
+  if (!handler) return state;
+
+  return handler(state, payload);
+};
