@@ -5,8 +5,10 @@ import * as BudgetActions from "Redux/actions/budget-actions";
 import * as CategoryActions from "Redux/actions/category-actions";
 import * as UIActions from "Redux/actions/ui-actions";
 import Pages from "Redux/actions/pages-enum";
-import { Page, Row, SubCategory, Category, Footer } from "Components";
+import { Page, Row, Footer } from "Components";
 import Header from "../header/header";
+import Category from '../category/category';
+import CategoryGroup from '../category-group/category-group';
 import { getCentString } from "Util/currency";
 import { decodeDate } from "Util/date";
 import { objectToArray } from "Util";
@@ -74,10 +76,10 @@ class Budget extends Component {
   renderIncomes() {
     return Object.entries(this.props.incomes.categories)
       .map(([id, category]) => (
-        <SubCategory
+        <Category
           key={id}
           income
-          subCategory={category}
+          category={category}
           updateTitle={title =>
             this.props.dispatch(
               BudgetActions.updateIncomeCategoryTitle(id, title)
@@ -104,7 +106,7 @@ class Budget extends Component {
   renderExpenses() {
     return this.props.expenses
       .map(({ id, ...categoryGroup }) => (
-        <Category
+        <CategoryGroup
           key={id}
           edit={this.props.editing}
           defaultOpen

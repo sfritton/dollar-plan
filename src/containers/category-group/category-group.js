@@ -1,9 +1,8 @@
 import React from "react";
-import "./category.less";
+import "./category-group.less";
 
-import Row from "../row/row";
-import GroupHeader from "../group-header/group-header";
-import SubCategory from "../sub-category/sub-category";
+import { Row, GroupHeader } from "Components";
+import Category from "../category/category";
 
 const getActualAmount = categories =>
   Object.values(categories).reduce(
@@ -22,7 +21,7 @@ const getPlannedAmount = categories =>
     0
   );
 
-const SubCategoryList = ({
+const CategoryList = ({
   categories,
   editing,
   updateSubCategoryTitle,
@@ -34,10 +33,10 @@ const SubCategoryList = ({
 }) => (
   <div>
     {Object.entries(categories).map(([id, category]) => (
-      <SubCategory
+      <Category
         key={id}
         edit={editing}
-        subCategory={category}
+        category={category}
         updateTitle={title => updateSubCategoryTitle(id, title)}
         updateAmount={amount => updateSubCategoryAmount(id, amount)}
         updateNotes={notes => updateSubCategoryNotes(id, notes)}
@@ -53,7 +52,7 @@ const SubCategoryList = ({
   </div>
 );
 
-export default class Category extends React.Component {
+export default class CategoryGroup extends React.Component {
   constructor(props) {
     super(props);
 
@@ -86,7 +85,7 @@ export default class Category extends React.Component {
           plannedAmount={plannedAmount}
           updateTitle={updateTitle}
         />
-        <SubCategoryList
+        <CategoryList
           categories={categories}
           editing={edit}
           updateSubCategoryTitle={updateSubCategoryTitle}

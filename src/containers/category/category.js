@@ -1,9 +1,7 @@
 import React from "react";
-import "./sub-category.less";
+import "./category.less";
 
-import Row from "../row/row";
-import ProgressBar from "../progress-bar/progress-bar";
-import Input from "../input/input";
+import { Row, ProgressBar, Input } from 'Components';
 import { getCentString, getCentNumber, getDollarString } from "Util/currency";
 
 const Title = ({ editing, title, updateTitle }) => {
@@ -75,11 +73,11 @@ const Balance = ({ plannedAmount, actualAmount, income }) => {
 const getActualAmount = transactions =>
   transactions.reduce((sum, transaction) => sum + transaction.amount, 0);
 
-const SubCategory = ({
+const Category = ({
   edit,
   income,
   openCategory,
-  subCategory: {
+  category: {
     title = '',
     transactions,
     plannedAmount,
@@ -119,4 +117,4 @@ const SubCategory = ({
   </Row>
 );
 
-export default SubCategory;
+export default Category;
