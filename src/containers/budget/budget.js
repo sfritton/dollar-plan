@@ -33,7 +33,9 @@ class Budget extends Component {
       >
         <section>
           <h2>Income</h2>
-          {this.renderIncomes()}
+          {Object.entries(this.props.incomes.categories).map(([id, category]) => (
+            <Category key={id} income groupId="income" categoryId={id} />
+          ))}
           {editing && (
             <Row clickable onClick={addIncomeCategory}>
               + add a category
@@ -43,7 +45,9 @@ class Budget extends Component {
 
         <section>
           <h2>Expenses</h2>
-          {this.renderExpenses()}
+          {this.props.expenses.map(({ id, ...categoryGroup }) => (
+            <CategoryGroup key={id} groupId={id} defaultOpen />
+          ))}
           {editing && (
             <Row clickable header onClick={addExpenseCategory}>
               + add a category group
@@ -71,54 +75,6 @@ class Budget extends Component {
         secondaryEditing={{ label: 'Cancel', onClick: cancelEdit }}
       />
     );
-  }
-
-  renderIncomes() {
-    return Object.entries(this.props.incomes.categories)
-      .map(([id, category]) => (
-        <Category key={id} income groupId="income" categoryId={id} />
-      ));
-  }
-
-  renderExpenses() {
-    return this.props.expenses
-      .map(({ id, ...categoryGroup }) => (
-        <CategoryGroup
-          key={id}
-          groupId={id}
-          edit={this.props.editing}
-          defaultOpen
-          categoryGroup={categoryGroup}
-          deleteCategory={() =>
-            this.props.dispatch(BudgetActions.deleteExpenseCategory(id))}
-          updateTitle={title =>
-            this.props.dispatch(
-              BudgetActions.updateExpenseCategoryTitle(id, title)
-            )}
-          updateSubCategoryTitle={(subCatId, title) =>
-            this.props.dispatch(
-              BudgetActions.updateExpenseSubCategoryTitle(id, subCatId, title)
-            )}
-          updateSubCategoryAmount={(subCatId, amount) =>
-            this.props.dispatch(
-              BudgetActions.updateExpenseSubCategoryAmount(id, subCatId, amount)
-            )}
-          updateSubCategoryNotes={(subCatId, notes) =>
-            this.props.dispatch(
-              BudgetActions.updateExpenseSubCategoryNotes(id, subCatId, notes)
-            )}
-          addSubCategory={() =>
-            this.props.dispatch(BudgetActions.addExpenseSubCategory(id))}
-          deleteSubCategory={subCatId =>
-            this.props.dispatch(
-              BudgetActions.deleteExpenseSubCategory(id, subCatId)
-            )}
-          openSubCategory={subCatId => {
-            this.props.dispatch(CategoryActions.setActiveCategory(id, subCatId));
-            this.props.dispatch(UIActions.setPage(Pages.CATEGORY));
-          }}
-        />
-      ));
   }
 
   getBalanceMessage() {

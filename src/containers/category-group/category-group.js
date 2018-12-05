@@ -1,6 +1,10 @@
 import React from "react";
 import "./category-group.less";
+import { connect } from "react-redux";
 
+import * as BudgetActions from "Redux/actions/budget-actions";
+import * as CategoryActions from "Redux/actions/category-actions";
+import * as UIActions from "Redux/actions/ui-actions";
 import { Row, GroupHeader } from "Components";
 import Category from "../category/category";
 
@@ -25,21 +29,21 @@ const CategoryList = ({
   categories,
   groupId,
   editing,
-  addSubCategory
+  addCategory
 }) => (
   <div>
     {Object.keys(categories).map(id => (
       <Category key={id} groupId={groupId} categoryId={id} />
     ))}
     {editing ? (
-      <Row clickable onClick={() => addSubCategory()}>
+      <Row clickable onClick={addCategory}>
         + add a category
       </Row>
     ) : null}
   </div>
 );
 
-export default class CategoryGroup extends React.Component {
+class CategoryGroup extends React.Component {
   constructor(props) {
     super(props);
 
@@ -50,7 +54,7 @@ export default class CategoryGroup extends React.Component {
 
   render() {
     const {
-      edit,
+      editing,
       categoryGroup: { title, categories },
       groupId,
       updateTitle,
@@ -59,7 +63,7 @@ export default class CategoryGroup extends React.Component {
       updateSubCategoryNotes,
       deleteSubCategory,
       openSubCategory,
-      addSubCategory
+      addCategory
     } = this.props;
     const actualAmount = getActualAmount(categories);
     const plannedAmount = getPlannedAmount(categories);
@@ -67,7 +71,7 @@ export default class CategoryGroup extends React.Component {
     return (
       <div className="expense-group">
         <GroupHeader
-          editing={edit}
+          editing={editing}
           title={title}
           actualAmount={actualAmount}
           plannedAmount={plannedAmount}
@@ -76,21 +80,30 @@ export default class CategoryGroup extends React.Component {
         <CategoryList
           categories={categories}
           groupId={groupId}
-          editing={edit}
-          updateSubCategoryTitle={updateSubCategoryTitle}
-          updateSubCategoryAmount={updateSubCategoryAmount}
-          updateSubCategoryNotes={updateSubCategoryNotes}
-          deleteSubCategory={deleteSubCategory}
-          openSubCategory={openSubCategory}
-          addSubCategory={addSubCategory}
+          editing={editing}
+          addCategory={addCategory}
         />
       </div>
     );
   }
 
   toggleVisible() {
-    if (!this.props.edit) {
+    if (!this.props.editing) {
       this.setState(prevState => ({ open: !prevState.open }));
     }
   }
 }
+
+const mapStateToProps = (state, ownProps) => ({
+  editing: state.ui.edit,
+  categoryGroup: state.budget.categoryGroups[ownProps.groupId]
+});
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  deleteCategoryGroup: () => dispatch(BudgetActions.deleteExpenseCategory(ownProps.groupId)),
+  updateTitle: title =>
+    dispatch(BudgetActions.updateExpenseCategoryTitle(ownProps.groupId, title)),
+  addCategory: () => dispatch(BudgetActions.addExpenseSubCategory(ownProps.groupId)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryGroup);
