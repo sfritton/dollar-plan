@@ -1,11 +1,11 @@
-import { handleSetActiveBudget } from "../budget-reducer";
+import { handleGetBudget } from "../budget-reducer";
 
 import fs from "fs";
 
 jest.mock("fs");
 
 describe("budgetReducer", () => {
-  describe("setActiveBudget", () => {
+  describe("getActiveBudget", () => {
     it("should return the budget", () => {
       const budget = {
         date: {
@@ -17,7 +17,7 @@ describe("budgetReducer", () => {
 
       fs.readFileSync.mockReturnValue(JSON.stringify(budget));
 
-      const result = handleSetActiveBudget({}, { month: 1, year: 2018 });
+      const result = handleGetBudget({}, { month: 1, year: 2018 });
 
       expect(result).toMatchInlineSnapshot(`
 Object {
@@ -29,6 +29,12 @@ Object {
   "isLoaded": true,
 }
 `);
+    });
+  });
+
+  describe("addCategory", () => {
+    it("should have tests", () {
+      expect(true).toBe(false);
     });
   });
 });

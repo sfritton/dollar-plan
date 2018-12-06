@@ -56,10 +56,10 @@ export function updateIncomeCategoryNotes(catId, notes) {
   };
 }
 
-export function addIncomeCategory() {
+export function addCategory(groupId) {
   return {
-    type: Actions.ADD_INCOME_CATEGORY,
-    payload: {}
+    type: Actions.ADD_CATEGORY,
+    payload: { groupId }
   };
 }
 

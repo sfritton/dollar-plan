@@ -18,7 +18,7 @@ class Budget extends Component {
     const {
       isBudgetLoaded,
       editing,
-      addIncomeCategory,
+      addCategory,
       addExpenseCategory,
     } = this.props;
 
@@ -37,7 +37,7 @@ class Budget extends Component {
             <Category key={id} income groupId="income" categoryId={id} />
           ))}
           {editing && (
-            <Row clickable onClick={addIncomeCategory}>
+            <Row clickable onClick={() => addCategory('income')}>
               + add a category
             </Row>
           )}
@@ -63,7 +63,8 @@ class Budget extends Component {
       editing,
       adjustBudget,
       saveBudget,
-      cancelEdit
+      cancelEdit,
+      date
     } = this.props;
 
     return (
@@ -72,7 +73,7 @@ class Budget extends Component {
         editing={editing}
         primaryDefault={{ label: 'Adjust budget', onClick: adjustBudget }}
         primaryEditing={{ label: 'Save budget', onClick: saveBudget }}
-        secondaryEditing={{ label: 'Cancel', onClick: cancelEdit }}
+        secondaryEditing={{ label: 'Cancel', onClick: () => cancelEdit(date) }}
       />
     );
   }
@@ -153,18 +154,17 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  addIncomeCategory: () => dispatch(BudgetActions.addIncomeCategory()),
+  addCategory: (groupId) => dispatch(BudgetActions.addCategory(groupId)),
   addExpenseCategory: () => dispatch(BudgetActions.addExpenseCategory()),
   adjustBudget: () => dispatch(UIActions.setEdit(true)),
   saveBudget: () => {
     dispatch(UIActions.setEdit(false));
     dispatch(BudgetActions.saveBudget());
   },
-  cancelEdit: () => {
-    const { month, year } = ownProps.date;
+  cancelEdit: ({ month, year }) => {
     dispatch(UIActions.setEdit(false));
     dispatch(BudgetActions.getBudget(month, year));
   }
 });
 
-export default connect(mapStateToProps)(Budget);
+export default connect(mapStateToProps, mapDispatchToProps)(Budget);

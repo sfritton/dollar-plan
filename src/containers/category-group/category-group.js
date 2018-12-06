@@ -103,7 +103,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   deleteCategoryGroup: () => dispatch(BudgetActions.deleteExpenseCategory(ownProps.groupId)),
   updateTitle: title =>
     dispatch(BudgetActions.updateExpenseCategoryTitle(ownProps.groupId, title)),
-  addCategory: () => dispatch(BudgetActions.addExpenseSubCategory(ownProps.groupId)),
+  addCategory: () => dispatch(BudgetActions.addCategory(ownProps.groupId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryGroup);

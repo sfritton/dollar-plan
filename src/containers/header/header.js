@@ -28,14 +28,14 @@ const Header = ({
   date,
   budgetDates,
   createNewBudget,
-  setActiveBudget
+  getBudget
 }) => (
   <div>
     <NavDropdown
       selected={date}
       options={budgetDates}
       createNewBudget={createNewBudget}
-      setActiveBudget={(month, year) => setActiveBudget(month, year)}
+      setActiveBudget={(month, year) => getBudget(month, year)}
     />
     <h2 className="nav-message">{getDaysLeftMessage(date)}</h2>
   </div>
@@ -50,8 +50,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setActiveBudget: (month, year) =>
-    dispatch(BudgetActions.setActiveBudget(month, year)),
+  getBudget: (month, year) =>
+    dispatch(BudgetActions.getBudget(month, year)),
   createNewBudget: () => dispatch(UIActions.setPage(Pages.WELCOME))
 })
 

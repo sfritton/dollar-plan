@@ -18,8 +18,6 @@ export default function reducer(state = {}, action) {
     // Budget
     case Actions.GET_ALL_BUDGETS:
       return handleGetAllBudgets();
-    case Actions.GET_BUDGET:
-      return handleGetBudget(state, payload);
     case Actions.CREATE_NEW_BUDGET:
       return handleCreateNewBudget(state, payload);
     case Actions.SAVE_BUDGET:
@@ -96,26 +94,6 @@ function handleGetAllBudgets() {
     });
 
   return budgets;
-}
-
-function handleGetBudget(state, payload) {
-  const { month, year } = payload;
-  const budget = JSON.parse(
-    fs.readFileSync(
-      `${DATA_DIRECTORY}\\${encodeDate(month, year)}.json`
-    )
-  );
-  budget.loaded = true;
-  const index = state.budgets.findIndex(
-    b => b.date.month === month && b.date.year === year
-  );
-  const budgets = [...state.budgets];
-  budgets[index] = budget;
-
-  return {
-    ...state,
-    budgets
-  };
 }
 
 function handleCreateNewBudget(state, payload) {
