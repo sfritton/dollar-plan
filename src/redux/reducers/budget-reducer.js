@@ -10,7 +10,12 @@ import {
 } from "Util/date";
 
 const DATA_DIRECTORY = "data_new";
-const getMaxObjectKey = obj => Math.max(...Object.keys(obj));
+export const getMaxObjectKey = obj =>
+  Math.max(
+    0,
+    ...Object.keys(obj)
+      .filter(key => !isNaN(parseInt(key, 10)))
+  );
 
 export function handleGetBudget(state, { month, year }) {
   const budget = JSON.parse(
