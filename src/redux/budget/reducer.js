@@ -67,10 +67,25 @@ export function handleAddCategoryGroup(state) {
   });
 };
 
+export function handleSaveBudget(state) {
+  const { date } = state;
+
+  if (!date) return state;
+
+  const fileName = encodeDate(date.month, date.year);
+
+  fs.writeFileSync(
+    `${DATA_DIRECTORY}\\${fileName}.json`,
+    JSON.stringify({ ...state, isLoaded: undefined })
+  );
+  return state;
+}
+
 const actionHandlers = {
   [Actions.GET_BUDGET]: handleGetBudget,
   [Actions.ADD_CATEGORY]: handleAddCategory,
-  [Actions.ADD_CATEGORY_GROUP]: handleAddCategoryGroup
+  [Actions.ADD_CATEGORY_GROUP]: handleAddCategoryGroup,
+  [Actions.SAVE_BUDGET]: handleSaveBudget
 };
 
 export default function reducer(state = {}, { type, payload }) {

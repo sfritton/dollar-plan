@@ -20,8 +20,6 @@ export default function reducer(state = {}, action) {
       return handleGetAllBudgets();
     case Actions.CREATE_NEW_BUDGET:
       return handleCreateNewBudget(state, payload);
-    case Actions.SAVE_BUDGET:
-      return handleSaveBudget(state);
 
     // Income Category
     case Actions.UPDATE_INCOME_CATEGORY_TITLE:
@@ -143,17 +141,6 @@ function handleCreateNewBudget(state, payload) {
     budgets,
     activeBudgetIndex: budgets.length - 1
   };
-}
-
-function handleSaveBudget(state) {
-  const { date, incomes, expenses } = state.budgets[state.activeBudgetIndex];
-  const fileName = encodeDate(date.month, date.year) + ".json";
-
-  fs.writeFileSync(
-    `${DATA_DIRECTORY}\\${fileName}`,
-    JSON.stringify({ date, incomes, expenses })
-  );
-  return state;
 }
 
 /*****************************************************************************

@@ -2,7 +2,8 @@ import {
   getMaxObjectKey,
   handleGetBudget,
   handleAddCategory,
-  handleAddCategoryGroup
+  handleAddCategoryGroup,
+  handleSaveBudget
 } from "../reducer";
 
 import fs from "fs";
@@ -132,6 +133,46 @@ Object {
     });
   });
 
+  describe("saveBudget", () => {
+    it("should do nothing if there is no date", () => {
+      const budget = {
+        categoryGroups: {}
+      };
+
+      handleSaveBudget(budget);
+
+      expect(fs.writeFileSync).not.toHaveBeenCalled();
+    });
+
+    it("should write to the file", () => {
+      const budget = {
+        date: {
+          month: 1,
+          year: 2019
+        },
+        categoryGroups: {}
+      };
+
+      handleSaveBudget(budget);
+
+      expect(fs.writeFileSync).toHaveBeenCalledWith(
+        'data_new\\2019-01.json',
+        JSON.stringify(budget)
+      );
+    });
+
+    it("should filter out isLoaded", () => {
+      const date = { month: 1, year: 2019 };
+
+      handleSaveBudget({ date, isLoaded: true });
+
+      expect(fs.writeFileSync).toHaveBeenCalledWith(
+        'data_new\\2019-01.json',
+        JSON.stringify({ date })
+      );
+    });
+  });
+
   describe("getMaxObjectKey", () => {
     it("should return the largest numeric key", () => {
       const obj = {
@@ -155,7 +196,7 @@ Object {
       expect(getMaxObjectKey(obj)).toBe(3);
     });
 
-    it("should return 0 for an empty object", () => {
+    it("should return -1 for an empty object", () => {
       const obj = {};
 
       expect(getMaxObjectKey(obj)).toBe(-1);
