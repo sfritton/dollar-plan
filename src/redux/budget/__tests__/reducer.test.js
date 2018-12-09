@@ -2,7 +2,7 @@ import {
   getMaxObjectKey,
   handleGetBudget,
   handleAddCategory
-} from "../budget-reducer";
+} from "../reducer";
 
 import fs from "fs";
 
