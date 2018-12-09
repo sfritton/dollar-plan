@@ -19,7 +19,7 @@ class Budget extends Component {
       isBudgetLoaded,
       editing,
       addCategory,
-      addExpenseCategory,
+      addCategoryGroup,
     } = this.props;
 
     if (!isBudgetLoaded) {
@@ -49,7 +49,7 @@ class Budget extends Component {
             <CategoryGroup key={id} groupId={id} defaultOpen />
           ))}
           {editing && (
-            <Row clickable header onClick={addExpenseCategory}>
+            <Row clickable header onClick={addCategoryGroup}>
               + add a category group
             </Row>
           )}
@@ -155,7 +155,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   addCategory: (groupId) => dispatch(BudgetActions.addCategory(groupId)),
-  addExpenseCategory: () => dispatch(BudgetActions.addExpenseCategory()),
+  addCategoryGroup: () => dispatch(BudgetActions.addCategoryGroup()),
   adjustBudget: () => dispatch(UIActions.setEdit(true)),
   saveBudget: () => {
     dispatch(UIActions.setEdit(false));

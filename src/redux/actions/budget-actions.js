@@ -63,6 +63,13 @@ export function addCategory(groupId) {
   };
 }
 
+export function addCategoryGroup() {
+  return {
+    type: Actions.ADD_CATEGORY_GROUP,
+    payload: {}
+  };
+}
+
 export function deleteIncomeCategory(catId) {
   return {
     type: Actions.DELETE_INCOME_CATEGORY,
@@ -74,13 +81,6 @@ export function updateExpenseCategoryTitle(catId, title) {
   return {
     type: Actions.UPDATE_EXPENSE_CATEGORY_TITLE,
     payload: { catId, title }
-  };
-}
-
-export function addExpenseCategory() {
-  return {
-    type: Actions.ADD_EXPENSE_CATEGORY,
-    payload: {}
   };
 }
 
@@ -109,13 +109,6 @@ export function updateExpenseSubCategoryNotes(catId, subCatId, notes) {
   return {
     type: Actions.UPDATE_EXPENSE_SUB_CATEGORY_NOTES,
     payload: { catId, subCatId, notes }
-  };
-}
-
-export function addExpenseSubCategory(catId) {
-  return {
-    type: Actions.ADD_EXPENSE_SUB_CATEGORY,
-    payload: { catId }
   };
 }
 

@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import produce from 'immer';
 
 import Actions from "../actions/actions-enum";
 import {
@@ -10,9 +11,10 @@ import {
 } from "Util/date";
 
 const DATA_DIRECTORY = "data_new";
+
 export const getMaxObjectKey = obj =>
   Math.max(
-    0,
+    -1,
     ...Object.keys(obj)
       .filter(key => !isNaN(parseInt(key, 10)))
   );
@@ -30,36 +32,48 @@ export function handleGetBudget(state, { month, year }) {
 };
 
 export function handleAddCategory(state, { groupId }) {
-  if (!state.categoryGroups[groupId]) return state;
+  return produce(state, draft => {
+    const group = draft.categoryGroups[groupId];
 
-  const categories = { ...state.categoryGroups[groupId].categories };
+    if (!group) return;
 
-  const maxId = getMaxObjectKey(categories);
+    const { categories } = group;
 
-  categories[maxId + 1] = {
-    title: '',
-    notes: '',
-    plannedAmount: 0,
-    transactions: []
-  };
+    const maxId = getMaxObjectKey(categories);
 
-  const budget = {
-    ...state,
-    categoryGroups: {
-      ...state.categoryGroups,
-      [groupId]: {
-        ...state.categoryGroups[groupId],
-        categories
+    categories[maxId + 1] = {
+      title: '',
+      notes: '',
+      plannedAmount: 0,
+      transactions: []
+    };
+  });
+};
+
+export function handleAddCategoryGroup(state) {
+  return produce(state, draft => {
+    const { categoryGroups } = draft;
+
+    const maxId = getMaxObjectKey(categoryGroups);
+
+    categoryGroups[maxId + 1] = {
+      title: "",
+      categories: {
+        "0": {
+          title: '',
+          notes: '',
+          plannedAmount: 0,
+          transactions: []
+        }
       }
-    }
-  };
-
-  return budget;
+    };
+  });
 };
 
 const actionHandlers = {
   [Actions.GET_BUDGET]: handleGetBudget,
   [Actions.ADD_CATEGORY]: handleAddCategory,
+  [Actions.ADD_CATEGORY_GROUP]: handleAddCategoryGroup
 };
 
 export default function reducer(state = {}, { type, payload }) {

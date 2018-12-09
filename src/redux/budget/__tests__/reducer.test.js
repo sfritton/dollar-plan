@@ -1,7 +1,8 @@
 import {
   getMaxObjectKey,
   handleGetBudget,
-  handleAddCategory
+  handleAddCategory,
+  handleAddCategoryGroup
 } from "../reducer";
 
 import fs from "fs";
@@ -100,6 +101,20 @@ Object {
     });
   });
 
+  describe("addCategoryGroup", () => {
+    it("should add a category group", () => {
+      const state = {
+        categoryGroups: {
+          income: { }
+        }
+      };
+
+      const result = handleAddCategoryGroup(state);
+
+      expect(result).toMatchInlineSnapshot();
+    })
+  })
+
   describe("getMaxObjectKey", () => {
     it("should return the largest numeric key", () => {
       const obj = {
@@ -126,7 +141,7 @@ Object {
     it("should return 0 for an empty object", () => {
       const obj = {};
 
-      expect(getMaxObjectKey(obj)).toBe(0);
+      expect(getMaxObjectKey(obj)).toBe(-1);
     });
   });
 });
