@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import './welcome.less';
 
 import Pages from "Redux/actions/pages-enum";
-import { createNewBudget } from "Redux/actions/budget-actions";
+import { createNewBudget } from "Redux/budget/actions";
 import { setPage, setEdit } from "Redux/actions/ui-actions";
 import { Button, Dropdown, Page } from "Components";
 import { encodeDate, decodeDate, getMonthName, months } from "Util/date";

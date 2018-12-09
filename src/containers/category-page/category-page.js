@@ -5,7 +5,7 @@ import { Page, Row, GroupHeader, Footer, Transaction } from "Components";
 import Header from "../header/header";
 import { setPage, setEdit } from "Redux/actions/ui-actions";
 import * as CategoryActions from "Redux/actions/category-actions";
-import { saveBudget } from "Redux/actions/budget-actions";
+import { saveBudget } from "Redux/budget/actions";
 import Pages from "Redux/actions/pages-enum";
 
 class CategoryPage extends React.Component {

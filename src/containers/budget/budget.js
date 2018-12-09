@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import * as BudgetActions from "Redux/actions/budget-actions";
+import * as BudgetActions from "Redux/budget/actions";
 import * as CategoryActions from "Redux/actions/category-actions";
 import * as UIActions from "Redux/actions/ui-actions";
 import Pages from "Redux/actions/pages-enum";

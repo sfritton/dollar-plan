@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import "./header.less";
 
-import * as BudgetActions from "Redux/actions/budget-actions";
+import * as BudgetActions from "Redux/budget/actions";
 import * as UIActions from "Redux/actions/ui-actions";
 import Pages from "Redux/actions/pages-enum";
 import NavDropdown from "./nav-dropdown";

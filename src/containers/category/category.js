@@ -2,7 +2,7 @@ import React from "react";
 import "./category.less";
 import { connect } from "react-redux";
 
-import * as BudgetActions from "Redux/actions/budget-actions";
+import * as BudgetActions from "Redux/budget/actions";
 import * as CategoryActions from "Redux/actions/category-actions";
 import * as UIActions from "Redux/actions/ui-actions";
 import { Row, ProgressBar, Input } from 'Components';
