@@ -105,15 +105,32 @@ Object {
     it("should add a category group", () => {
       const state = {
         categoryGroups: {
-          income: { }
+          income: {}
         }
       };
 
       const result = handleAddCategoryGroup(state);
 
-      expect(result).toMatchInlineSnapshot();
-    })
-  })
+      expect(result).toMatchInlineSnapshot(`
+Object {
+  "categoryGroups": Object {
+    "0": Object {
+      "categories": Object {
+        "0": Object {
+          "notes": "",
+          "plannedAmount": 0,
+          "title": "",
+          "transactions": Array [],
+        },
+      },
+      "title": "",
+    },
+    "income": Object {},
+  },
+}
+`);
+    });
+  });
 
   describe("getMaxObjectKey", () => {
     it("should return the largest numeric key", () => {

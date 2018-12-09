@@ -12,6 +12,13 @@ import {
 
 const DATA_DIRECTORY = "data_new";
 
+const getDefaultCategory = () => ({
+  title: '',
+  notes: '',
+  plannedAmount: 0,
+  transactions: []
+});
+
 export const getMaxObjectKey = obj =>
   Math.max(
     -1,
@@ -41,12 +48,7 @@ export function handleAddCategory(state, { groupId }) {
 
     const maxId = getMaxObjectKey(categories);
 
-    categories[maxId + 1] = {
-      title: '',
-      notes: '',
-      plannedAmount: 0,
-      transactions: []
-    };
+    categories[maxId + 1] = getDefaultCategory();
   });
 };
 
@@ -59,12 +61,7 @@ export function handleAddCategoryGroup(state) {
     categoryGroups[maxId + 1] = {
       title: "",
       categories: {
-        "0": {
-          title: '',
-          notes: '',
-          plannedAmount: 0,
-          transactions: []
-        }
+        "0": getDefaultCategory()
       }
     };
   });
