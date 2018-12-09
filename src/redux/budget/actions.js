@@ -77,10 +77,10 @@ export function deleteIncomeCategory(catId) {
   };
 }
 
-export function updateExpenseCategoryTitle(catId, title) {
+export function updateCategoryGroupTitle(groupId, title) {
   return {
-    type: Actions.UPDATE_EXPENSE_CATEGORY_TITLE,
-    payload: { catId, title }
+    type: Actions.UPDATE_CATEGORY_GROUP_TITLE,
+    payload: { groupId, title }
   };
 }
 

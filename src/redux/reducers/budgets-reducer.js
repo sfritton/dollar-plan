@@ -32,8 +32,6 @@ export default function reducer(state = {}, action) {
       return handleDeleteIncomeCategory(state, payload);
 
     // Expense Category
-    case Actions.UPDATE_EXPENSE_CATEGORY_TITLE:
-      return handleUpdateExpenseCategoryTitle(state, payload);
     case Actions.DELETE_EXPENSE_CATEGORY:
       return handleDeleteExpenseCategory(state, payload);
 
@@ -257,32 +255,6 @@ function handleDeleteIncomeCategory(state, payload) {
 /*****************************************************************************
  * Expense Category
  *****************************************************************************/
-function handleUpdateExpenseCategoryTitle(state, payload) {
-  if (
-    payload.catId === null ||
-    payload.catId === undefined ||
-    payload.catId < 0
-  ) {
-    return state;
-  }
-
-  const { catId, title } = payload;
-
-  const budget = { ...state.budgets[state.activeBudgetIndex] };
-  const expense = { ...budget.expenses[catId], title };
-
-  budget.expenses = [...budget.expenses];
-  budget.expenses[catId] = expense;
-
-  const budgets = [...state.budgets];
-  budgets[state.activeBudgetIndex] = budget;
-
-  return {
-    ...state,
-    budgets
-  };
-}
-
 function handleDeleteExpenseCategory(state, payload) {
   if (
     payload.catId === null ||

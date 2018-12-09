@@ -81,11 +81,22 @@ export function handleSaveBudget(state) {
   return state;
 }
 
+export function handleUpdateCategoryGroupTitle(state, { groupId, title }) {
+  return produce(state, draft => {
+    const group = draft.categoryGroups[groupId];
+
+    if (!group) return;
+
+    group.title = title;
+  });
+}
+
 const actionHandlers = {
   [Actions.GET_BUDGET]: handleGetBudget,
   [Actions.ADD_CATEGORY]: handleAddCategory,
   [Actions.ADD_CATEGORY_GROUP]: handleAddCategoryGroup,
-  [Actions.SAVE_BUDGET]: handleSaveBudget
+  [Actions.SAVE_BUDGET]: handleSaveBudget,
+  [Actions.UPDATE_CATEGORY_GROUP_TITLE]: handleUpdateCategoryGroupTitle
 };
 
 export default function reducer(state = {}, { type, payload }) {

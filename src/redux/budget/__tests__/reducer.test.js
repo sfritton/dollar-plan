@@ -173,6 +173,12 @@ Object {
     });
   });
 
+  describe("updateCategoryGroupTitle", () => {
+    it("should have tests", () => {
+      expect(false).toBe(true);
+    })
+  })
+
   describe("getMaxObjectKey", () => {
     it("should return the largest numeric key", () => {
       const obj = {
