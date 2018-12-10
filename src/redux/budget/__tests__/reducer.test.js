@@ -3,7 +3,8 @@ import {
   handleGetBudget,
   handleAddCategory,
   handleAddCategoryGroup,
-  handleSaveBudget
+  handleSaveBudget,
+  handleUpdateCategoryGroupTitle
 } from "../reducer";
 
 import fs from "fs";
@@ -156,7 +157,7 @@ Object {
       handleSaveBudget(budget);
 
       expect(fs.writeFileSync).toHaveBeenCalledWith(
-        'data_new\\2019-01.json',
+        "data_new\\2019-01.json",
         JSON.stringify(budget)
       );
     });
@@ -167,17 +168,58 @@ Object {
       handleSaveBudget({ date, isLoaded: true });
 
       expect(fs.writeFileSync).toHaveBeenCalledWith(
-        'data_new\\2019-01.json',
+        "data_new\\2019-01.json",
         JSON.stringify({ date })
       );
     });
   });
 
   describe("updateCategoryGroupTitle", () => {
-    it("should have tests", () => {
-      expect(false).toBe(true);
-    })
-  })
+    it("should do nothing for an unmatching group id", () => {
+      const state = {
+        categoryGroups: {
+          "0": {
+            title: "Investment",
+            categories: {}
+          }
+        }
+      };
+
+      const result = handleUpdateCategoryGroupTitle(state, {
+        groupId: "1",
+        title: "Investments"
+      });
+
+      expect(result).toBe(state);
+    });
+
+    it("should update the category group title", () => {
+      const state = {
+        categoryGroups: {
+          "0": {
+            title: "Investment",
+            categories: {}
+          }
+        }
+      };
+
+      const result = handleUpdateCategoryGroupTitle(state, {
+        groupId: "0",
+        title: "Investments"
+      });
+
+      expect(result).toMatchInlineSnapshot(`
+Object {
+  "categoryGroups": Object {
+    "0": Object {
+      "categories": Object {},
+      "title": "Investments",
+    },
+  },
+}
+`);
+    });
+  });
 
   describe("getMaxObjectKey", () => {
     it("should return the largest numeric key", () => {
