@@ -4,7 +4,8 @@ import {
   handleAddCategory,
   handleAddCategoryGroup,
   handleSaveBudget,
-  handleUpdateCategoryGroupTitle
+  handleUpdateCategoryGroupTitle,
+  handleUpdateCategoryTitle
 } from "../reducer";
 
 import fs from "fs";
@@ -214,6 +215,82 @@ Object {
     "0": Object {
       "categories": Object {},
       "title": "Investments",
+    },
+  },
+}
+`);
+    });
+  });
+
+  describe("updateCategoryTitle", () => {
+    it("should do nothing for an unmatching group id", () => {
+      const state = {
+        categoryGroups: {
+          "0": {
+            title: "Investment",
+            categories: {}
+          }
+        }
+      };
+
+      const result = handleUpdateCategoryTitle(state, {
+        groupId: "1",
+        catId: "2",
+        title: "Investments"
+      });
+
+      expect(result).toBe(state);
+    });
+
+    it("should do nothing for an unmatching category id", () => {
+      const state = {
+        categoryGroups: {
+          "0": {
+            title: "Investment",
+            categories: {}
+          }
+        }
+      };
+
+      const result = handleUpdateCategoryTitle(state, {
+        groupId: "0",
+        catId: "2",
+        title: "Investments"
+      });
+
+      expect(result).toBe(state);
+    });
+
+    it("should update the category title", () => {
+      const state = {
+        categoryGroups: {
+          "0": {
+            title: "Investment",
+            categories: {
+              "1": {
+                title: "Banana"
+              }
+            }
+          }
+        }
+      };
+
+      const result = handleUpdateCategoryGroupTitle(state, {
+        groupId: "0",
+        catId: "1",
+        title: "Bananas"
+      });
+
+      expect(result).toMatchInlineSnapshot(`
+Object {
+  "categoryGroups": Object {
+    "0": Object {
+      "categories": Object {
+        "1": Object {
+          "title": "Banana",
+        },
+      },
+      "title": "Bananas",
     },
   },
 }

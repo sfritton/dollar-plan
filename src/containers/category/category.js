@@ -128,7 +128,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   updateTitle: title =>
-    dispatch(BudgetActions.updateIncomeCategoryTitle(ownProps.categoryId, title)),
+    dispatch(BudgetActions.updateCategoryTitle(ownProps.groupId, ownProps.categoryId, title)),
   updateAmount: amount =>
     dispatch(BudgetActions.updateIncomeCategoryAmount(ownProps.categoryId, amount)),
   updateNotes: notes =>

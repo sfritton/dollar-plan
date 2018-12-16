@@ -1,5 +1,6 @@
 import Actions from "../actions/actions-enum";
 
+// Budget
 export function getAllBudgets() {
   return {
     type: Actions.GET_ALL_BUDGETS,
@@ -35,10 +36,27 @@ export function saveBudget() {
   };
 }
 
-export function updateIncomeCategoryTitle(catId, title) {
+// Category Group
+export function addCategoryGroup() {
   return {
-    type: Actions.UPDATE_INCOME_CATEGORY_TITLE,
-    payload: { catId, title }
+    type: Actions.ADD_CATEGORY_GROUP,
+    payload: {}
+  };
+}
+
+export function updateCategoryGroupTitle(groupId, title) {
+  return {
+    type: Actions.UPDATE_CATEGORY_GROUP_TITLE,
+    payload: { groupId, title }
+  };
+}
+
+// Category
+
+export function updateCategoryTitle(groupId, catId, title) {
+  return {
+    type: Actions.UPDATE_CATEGORY_TITLE,
+    payload: { groupId, catId, title }
   };
 }
 
@@ -63,13 +81,6 @@ export function addCategory(groupId) {
   };
 }
 
-export function addCategoryGroup() {
-  return {
-    type: Actions.ADD_CATEGORY_GROUP,
-    payload: {}
-  };
-}
-
 export function deleteIncomeCategory(catId) {
   return {
     type: Actions.DELETE_INCOME_CATEGORY,
@@ -77,24 +88,10 @@ export function deleteIncomeCategory(catId) {
   };
 }
 
-export function updateCategoryGroupTitle(groupId, title) {
-  return {
-    type: Actions.UPDATE_CATEGORY_GROUP_TITLE,
-    payload: { groupId, title }
-  };
-}
-
 export function deleteExpenseCategory(catId) {
   return {
     type: Actions.DELETE_EXPENSE_CATEGORY,
     payload: { catId }
-  };
-}
-
-export function updateExpenseSubCategoryTitle(catId, subCatId, title) {
-  return {
-    type: Actions.UPDATE_EXPENSE_SUB_CATEGORY_TITLE,
-    payload: { catId, subCatId, title }
   };
 }
 
