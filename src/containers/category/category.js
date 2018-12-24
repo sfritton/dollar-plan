@@ -130,9 +130,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   updateTitle: title =>
     dispatch(BudgetActions.updateCategoryTitle(ownProps.groupId, ownProps.categoryId, title)),
   updateAmount: amount =>
-    dispatch(BudgetActions.updateIncomeCategoryAmount(ownProps.categoryId, amount)),
+    dispatch(BudgetActions.updateCategoryAmount(ownProps.groupId, ownProps.categoryId, amount)),
   updateNotes: notes =>
-    dispatch(BudgetActions.updateIncomeCategoryNotes(ownProps.categoryId, notes)),
+    dispatch(BudgetActions.updateCategoryNotes(ownProps.groupId, ownProps.categoryId, notes)),
   deleteSubCategory: () =>
     dispatch(BudgetActions.deleteIncomeCategory(ownProps.categoryId)),
   openCategory: () => {

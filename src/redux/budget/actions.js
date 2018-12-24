@@ -52,25 +52,24 @@ export function updateCategoryGroupTitle(groupId, title) {
 }
 
 // Category
-
 export function updateCategoryTitle(groupId, catId, title) {
   return {
-    type: Actions.UPDATE_CATEGORY_TITLE,
+    type: Actions.UPDATE_CATEGORY_DETAILS,
     payload: { groupId, catId, title }
   };
 }
 
-export function updateIncomeCategoryAmount(catId, amount) {
+export function updateCategoryAmount(groupId, catId, plannedAmount) {
   return {
-    type: Actions.UPDATE_INCOME_CATEGORY_AMOUNT,
-    payload: { catId, amount }
+    type: Actions.UPDATE_CATEGORY_DETAILS,
+    payload: { groupId, catId, plannedAmount }
   };
 }
 
-export function updateIncomeCategoryNotes(catId, notes) {
+export function updateCategoryNotes(groupId, catId, notes) {
   return {
-    type: Actions.UPDATE_INCOME_CATEGORY_NOTES,
-    payload: { catId, notes }
+    type: Actions.UPDATE_CATEGORY_DETAILS,
+    payload: { groupId, catId, notes }
   };
 }
 

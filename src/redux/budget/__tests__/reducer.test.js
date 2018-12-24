@@ -5,7 +5,7 @@ import {
   handleAddCategoryGroup,
   handleSaveBudget,
   handleUpdateCategoryGroupTitle,
-  handleUpdateCategoryTitle
+  handleUpdateCategoryDetails
 } from "../reducer";
 
 import fs from "fs";
@@ -222,7 +222,7 @@ Object {
     });
   });
 
-  describe("updateCategoryTitle", () => {
+  describe("updateCategoryDetails", () => {
     it("should do nothing for an unmatching group id", () => {
       const state = {
         categoryGroups: {
@@ -233,7 +233,7 @@ Object {
         }
       };
 
-      const result = handleUpdateCategoryTitle(state, {
+      const result = handleUpdateCategoryDetails(state, {
         groupId: "1",
         catId: "2",
         title: "Investments"
@@ -252,7 +252,7 @@ Object {
         }
       };
 
-      const result = handleUpdateCategoryTitle(state, {
+      const result = handleUpdateCategoryDetails(state, {
         groupId: "0",
         catId: "2",
         title: "Investments"
@@ -275,7 +275,7 @@ Object {
         }
       };
 
-      const result = handleUpdateCategoryGroupTitle(state, {
+      const result = handleUpdateCategoryDetails(state, {
         groupId: "0",
         catId: "1",
         title: "Bananas"
@@ -287,10 +287,10 @@ Object {
     "0": Object {
       "categories": Object {
         "1": Object {
-          "title": "Banana",
+          "title": "Bananas",
         },
       },
-      "title": "Bananas",
+      "title": "Investment",
     },
   },
 }

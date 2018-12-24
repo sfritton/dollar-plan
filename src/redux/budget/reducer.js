@@ -91,17 +91,13 @@ export function handleUpdateCategoryGroupTitle(state, { groupId, title }) {
   });
 }
 
-export function handleUpdateCategoryTitle(state, { groupId, catId, title }) {
+export function handleUpdateCategoryDetails(state, { groupId, catId, ...details }) {
   return produce(state, draft => {
     const group = draft.categoryGroups[groupId];
 
-    if (!group) return;
+    if (!group || !group.categories[catId]) return;
 
-    const category = group.categories[catId];
-
-    if (!category) return;
-
-    category.title = title;
+    group.categories[catId] = { ...group.categories[catId], ...details };
   });
 }
 
@@ -111,7 +107,7 @@ const actionHandlers = {
   [Actions.ADD_CATEGORY_GROUP]: handleAddCategoryGroup,
   [Actions.SAVE_BUDGET]: handleSaveBudget,
   [Actions.UPDATE_CATEGORY_GROUP_TITLE]: handleUpdateCategoryGroupTitle,
-  [Actions.UPDATE_CATEGORY_TITLE]: handleUpdateCategoryTitle
+  [Actions.UPDATE_CATEGORY_DETAILS]: handleUpdateCategoryDetails
 };
 
 export default function reducer(state = {}, { type, payload }) {
