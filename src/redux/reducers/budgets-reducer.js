@@ -46,8 +46,6 @@ export default function reducer(state = {}, action) {
       return handleDeleteExpenseSubCategory(state, payload);
 
     // Category Page
-    case Actions.SET_ACTIVE_CATEGORY:
-      return handleSetActiveCategory(state, payload);
     case Actions.SAVE_CATEGORY_TO_BUDGET:
       return handleSaveCategoryToBudget(state, payload);
     case Actions.RESET_CATEGORY:
@@ -423,41 +421,6 @@ function handleDeleteExpenseSubCategory(state, payload) {
 /*****************************************************************************
  * Category Page
  *****************************************************************************/
-function handleSetActiveCategory(state, payload) {
-  if (
-    payload.catId === null ||
-    payload.catId === undefined ||
-    payload.catId < 0
-  ) {
-    return state;
-  }
-
-  // income
-  if (payload.subCatId === undefined) {
-    return {
-      ...state,
-      category: {
-        ...state.budgets[state.activeBudgetIndex].incomes[payload.catId]
-      },
-      activeCategoryKey: { catId: payload.catId }
-    };
-  }
-
-  if (payload.subCatId === null || payload.subCatId < 0) {
-    return state;
-  }
-
-  // expense
-  return {
-    ...state,
-    category: {
-      ...state.budgets[state.activeBudgetIndex].expenses[payload.catId]
-        .subCategories[payload.subCatId]
-    },
-    activeCategoryKey: { catId: payload.catId, subCatId: payload.subCatId }
-  };
-}
-
 function handleSaveCategoryToBudget(state, payload) {
   const category = { ...state.category };
   const transactions = [...category.transactions];

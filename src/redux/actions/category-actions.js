@@ -1,9 +1,9 @@
 import Actions from "./actions-enum";
 
-export function setActiveCategory(catId, subCatId) {
+export function setActiveCategory(groupId, catId, category) {
   return {
     type: Actions.SET_ACTIVE_CATEGORY,
-    payload: { catId, subCatId }
+    payload: { groupId, catId, category }
   };
 }
 

@@ -10,28 +10,32 @@ import Pages from "Redux/actions/pages-enum";
 
 class CategoryPage extends React.Component {
   render() {
+    const {
+      groupTitle,
+      category: { title, plannedAmount, notes },
+      income,
+      addTransaction
+    } = this.props;
+
     return (
       <Page header={<Header />} footer={this.renderFooter()}>
         <section>
-          <h2>{this.props.superCategoryName}</h2>
+          <h2>{groupTitle}</h2>
           <GroupHeader
-            title={this.props.category.title}
+            title={title}
             actualAmount={this.getActualAmount()}
-            plannedAmount={this.props.category.plannedAmount}
-            income={this.props.income}
+            plannedAmount={plannedAmount}
+            income={income}
           />
-          {this.props.category.notes && (
+          {notes && (
             <Row>
-              <b>Notes:</b> {this.props.category.notes}
+              <b>Notes:</b> {notes}
             </Row>
           )}
           {this.renderTransactions()}
           <Row
             clickable
-            onClick={() => {
-              this.props.dispatch(CategoryActions.addTransaction());
-              this.props.dispatch(setEdit(true));
-            }}
+            onClick={addTransaction}
           >
             + Add a transaction
           </Row>
@@ -48,68 +52,82 @@ class CategoryPage extends React.Component {
   }
 
   renderFooter() {
+    const {
+      editing,
+      editTransactions,
+      saveTransactions,
+      goToBudget,
+      reset
+    } = this.props;
+
     return (
       <Footer
-        editing={this.props.edit}
-        primaryDefault={{ label: 'Edit transactions', onClick: () => this.props.dispatch(setEdit(true)) }}
-        primaryEditing={{ label: 'Save transactions', onClick: () => {
-          this.props.dispatch(setEdit(false));
-          this.props.dispatch(CategoryActions.saveCategoryToBudget());
-          this.props.dispatch(saveBudget());
-        } }}
-        secondaryDefault={{ label: 'Back to budget', onClick: () => this.props.dispatch(setPage(Pages.BUDGET)) }}
-        secondaryEditing={{ label: 'Cancel', onClick: () => {
-          this.props.dispatch(CategoryActions.resetCategory());
-          this.props.dispatch(setEdit(false));
-        } }}
+        editing={editing}
+        primaryDefault={{ label: 'Edit transactions', onClick: editTransactions }}
+        primaryEditing={{ label: 'Save transactions', onClick: saveTransactions }}
+        secondaryDefault={{ label: 'Back to budget', onClick: goToBudget }}
+        secondaryEditing={{ label: 'Cancel', onClick: reset }}
       />
     );
   }
 
   renderTransactions() {
-    return this.props.category.transactions.map((transaction, i) => (
+    const {
+      category: { transactions },
+      month,
+      editing,
+      updateTransactionDate,
+      updateTransactionDescription,
+      updateTransactionAmount,
+      deleteTransaction
+    } = this.props;
+
+    return transactions.map((transaction, i) => (
       <Transaction
         key={i}
-        month={this.props.month}
+        month={month}
         transaction={transaction}
-        edit={this.props.edit}
-        updateDate={date =>
-          this.props.dispatch(CategoryActions.updateTransactionDate(date, i))}
-        updateDescription={desc =>
-          this.props.dispatch(
-            CategoryActions.updateTransactionDescription(desc, i)
-          )}
-        updateAmount={amount =>
-          this.props.dispatch(
-            CategoryActions.updateTransactionAmount(amount, i)
-          )}
-        deleteTransaction={() => {
-          this.props.dispatch(CategoryActions.deleteTransaction(i));
-          this.props.dispatch(setEdit(true));
-        }}
+        edit={editing}
+        updateDate={date => updateTransactionDate(date, i)}
+        updateDescription={desc => updateTransactionDescription(desc, i)}
+        updateAmount={amount => updateTransactionAmount(amount, i)}
+        deleteTransaction={deleteTransaction}
       />
     ));
   }
 }
 
-const mapStateToProps = state => {
-  const budget = state.budgets.budgets[state.budgets.activeBudgetIndex];
-  const { month } = budget.date;
-  const income =
-    state.budgets.activeCategoryKey.subCatId === null ||
-    state.budgets.activeCategoryKey.subCatId === undefined;
+const mapStateToProps = state => ({
+  month: state.budget.date.month,
+  category: state.category,
+  editing: state.ui.edit,
+  income: state.category.groupId === "income",
+  groupTitle: state.budget.categoryGroups[state.category.groupId].title,
+});
 
-  const superCategoryName = income
-    ? "Income"
-    : budget.expenses[state.budgets.activeCategoryKey.catId].title;
+const mapDispatchToProps = dispatch => ({
+  updateTransactionDate: (date, i) => dispatch(CategoryActions.updateTransactionDate(date, i)),
+  updateTransactionDescription: (desc, i) => dispatch(CategoryActions.updateTransactionDescription(desc, i)),
+  updateTransactionAmount: (amount, i) => dispatch(CategoryActions.updateTransactionAmount(amount, i)),
+  deleteTransaction: i => {
+    dispatch(CategoryActions.deleteTransaction(i));
+    dispatch(setEdit(true));
+  },
+  addTransaction: () => {
+    dispatch(CategoryActions.addTransaction());
+    dispatch(setEdit(true));
+  },
+  editTransactions: () => dispatch(setEdit(true)),
+  saveTransactions: () => {
+    dispatch(setEdit(false));
+    dispatch(CategoryActions.saveCategoryToBudget());
+    dispatch(saveBudget());
+  },
+  goToBudget: () => dispatch(setPage(Pages.BUDGET)),
+  reset: () => {
+    dispatch(CategoryActions.resetCategory());
+    dispatch(setEdit(false));
+  }
+});
 
-  return {
-    month,
-    category: state.budgets.category,
-    edit: state.ui.edit,
-    income,
-    superCategoryName,
-  };
-};
-
-export default connect(mapStateToProps)(CategoryPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryPage);
