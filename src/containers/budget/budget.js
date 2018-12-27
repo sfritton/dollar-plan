@@ -18,6 +18,8 @@ class Budget extends Component {
     const {
       isBudgetLoaded,
       editing,
+      incomes,
+      expenses,
       addCategory,
       addCategoryGroup,
     } = this.props;
@@ -33,7 +35,7 @@ class Budget extends Component {
       >
         <section>
           <h2>Income</h2>
-          {Object.entries(this.props.incomes.categories).map(([id, category]) => (
+          {Object.keys(incomes).map(id => (
             <Category key={id} income groupId="income" categoryId={id} />
           ))}
           {editing && (
@@ -45,7 +47,7 @@ class Budget extends Component {
 
         <section>
           <h2>Expenses</h2>
-          {this.props.expenses.map(({ id, ...categoryGroup }) => (
+          {expenses.map(({ id }) => (
             <CategoryGroup key={id} groupId={id} defaultOpen />
           ))}
           {editing && (
@@ -107,7 +109,7 @@ class Budget extends Component {
   }
 
   getActualIncome() {
-    return Object.values(this.props.incomes.categories)
+    return Object.values(this.props.incomes)
       .reduce((sum, category) => sum + this.reduceTransactions(category), 0);
   }
 
@@ -116,7 +118,7 @@ class Budget extends Component {
   }
 
   getPlannedIncome() {
-    return Object.values(this.props.incomes.categories)
+    return Object.values(this.props.incomes)
       .reduce((sum, { plannedAmount }) => sum + plannedAmount, 0);
   }
 
@@ -145,7 +147,7 @@ const mapStateToProps = state => ({
   editing: state.ui.edit,
   isBudgetLoaded: !!state.budget.date,
   date: state.budget.date,
-  incomes: state.budget.categoryGroups ? state.budget.categoryGroups.income : {},
+  incomes: state.budget.categoryGroups ? state.budget.categoryGroups.income.categories : {},
   expenses: objectToArray(state.budget.categoryGroups).filter(({ id }) => id !== 'income'),
   budgetDates: Object.keys(state.budgets)
     .sort()
