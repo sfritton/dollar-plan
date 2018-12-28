@@ -21,27 +21,6 @@ export function resetCategory() {
   };
 }
 
-export function updateTransactionDate(date, id) {
-  return {
-    type: Actions.UPDATE_TRANSACTION_DATE,
-    payload: { date, id }
-  };
-}
-
-export function updateTransactionDescription(description, id) {
-  return {
-    type: Actions.UPDATE_TRANSACTION_DESCRIPTION,
-    payload: { description, id }
-  };
-}
-
-export function updateTransactionAmount(amount, id) {
-  return {
-    type: Actions.UPDATE_TRANSACTION_AMOUNT,
-    payload: { amount, id }
-  };
-}
-
 export function addTransaction() {
   return {
     type: Actions.ADD_TRANSACTION,

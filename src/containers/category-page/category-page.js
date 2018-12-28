@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import { Page, Row, GroupHeader, Footer, Transaction } from "Components";
 import Header from "../header/header";
 import { setPage, setEdit } from "Redux/actions/ui-actions";
-import * as CategoryActions from "Redux/actions/category-actions";
+import * as OldCategoryActions from "Redux/actions/category-actions";
+import * as CategoryActions from "Redux/category/actions";
 import { saveBudget } from "Redux/budget/actions";
 import Pages from "Redux/actions/pages-enum";
 
@@ -82,15 +83,15 @@ class CategoryPage extends React.Component {
       deleteTransaction
     } = this.props;
 
-    return transactions.map((transaction, i) => (
+    return transactions.map(transaction => (
       <Transaction
-        key={i}
+        key={transaction.id}
         month={month}
         transaction={transaction}
         edit={editing}
-        updateDate={date => updateTransactionDate(date, i)}
-        updateDescription={desc => updateTransactionDescription(desc, i)}
-        updateAmount={amount => updateTransactionAmount(amount, i)}
+        updateDate={date => updateTransactionDate(date, transaction.id)}
+        updateDescription={desc => updateTransactionDescription(desc, transaction.id)}
+        updateAmount={amount => updateTransactionAmount(amount, transaction.id)}
         deleteTransaction={deleteTransaction}
       />
     ));
@@ -106,26 +107,26 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateTransactionDate: (date, i) => dispatch(CategoryActions.updateTransactionDate(date, i)),
-  updateTransactionDescription: (desc, i) => dispatch(CategoryActions.updateTransactionDescription(desc, i)),
-  updateTransactionAmount: (amount, i) => dispatch(CategoryActions.updateTransactionAmount(amount, i)),
-  deleteTransaction: i => {
-    dispatch(CategoryActions.deleteTransaction(i));
+  updateTransactionDate: (date, id) => dispatch(CategoryActions.updateTransactionDate(date, id)),
+  updateTransactionDescription: (desc, id) => dispatch(CategoryActions.updateTransactionDescription(desc, id)),
+  updateTransactionAmount: (amount, id) => dispatch(CategoryActions.updateTransactionAmount(amount, id)),
+  deleteTransaction: id => {
+    dispatch(OldCategoryActions.deleteTransaction(id));
     dispatch(setEdit(true));
   },
   addTransaction: () => {
-    dispatch(CategoryActions.addTransaction());
+    dispatch(OldCategoryActions.addTransaction());
     dispatch(setEdit(true));
   },
   editTransactions: () => dispatch(setEdit(true)),
   saveTransactions: () => {
     dispatch(setEdit(false));
-    dispatch(CategoryActions.saveCategoryToBudget());
+    dispatch(OldCategoryActions.saveCategoryToBudget());
     dispatch(saveBudget());
   },
   goToBudget: () => dispatch(setPage(Pages.BUDGET)),
   reset: () => {
-    dispatch(CategoryActions.resetCategory());
+    dispatch(OldCategoryActions.resetCategory());
     dispatch(setEdit(false));
   }
 });
