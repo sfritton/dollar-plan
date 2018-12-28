@@ -26,15 +26,7 @@ export const getMaxObjectKey = obj =>
       .filter(key => !isNaN(parseInt(key, 10)))
   );
 
-export function handleGetBudget(state, { month, year }) {
-  const budget = JSON.parse(
-    fs.readFileSync(
-      `${DATA_DIRECTORY}\\${encodeDate(month, year)}.json`
-    )
-  );
-
-  budget.isLoaded = true;
-
+export function handleGetBudget(state, { budget }) {
   return budget;
 };
 

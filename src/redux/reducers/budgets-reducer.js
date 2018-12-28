@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import produce from 'immer';
 
 import Actions from "../actions/actions-enum";
 import {
@@ -18,6 +19,8 @@ export default function reducer(state = {}, action) {
     // Budget
     case Actions.GET_ALL_BUDGETS:
       return handleGetAllBudgets();
+    case Actions.GET_BUDGET:
+      return handleGetBudget(state, payload);
     case Actions.CREATE_NEW_BUDGET:
       return handleCreateNewBudget(state, payload);
 
@@ -52,16 +55,8 @@ export default function reducer(state = {}, action) {
       return handleResetCategory(state);
 
     // Transaction
-    case Actions.UPDATE_TRANSACTION_DATE:
-      return handleUpdateTransactionDate(state, payload);
-    case Actions.UPDATE_TRANSACTION_DESCRIPTION:
-      return handleUpdateTransactionDescription(state, payload);
-    case Actions.UPDATE_TRANSACTION_AMOUNT:
-      return handleUpdateTransactionAmount(state, payload);
     case Actions.ADD_TRANSACTION:
       return handleAddTransaction(state);
-    case Actions.DELETE_TRANSACTION:
-      return handleDeleteTransaction(state, payload.id);
 
     default:
       return state;
@@ -137,6 +132,14 @@ function handleCreateNewBudget(state, payload) {
     budgets,
     activeBudgetIndex: budgets.length - 1
   };
+}
+
+function handleGetBudget(state, { budget, id }) {
+  if (id === undefined) return state;
+
+  return produce(state, draft => {
+    draft[id] = budget;
+  });
 }
 
 /*****************************************************************************
@@ -481,63 +484,6 @@ function handleResetCategory(state) {
 /*****************************************************************************
  * Transaction
  *****************************************************************************/
-function handleUpdateTransactionDate(state, payload) {
-  const category = { ...state.category };
-  const transaction = { ...category.transactions[payload.id] };
-  const { month, year } = state.budgets[state.activeBudgetIndex].date;
-
-  const targetDate = new Date(year, month - 1, payload.date);
-
-  transaction.date = getClosestToDate(
-    month,
-    year,
-    targetDate
-  ).getDate();
-
-  category.transactions = [...category.transactions];
-  category.transactions[payload.id] = transaction;
-
-  return { ...state, category };
-}
-
-function handleUpdateTransactionDescription(state, payload) {
-  const category = { ...state.category };
-  const transaction = {
-    ...category.transactions[payload.id],
-    description: payload.description
-  };
-
-  category.transactions = [...category.transactions];
-  category.transactions[payload.id] = transaction;
-
-  return { ...state, category };
-}
-
-function handleUpdateTransactionAmount(state, payload) {
-  const { id, amount } = payload;
-
-  if (
-    id === null ||
-    id === undefined ||
-    id < 0 ||
-    isNaN(amount) ||
-    amount < 0
-  ) {
-    return state;
-  }
-
-  const category = { ...state.category };
-  const transaction = {
-    ...category.transactions[id],
-    amount
-  };
-
-  category.transactions = [...category.transactions];
-  category.transactions[id] = transaction;
-
-  return { ...state, category };
-}
-
 function handleAddTransaction(state) {
   const date = getClosestToToday(
     state.budgets[state.activeBudgetIndex].date
@@ -549,18 +495,6 @@ function handleAddTransaction(state) {
     description: "",
     amount: 0
   });
-
-  return {
-    ...state,
-    category
-  };
-}
-
-function handleDeleteTransaction(state, id) {
-  const category = { ...state.category };
-  category.transactions = category.transactions.filter(
-    (transaction, i) => i !== id
-  );
 
   return {
     ...state,

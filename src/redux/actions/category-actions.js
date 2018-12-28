@@ -27,10 +27,3 @@ export function addTransaction() {
     payload: {}
   };
 }
-
-export function deleteTransaction(id) {
-  return {
-    type: Actions.DELETE_TRANSACTION,
-    payload: { id }
-  };
-}

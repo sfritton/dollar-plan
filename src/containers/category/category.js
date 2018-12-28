@@ -98,7 +98,7 @@ const Category = ({
   updateAmount,
   updateNotes
 }) => (
-  <Row clickable={!editing} onClick={() => !editing && openCategory(category)}>
+  <Row clickable={!editing} onClick={() => !editing && openCategory()}>
     <Title editing={editing} title={title} updateTitle={updateTitle} />
     <Amount
       editing={editing}
@@ -142,8 +142,8 @@ const mapDispatchToProps = (dispatch, { groupId, categoryId }) => ({
     dispatch(updateCategoryNotes(groupId, categoryId, notes)),
   deleteSubCategory: () =>
     dispatch(deleteIncomeCategory(categoryId)),
-  openCategory: category => {
-    dispatch(setActiveCategory(groupId, categoryId, category));
+  openCategory: () => {
+    dispatch(setActiveCategory(groupId, categoryId));
     dispatch(UIActions.setPage(Pages.CATEGORY));
   }
 });

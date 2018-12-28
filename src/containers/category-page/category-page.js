@@ -92,7 +92,7 @@ class CategoryPage extends React.Component {
         updateDate={date => updateTransactionDate(date, transaction.id)}
         updateDescription={desc => updateTransactionDescription(desc, transaction.id)}
         updateAmount={amount => updateTransactionAmount(amount, transaction.id)}
-        deleteTransaction={deleteTransaction}
+        deleteTransaction={() => deleteTransaction(transaction.id)}
       />
     ));
   }
@@ -110,10 +110,7 @@ const mapDispatchToProps = dispatch => ({
   updateTransactionDate: (date, id) => dispatch(CategoryActions.updateTransactionDate(date, id)),
   updateTransactionDescription: (desc, id) => dispatch(CategoryActions.updateTransactionDescription(desc, id)),
   updateTransactionAmount: (amount, id) => dispatch(CategoryActions.updateTransactionAmount(amount, id)),
-  deleteTransaction: id => {
-    dispatch(OldCategoryActions.deleteTransaction(id));
-    dispatch(setEdit(true));
-  },
+  deleteTransaction: id => dispatch(CategoryActions.deleteTransaction(id)),
   addTransaction: () => {
     dispatch(OldCategoryActions.addTransaction());
     dispatch(setEdit(true));

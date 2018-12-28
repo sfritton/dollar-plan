@@ -13,19 +13,18 @@ import fs from "fs";
 jest.mock("fs");
 
 describe("budgetReducer", () => {
-  describe("getActiveBudget", () => {
+  describe("getBudget", () => {
     it("should return the budget", () => {
       const budget = {
         date: {
           month: 1,
           year: 2018
         },
-        categoryGroups: {}
+        categoryGroups: {},
+        isLoaded: true
       };
 
-      fs.readFileSync.mockReturnValue(JSON.stringify(budget));
-
-      const result = handleGetBudget({}, { month: 1, year: 2018 });
+      const result = handleGetBudget({}, { budget });
 
       expect(result).toMatchInlineSnapshot(`
 Object {

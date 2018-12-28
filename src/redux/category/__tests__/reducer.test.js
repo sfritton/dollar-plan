@@ -1,6 +1,7 @@
 import {
   handleSetActiveCategory,
-  handleUpdateTransactionDetails
+  handleUpdateTransactionDetails,
+  handleDeleteTransaction
 } from "../reducer";
 
 describe("categoryReducer", () => {
@@ -53,6 +54,47 @@ Object {
       const payload = { id: "0", description: "feed me" };
 
       const result = handleUpdateTransactionDetails(state, payload);
+
+      expect(result).toMatchInlineSnapshot(`
+Object {
+  "transactions": Array [
+    Object {
+      "description": "feed me",
+      "id": "0",
+    },
+  ],
+}
+`);
+    });
+  });
+
+  describe("deleteTransaction", () => {
+    it("does nothing if the transaction does not exist", () => {
+      const state = {
+        transactions: [
+          { id: "0", description: "feed me" },
+          { id: "1", description: "feed me now" }
+        ]
+      };
+
+      const payload = { id: "2" };
+
+      const result = handleDeleteTransaction(state, payload);
+
+      expect(result).toEqual(state);
+    });
+
+    it("deletes the transaction", () => {
+      const state = {
+        transactions: [
+          { id: "0", description: "feed me" },
+          { id: "1", description: "feed me now" }
+        ]
+      };
+
+      const payload = { id: "1" };
+
+      const result = handleDeleteTransaction(state, payload);
 
       expect(result).toMatchInlineSnapshot(`
 Object {
