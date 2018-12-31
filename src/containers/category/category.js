@@ -29,31 +29,6 @@ const Title = ({ editing, title, updateTitle }) => {
   return <div className="category-title">{title}</div>;
 };
 
-const Amount = ({ editing, actualAmount, plannedAmount, updateAmount }) => {
-  if (editing) {
-    return (
-      <div className="category-amount">
-        {`$${getCentString(actualAmount)} of `}
-        <Input
-          className="category-amount-input"
-          value={getCentString(plannedAmount)}
-          placeholder="0"
-          onChange={e =>
-            updateAmount(getCentNumber(e.target.value))}
-        />
-      </div>
-    );
-  }
-
-  return (
-    <div className="category-amount">
-      {`$${getDollarString(
-        actualAmount
-      )} of $${getDollarString(plannedAmount)}`}
-    </div>
-  );
-};
-
 const generateBalanceClass = (difference, income) => {
   const base = 'category-balance';
 
@@ -77,7 +52,37 @@ const Balance = ({ plannedAmount, actualAmount, income }) => {
       : "over"}`;
   }
 
-  return <div className={className}>{message}</div>;
+  return <span className={className}>({message})</span>;
+};
+
+const Amount = ({ editing, actualAmount, plannedAmount, income, updateAmount }) => {
+  if (editing) {
+    return (
+      <div className="category-amount">
+        {`$${getCentString(actualAmount)} of `}
+        <Input
+          className="category-amount-input"
+          value={getCentString(plannedAmount)}
+          placeholder="0"
+          onChange={e =>
+            updateAmount(getCentNumber(e.target.value))}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="category-amount">
+      {`$${getDollarString(
+        actualAmount
+      )} of ${getDollarString(plannedAmount)}`}
+      <Balance
+        plannedAmount={plannedAmount}
+        actualAmount={actualAmount}
+        income={income}
+      />
+    </div>
+  );
 };
 
 const getActualAmount = transactions =>
@@ -105,6 +110,7 @@ const Category = ({
       actualAmount={getActualAmount(transactions)}
       plannedAmount={plannedAmount}
       updateAmount={updateAmount}
+      income={income}
     />
     {editing ? (
       <Input
@@ -120,11 +126,6 @@ const Category = ({
         danger={!income}
       />
     )}
-    <Balance
-      actualAmount={getActualAmount(transactions)}
-      plannedAmount={plannedAmount}
-      income={income}
-    />
   </Row>
 );
 

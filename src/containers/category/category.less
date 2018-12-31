@@ -1,7 +1,53 @@
 @import "../../less/colors.less";
 
+.category-title,
+.category-amount {
+  width: 170px;
+  margin-right: 20px;
+  display: inline-block;
+}
+
+.category-amount {
+  width: 240px;
+  text-align: right;
+}
+
+.category-balance {
+  margin-left: 10px;
+  color: #e8e8e8;
+}
+
+.category-input {
+  vertical-align: text-top;
+  font-weight: bold;
+  border-bottom: 1px solid @primary-dark;
+
+  &:hover {
+    border-bottom: 2px solid @primary-dark;
+  }
+
+  &:focus {
+    border-bottom: 2px solid @primary-light-text;
+  }
+
+  &::placeholder {
+    font-weight: normal;
+    color: @primary-dark;
+  }
+}
+
+.category-title-input {
+  margin-right: 20px;
+  width: 170px;
+}
+
+.category-amount-input {
+  width: 70px;
+  text-align: right;
+}
+
 .category-notes-input {
-  width: ~"calc(100% - 490px)";
+  width: ~"calc(100% - 470px)";
   margin-right: 20px;
 }
 
