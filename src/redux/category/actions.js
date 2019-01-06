@@ -13,6 +13,19 @@ export function setActiveCategory(groupId, catId) {
   }
 }
 
+export function resetCategory() {
+  return (dispatch, getState) => {
+    const state = getState();
+    const { groupId, id } = state.category;
+    const category = state.budget.categoryGroups[groupId].categories[id];
+
+    return dispatch({
+      type: Actions.SET_ACTIVE_CATEGORY,
+      payload: { groupId, catId: id, category }
+    });
+  }
+}
+
 export function updateTransactionDate(targetDay, id) {
   return (dispatch, getState) => {
     const state = getState();

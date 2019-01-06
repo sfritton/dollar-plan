@@ -123,7 +123,7 @@ const mapDispatchToProps = dispatch => ({
   },
   goToBudget: () => dispatch(setPage(Pages.BUDGET)),
   reset: () => {
-    dispatch(OldCategoryActions.resetCategory());
+    dispatch(CategoryActions.resetCategory());
     dispatch(setEdit(false));
   }
 });

@@ -48,10 +48,6 @@ export default function reducer(state = {}, action) {
     case Actions.DELETE_EXPENSE_SUB_CATEGORY:
       return handleDeleteExpenseSubCategory(state, payload);
 
-    // Category Page
-    case Actions.RESET_CATEGORY:
-      return handleResetCategory(state);
-
     default:
       return state;
   }
@@ -412,31 +408,6 @@ function handleDeleteExpenseSubCategory(state, payload) {
   return {
     ...state,
     budgets
-  };
-}
-
-/*****************************************************************************
- * Category Page
- *****************************************************************************/
-function handleResetCategory(state) {
-  const categoryKey = state.activeCategoryKey;
-  // income
-  if (categoryKey.subCatId === undefined) {
-    return {
-      ...state,
-      category: {
-        ...state.budgets[state.activeBudgetIndex].incomes[categoryKey.catId]
-      }
-    };
-  }
-
-  // expense
-  return {
-    ...state,
-    category: {
-      ...state.budgets[state.activeBudgetIndex].expenses[categoryKey.catId]
-        .subCategories[categoryKey.subCatId]
-    }
   };
 }
 
