@@ -6,19 +6,13 @@
       "jsx": true
     }
   },
-  "extends": [
-    "prettier",
-    "prettier/react"
-  ],
+  "extends": ["prettier", "prettier/react"],
   "rules": {
     "prettier/prettier": "error",
-    "linebreak-style": ["error", "windows"],
+    "linebreak-style": ["error", "unix"],
     "react/jsx-uses-vars": 2,
     "no-invalid-this": "off",
     "require-jsdoc": "off"
   },
-  "plugins": [
-    "react",
-    "prettier"
-  ]
+  "plugins": ["react", "prettier"]
 }

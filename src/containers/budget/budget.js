@@ -3,12 +3,12 @@ import { connect } from "react-redux";
 
 import * as BudgetActions from "Redux/budget/actions";
 import * as CategoryActions from "Redux/actions/category-actions";
-import * as UIActions from "Redux/actions/ui-actions";
+import * as UIActions from "Redux/ui/actions";
 import Pages from "Redux/actions/pages-enum";
 import { Page, Row, Footer } from "Components";
 import Header from "../header/header";
-import Category from '../category/category';
-import CategoryGroup from '../category-group/category-group';
+import Category from "../category/category";
+import CategoryGroup from "../category-group/category-group";
 import { getCentString } from "Util/currency";
 import { decodeDate } from "Util/date";
 import { objectToArray } from "Util";
@@ -21,7 +21,7 @@ class Budget extends Component {
       incomes,
       expenses,
       addCategory,
-      addCategoryGroup,
+      addCategoryGroup
     } = this.props;
 
     if (!isBudgetLoaded) {
@@ -29,17 +29,14 @@ class Budget extends Component {
     }
 
     return (
-      <Page
-        header={<Header />}
-        footer={this.renderFooter()}
-      >
+      <Page header={<Header />} footer={this.renderFooter()}>
         <section>
           <h2>Income</h2>
           {Object.keys(incomes).map(id => (
             <Category key={id} income groupId="income" categoryId={id} />
           ))}
           {editing && (
-            <Row clickable onClick={() => addCategory('income')}>
+            <Row clickable onClick={() => addCategory("income")}>
               + add a category
             </Row>
           )}
@@ -61,21 +58,15 @@ class Budget extends Component {
   }
 
   renderFooter() {
-    const {
-      editing,
-      adjustBudget,
-      saveBudget,
-      cancelEdit,
-      date
-    } = this.props;
+    const { editing, adjustBudget, saveBudget, cancelEdit, date } = this.props;
 
     return (
       <Footer
         message={this.getBalanceMessage()}
         editing={editing}
-        primaryDefault={{ label: 'Adjust budget', onClick: adjustBudget }}
-        primaryEditing={{ label: 'Save budget', onClick: saveBudget }}
-        secondaryEditing={{ label: 'Cancel', onClick: () => cancelEdit(date) }}
+        primaryDefault={{ label: "Adjust budget", onClick: adjustBudget }}
+        primaryEditing={{ label: "Save budget", onClick: saveBudget }}
+        secondaryEditing={{ label: "Cancel", onClick: () => cancelEdit(date) }}
       />
     );
   }
@@ -109,8 +100,10 @@ class Budget extends Component {
   }
 
   getActualIncome() {
-    return Object.values(this.props.incomes)
-      .reduce((sum, category) => sum + this.reduceTransactions(category), 0);
+    return Object.values(this.props.incomes).reduce(
+      (sum, category) => sum + this.reduceTransactions(category),
+      0
+    );
   }
 
   reduceTransactions({ transactions }) {
@@ -118,28 +111,34 @@ class Budget extends Component {
   }
 
   getPlannedIncome() {
-    return Object.values(this.props.incomes)
-      .reduce((sum, { plannedAmount }) => sum + plannedAmount, 0);
+    return Object.values(this.props.incomes).reduce(
+      (sum, { plannedAmount }) => sum + plannedAmount,
+      0
+    );
   }
 
   getActualExpenses() {
-    return this.props.expenses
-      .reduce((sum, { categories }) =>
-          sum +
-          Object.values(categories)
-            .reduce((sum, category) => sum + this.reduceTransactions(category), 0),
-        0
-      );
+    return this.props.expenses.reduce(
+      (sum, { categories }) =>
+        sum +
+        Object.values(categories).reduce(
+          (sum, category) => sum + this.reduceTransactions(category),
+          0
+        ),
+      0
+    );
   }
 
   getPlannedExpenses() {
-    return this.props.expenses
-      .reduce((sum, { categories }) =>
-          sum +
-          Object.values(categories)
-            .reduce((sum, { plannedAmount }) => sum + plannedAmount, 0),
-        0
-      );
+    return this.props.expenses.reduce(
+      (sum, { categories }) =>
+        sum +
+        Object.values(categories).reduce(
+          (sum, { plannedAmount }) => sum + plannedAmount,
+          0
+        ),
+      0
+    );
   }
 }
 
@@ -147,8 +146,12 @@ const mapStateToProps = state => ({
   editing: state.ui.edit,
   isBudgetLoaded: !!state.budget.date,
   date: state.budget.date,
-  incomes: state.budget.categoryGroups ? state.budget.categoryGroups.income.categories : {},
-  expenses: objectToArray(state.budget.categoryGroups).filter(({ id }) => id !== 'income'),
+  incomes: state.budget.categoryGroups
+    ? state.budget.categoryGroups.income.categories
+    : {},
+  expenses: objectToArray(state.budget.categoryGroups).filter(
+    ({ id }) => id !== "income"
+  ),
   budgetDates: Object.keys(state.budgets)
     .sort()
     .reverse()
@@ -156,7 +159,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  addCategory: (groupId) => dispatch(BudgetActions.addCategory(groupId)),
+  addCategory: groupId => dispatch(BudgetActions.addCategory(groupId)),
   addCategoryGroup: () => dispatch(BudgetActions.addCategoryGroup()),
   adjustBudget: () => dispatch(UIActions.setEdit(true)),
   saveBudget: () => {

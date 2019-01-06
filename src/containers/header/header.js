@@ -3,10 +3,15 @@ import { connect } from "react-redux";
 import "./header.less";
 
 import * as BudgetActions from "Redux/budget/actions";
-import * as UIActions from "Redux/actions/ui-actions";
+import * as UIActions from "Redux/ui/actions";
 import Pages from "Redux/actions/pages-enum";
 import NavDropdown from "./nav-dropdown";
-import { hasMonthStarted, hasMonthEnded, getDaysLeft, decodeDate } from "Util/date";
+import {
+  hasMonthStarted,
+  hasMonthEnded,
+  getDaysLeft,
+  decodeDate
+} from "Util/date";
 
 const getDaysLeftMessage = date => {
   if (!date) return "";
@@ -24,12 +29,7 @@ const getDaysLeftMessage = date => {
   return `${getDaysLeft(month, year)} days left`;
 };
 
-const Header = ({
-  date,
-  budgetDates,
-  createNewBudget,
-  getBudget
-}) => (
+const Header = ({ date, budgetDates, createNewBudget, getBudget }) => (
   <div>
     <NavDropdown
       selected={date}
@@ -50,9 +50,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getBudget: (month, year) =>
-    dispatch(BudgetActions.getBudget(month, year)),
+  getBudget: (month, year) => dispatch(BudgetActions.getBudget(month, year)),
   createNewBudget: () => dispatch(UIActions.setPage(Pages.WELCOME))
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

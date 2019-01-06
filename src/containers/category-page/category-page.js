@@ -3,8 +3,7 @@ import { connect } from "react-redux";
 
 import { Page, Row, GroupHeader, Footer, Transaction } from "Components";
 import Header from "../header/header";
-import { setPage, setEdit } from "Redux/actions/ui-actions";
-import * as OldCategoryActions from "Redux/actions/category-actions";
+import { setPage, setEdit } from "Redux/ui/actions";
 import * as CategoryActions from "Redux/category/actions";
 import { saveCategoryToBudget, saveBudget } from "Redux/budget/actions";
 import Pages from "Redux/actions/pages-enum";
@@ -34,10 +33,7 @@ class CategoryPage extends React.Component {
             </Row>
           )}
           {this.renderTransactions()}
-          <Row
-            clickable
-            onClick={addTransaction}
-          >
+          <Row clickable onClick={addTransaction}>
             + Add a transaction
           </Row>
         </section>
@@ -64,10 +60,16 @@ class CategoryPage extends React.Component {
     return (
       <Footer
         editing={editing}
-        primaryDefault={{ label: 'Edit transactions', onClick: editTransactions }}
-        primaryEditing={{ label: 'Save transactions', onClick: saveTransactions }}
-        secondaryDefault={{ label: 'Back to budget', onClick: goToBudget }}
-        secondaryEditing={{ label: 'Cancel', onClick: reset }}
+        primaryDefault={{
+          label: "Edit transactions",
+          onClick: editTransactions
+        }}
+        primaryEditing={{
+          label: "Save transactions",
+          onClick: saveTransactions
+        }}
+        secondaryDefault={{ label: "Back to budget", onClick: goToBudget }}
+        secondaryEditing={{ label: "Cancel", onClick: reset }}
       />
     );
   }
@@ -90,7 +92,8 @@ class CategoryPage extends React.Component {
         transaction={transaction}
         edit={editing}
         updateDate={date => updateTransactionDate(date, transaction.id)}
-        updateDescription={desc => updateTransactionDescription(desc, transaction.id)}
+        updateDescription={desc =>
+          updateTransactionDescription(desc, transaction.id)}
         updateAmount={amount => updateTransactionAmount(amount, transaction.id)}
         deleteTransaction={() => deleteTransaction(transaction.id)}
       />
@@ -103,13 +106,16 @@ const mapStateToProps = state => ({
   category: state.category,
   editing: state.ui.edit,
   income: state.category.groupId === "income",
-  groupTitle: state.budget.categoryGroups[state.category.groupId].title,
+  groupTitle: state.budget.categoryGroups[state.category.groupId].title
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateTransactionDate: (date, id) => dispatch(CategoryActions.updateTransactionDate(date, id)),
-  updateTransactionDescription: (desc, id) => dispatch(CategoryActions.updateTransactionDescription(desc, id)),
-  updateTransactionAmount: (amount, id) => dispatch(CategoryActions.updateTransactionAmount(amount, id)),
+  updateTransactionDate: (date, id) =>
+    dispatch(CategoryActions.updateTransactionDate(date, id)),
+  updateTransactionDescription: (desc, id) =>
+    dispatch(CategoryActions.updateTransactionDescription(desc, id)),
+  updateTransactionAmount: (amount, id) =>
+    dispatch(CategoryActions.updateTransactionAmount(amount, id)),
   deleteTransaction: id => dispatch(CategoryActions.deleteTransaction(id)),
   addTransaction: () => {
     dispatch(CategoryActions.addTransaction());

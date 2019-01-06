@@ -1,4 +1,4 @@
-import Actions from "./actions-enum";
+import Actions from "../actions/actions-enum";
 
 export function setPage(page) {
   return {

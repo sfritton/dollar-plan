@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import './welcome.less';
+import "./welcome.less";
 
 import Pages from "Redux/actions/pages-enum";
 import { createNewBudget } from "Redux/budget/actions";
-import { setPage, setEdit } from "Redux/actions/ui-actions";
+import { setPage, setEdit } from "Redux/ui/actions";
 import { Button, Dropdown, Page } from "Components";
 import { encodeDate, decodeDate, getMonthName, months } from "Util/date";
 
@@ -14,7 +14,9 @@ const nextTenYears = new Array(10)
   .map((elem, i) => ({ value: i + currentYear, name: i + currentYear }));
 
 const FormSection = ({ children, invisible }) => (
-  <div className={`form-section ${invisible ? 'form-section--invisible' : ''}`}>{children}</div>
+  <div className={`form-section ${invisible ? "form-section--invisible" : ""}`}>
+    {children}
+  </div>
 );
 
 class Welcome extends Component {
@@ -39,7 +41,9 @@ class Welcome extends Component {
 
     if (copyOldBudget) {
       const decodedOldDate = decodeDate(oldDate);
-      dispatch(createNewBudget(month, year, decodedOldDate.month, decodedOldDate.year));
+      dispatch(
+        createNewBudget(month, year, decodedOldDate.month, decodedOldDate.year)
+      );
     } else {
       dispatch(createNewBudget(month, year));
     }
@@ -51,18 +55,14 @@ class Welcome extends Component {
   render() {
     const { budgetDates, dispatch } = this.props;
 
-    const {
-      month,
-      year,
-      copyOldBudget,
-      canCopy,
-      oldDate
-    } = this.state;
+    const { month, year, copyOldBudget, canCopy, oldDate } = this.state;
 
     return (
       <Page header={<h1>New budget</h1>}>
         <section>
-          <FormSection>Select a month and a year for the new budget</FormSection>
+          <FormSection>
+            Select a month and a year for the new budget
+          </FormSection>
 
           <FormSection>
             <Dropdown
@@ -99,9 +99,7 @@ class Welcome extends Component {
           </FormSection>
 
           <FormSection>
-            <Button onClick={this.createBudget} >
-              Create budget
-            </Button>
+            <Button onClick={this.createBudget}>Create budget</Button>
           </FormSection>
         </section>
       </Page>

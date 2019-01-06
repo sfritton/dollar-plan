@@ -9,9 +9,9 @@ import {
   deleteIncomeCategory
 } from "Redux/budget/actions";
 import { setActiveCategory } from "Redux/category/actions";
-import * as UIActions from "Redux/actions/ui-actions";
+import * as UIActions from "Redux/ui/actions";
 import Pages from "Redux/actions/pages-enum";
-import { Row, ProgressBar, Input } from 'Components';
+import { Row, ProgressBar, Input } from "Components";
 import { getCentString, getCentNumber, getDollarString } from "Util/currency";
 
 const Title = ({ editing, title, updateTitle }) => {
@@ -30,12 +30,14 @@ const Title = ({ editing, title, updateTitle }) => {
 };
 
 const generateBalanceClass = (difference, income) => {
-  const base = 'category-balance';
+  const base = "category-balance";
 
   if (difference >= 0) return base;
 
-  return `${base} ${income ? 'category-balance--extra' : 'category-balance--over'}`; 
-}
+  return `${base} ${income
+    ? "category-balance--extra"
+    : "category-balance--over"}`;
+};
 
 const Balance = ({ plannedAmount, actualAmount, income }) => {
   const difference = plannedAmount - actualAmount;
@@ -43,9 +45,7 @@ const Balance = ({ plannedAmount, actualAmount, income }) => {
   let message;
 
   if (difference >= 0) {
-    message = `$${getDollarString(difference)} ${income
-      ? "to go"
-      : "left"}`;
+    message = `$${getDollarString(difference)} ${income ? "to go" : "left"}`;
   } else {
     message = `$${getDollarString(difference * -1)} ${income
       ? "extra"
@@ -55,7 +55,13 @@ const Balance = ({ plannedAmount, actualAmount, income }) => {
   return <span className={className}>({message})</span>;
 };
 
-const Amount = ({ editing, actualAmount, plannedAmount, income, updateAmount }) => {
+const Amount = ({
+  editing,
+  actualAmount,
+  plannedAmount,
+  income,
+  updateAmount
+}) => {
   if (editing) {
     return (
       <div className="category-amount">
@@ -64,8 +70,7 @@ const Amount = ({ editing, actualAmount, plannedAmount, income, updateAmount }) 
           className="category-amount-input"
           value={getCentString(plannedAmount)}
           placeholder="0"
-          onChange={e =>
-            updateAmount(getCentNumber(e.target.value))}
+          onChange={e => updateAmount(getCentNumber(e.target.value))}
         />
       </div>
     );
@@ -73,9 +78,7 @@ const Amount = ({ editing, actualAmount, plannedAmount, income, updateAmount }) 
 
   return (
     <div className="category-amount">
-      {`$${getDollarString(
-        actualAmount
-      )} of ${getDollarString(plannedAmount)}`}
+      {`$${getDollarString(actualAmount)} of ${getDollarString(plannedAmount)}`}
       <Balance
         plannedAmount={plannedAmount}
         actualAmount={actualAmount}
@@ -92,12 +95,7 @@ const Category = ({
   editing,
   income,
   category,
-  category: {
-    title = '',
-    transactions,
-    plannedAmount,
-    notes = ''
-  },
+  category: { title = "", transactions, plannedAmount, notes = "" },
   openCategory,
   updateTitle,
   updateAmount,
@@ -131,7 +129,10 @@ const Category = ({
 
 const mapStateToProps = (state, ownProps) => ({
   editing: state.ui.edit,
-  category: state.budget.categoryGroups[ownProps.groupId].categories[ownProps.categoryId]
+  category:
+    state.budget.categoryGroups[ownProps.groupId].categories[
+      ownProps.categoryId
+    ]
 });
 
 const mapDispatchToProps = (dispatch, { groupId, categoryId }) => ({
@@ -141,8 +142,7 @@ const mapDispatchToProps = (dispatch, { groupId, categoryId }) => ({
     dispatch(updateCategoryAmount(groupId, categoryId, amount)),
   updateNotes: notes =>
     dispatch(updateCategoryNotes(groupId, categoryId, notes)),
-  deleteSubCategory: () =>
-    dispatch(deleteIncomeCategory(categoryId)),
+  deleteSubCategory: () => dispatch(deleteIncomeCategory(categoryId)),
   openCategory: () => {
     dispatch(setActiveCategory(groupId, categoryId));
     dispatch(UIActions.setPage(Pages.CATEGORY));

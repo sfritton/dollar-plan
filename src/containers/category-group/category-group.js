@@ -3,8 +3,6 @@ import "./category-group.less";
 import { connect } from "react-redux";
 
 import * as BudgetActions from "Redux/budget/actions";
-import * as CategoryActions from "Redux/actions/category-actions";
-import * as UIActions from "Redux/actions/ui-actions";
 import { Row, GroupHeader } from "Components";
 import Category from "../category/category";
 
@@ -25,12 +23,7 @@ const getPlannedAmount = categories =>
     0
   );
 
-const CategoryList = ({
-  categories,
-  groupId,
-  editing,
-  addCategory
-}) => (
+const CategoryList = ({ categories, groupId, editing, addCategory }) => (
   <div>
     {Object.keys(categories).map(id => (
       <Category key={id} groupId={groupId} categoryId={id} />
@@ -100,10 +93,11 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  deleteCategoryGroup: () => dispatch(BudgetActions.deleteExpenseCategory(ownProps.groupId)),
+  deleteCategoryGroup: () =>
+    dispatch(BudgetActions.deleteExpenseCategory(ownProps.groupId)),
   updateTitle: title =>
     dispatch(BudgetActions.updateCategoryGroupTitle(ownProps.groupId, title)),
-  addCategory: () => dispatch(BudgetActions.addCategory(ownProps.groupId)),
+  addCategory: () => dispatch(BudgetActions.addCategory(ownProps.groupId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryGroup);
