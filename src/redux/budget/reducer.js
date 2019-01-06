@@ -73,6 +73,24 @@ export function handleSaveBudget(state) {
   return state;
 }
 
+export function handleSaveCategoryToBudget(state, { category }) {
+  const { groupId, id, ...details } = category;
+
+  const newCategory = produce(details, draft => {
+    if (!draft.transactions) return;
+
+    draft.transactions.sort((a, b) => compareDateStrings(b.date, a.date));
+  });
+
+  return produce(state, draft => {
+    const group = draft.categoryGroups[groupId];
+
+    if (!group || !group.categories[id]) return;
+
+    group.categories[id] = newCategory;
+  });
+}
+
 export function handleUpdateCategoryGroupTitle(state, { groupId, title }) {
   return produce(state, draft => {
     const group = draft.categoryGroups[groupId];
@@ -98,6 +116,7 @@ const actionHandlers = {
   [Actions.ADD_CATEGORY]: handleAddCategory,
   [Actions.ADD_CATEGORY_GROUP]: handleAddCategoryGroup,
   [Actions.SAVE_BUDGET]: handleSaveBudget,
+  [Actions.SAVE_CATEGORY_TO_BUDGET]: handleSaveCategoryToBudget,
   [Actions.UPDATE_CATEGORY_GROUP_TITLE]: handleUpdateCategoryGroupTitle,
   [Actions.UPDATE_CATEGORY_DETAILS]: handleUpdateCategoryDetails
 };

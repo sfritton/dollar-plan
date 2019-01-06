@@ -49,8 +49,6 @@ export default function reducer(state = {}, action) {
       return handleDeleteExpenseSubCategory(state, payload);
 
     // Category Page
-    case Actions.SAVE_CATEGORY_TO_BUDGET:
-      return handleSaveCategoryToBudget(state, payload);
     case Actions.RESET_CATEGORY:
       return handleResetCategory(state);
 
@@ -420,41 +418,6 @@ function handleDeleteExpenseSubCategory(state, payload) {
 /*****************************************************************************
  * Category Page
  *****************************************************************************/
-function handleSaveCategoryToBudget(state, payload) {
-  const category = { ...state.category };
-  const transactions = [...category.transactions];
-
-  transactions.sort((a, b) => compareDateStrings(b.date, a.date));
-  category.transactions = transactions;
-
-  const budget = { ...state.budgets[state.activeBudgetIndex] };
-
-  if (state.activeCategoryKey.subCatId === undefined) {
-    // income
-    budget.incomes = [...budget.incomes];
-    budget.incomes[state.activeCategoryKey.catId] = category;
-  } else {
-    // expense
-    budget.expenses = [...budget.expenses];
-    const expenseCategory = {
-      ...budget.expenses[state.activeCategoryKey.catId]
-    };
-    expenseCategory.subCategories = [...expenseCategory.subCategories];
-    expenseCategory.subCategories[state.activeCategoryKey.subCatId] = category;
-
-    budget.expenses[state.activeCategoryKey.catId] = expenseCategory;
-  }
-
-  const budgets = [...state.budgets];
-  budgets[state.activeBudgetIndex] = budget;
-
-  return {
-    ...state,
-    budgets,
-    category
-  };
-}
-
 function handleResetCategory(state) {
   const categoryKey = state.activeCategoryKey;
   // income

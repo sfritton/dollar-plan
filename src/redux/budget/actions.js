@@ -124,3 +124,14 @@ export function deleteExpenseSubCategory(catId, subCatId) {
     payload: { catId, subCatId }
   };
 }
+
+export function saveCategoryToBudget() {
+  return (dispatch, getState) => {
+    const { category } = getState();
+
+    return dispatch({
+      type: Actions.SAVE_CATEGORY_TO_BUDGET,
+      payload: { category }
+    });
+  }
+}

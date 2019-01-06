@@ -4,6 +4,7 @@ import {
   handleAddCategory,
   handleAddCategoryGroup,
   handleSaveBudget,
+  handleSaveCategoryToBudget,
   handleUpdateCategoryGroupTitle,
   handleUpdateCategoryDetails
 } from "../reducer";
@@ -171,6 +172,93 @@ Object {
         "data_new\\2019-01.json",
         JSON.stringify({ date })
       );
+    });
+  });
+
+  describe("saveCategoryToBudget", () => {
+    it("should do nothing for a non-matching group id", () => {
+      const state = {
+        categoryGroups: {
+          "0": {
+            title: "Investment",
+            categories: {}
+          }
+        }
+      };
+
+      const payload = { category: { groupId: "5" } };
+
+      const result = handleSaveCategoryToBudget(state, payload);
+
+      expect(result).toBe(state);
+    });
+
+    it("should do nothing for a non-matching category id", () => {
+      const state = {
+        categoryGroups: {
+          "0": {
+            title: "Investment",
+            categories: {
+              "0": {
+                title: "Donation"
+              }
+            }
+          }
+        }
+      };
+
+      const payload = { category: { groupId: "0", id: "5" } };
+
+      const result = handleSaveCategoryToBudget(state, payload);
+
+      expect(result).toBe(state);
+    });
+
+    it("should save the category to the budget", () => {
+      const state = {
+        categoryGroups: {
+          "0": {
+            title: "Investment",
+            categories: {
+              "0": {
+                title: "Donation"
+              }
+            }
+          }
+        }
+      };
+
+      const payload = {
+        category: {
+          groupId: "0",
+          id: "0",
+          title: "Donations",
+          transactions: [{ id: "0", description: "ACLU" }]
+        }
+      };
+
+      const result = handleSaveCategoryToBudget(state, payload);
+
+      expect(result).toMatchInlineSnapshot(`
+Object {
+  "categoryGroups": Object {
+    "0": Object {
+      "categories": Object {
+        "0": Object {
+          "title": "Donations",
+          "transactions": Array [
+            Object {
+              "description": "ACLU",
+              "id": "0",
+            },
+          ],
+        },
+      },
+      "title": "Investment",
+    },
+  },
+}
+`);
     });
   });
 

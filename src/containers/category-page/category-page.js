@@ -6,7 +6,7 @@ import Header from "../header/header";
 import { setPage, setEdit } from "Redux/actions/ui-actions";
 import * as OldCategoryActions from "Redux/actions/category-actions";
 import * as CategoryActions from "Redux/category/actions";
-import { saveBudget } from "Redux/budget/actions";
+import { saveCategoryToBudget, saveBudget } from "Redux/budget/actions";
 import Pages from "Redux/actions/pages-enum";
 
 class CategoryPage extends React.Component {
@@ -118,7 +118,7 @@ const mapDispatchToProps = dispatch => ({
   editTransactions: () => dispatch(setEdit(true)),
   saveTransactions: () => {
     dispatch(setEdit(false));
-    dispatch(OldCategoryActions.saveCategoryToBudget());
+    dispatch(saveCategoryToBudget());
     dispatch(saveBudget());
   },
   goToBudget: () => dispatch(setPage(Pages.BUDGET)),
