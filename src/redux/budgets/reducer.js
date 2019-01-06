@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import produce from 'immer';
+import produce from "immer";
 
 import Actions from "../actions/actions-enum";
 import {
@@ -61,10 +61,9 @@ function handleGetAllBudgets() {
 
   const budgets = {};
 
-  fs.readdirSync(DATA_DIRECTORY)
-    .forEach(date => {
-      budgets[date.replace(/\.json$/, '')] = { isLoaded: false };
-    });
+  fs.readdirSync(DATA_DIRECTORY).forEach(date => {
+    budgets[date.replace(/\.json$/, "")] = { isLoaded: false };
+  });
 
   return budgets;
 }

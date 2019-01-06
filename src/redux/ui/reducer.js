@@ -16,7 +16,7 @@ export default function reducer(
       return {
         ...state,
         edit: action.payload.edit
-      }
+      };
     }
     default: {
       return state;
