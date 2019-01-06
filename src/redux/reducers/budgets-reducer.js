@@ -54,10 +54,6 @@ export default function reducer(state = {}, action) {
     case Actions.RESET_CATEGORY:
       return handleResetCategory(state);
 
-    // Transaction
-    case Actions.ADD_TRANSACTION:
-      return handleAddTransaction(state);
-
     default:
       return state;
   }
@@ -478,27 +474,6 @@ function handleResetCategory(state) {
       ...state.budgets[state.activeBudgetIndex].expenses[categoryKey.catId]
         .subCategories[categoryKey.subCatId]
     }
-  };
-}
-
-/*****************************************************************************
- * Transaction
- *****************************************************************************/
-function handleAddTransaction(state) {
-  const date = getClosestToToday(
-    state.budgets[state.activeBudgetIndex].date
-  );
-
-  const category = { ...state.category };
-  category.transactions = category.transactions.concat({
-    date: date.getDate(),
-    description: "",
-    amount: 0
-  });
-
-  return {
-    ...state,
-    category
   };
 }
 

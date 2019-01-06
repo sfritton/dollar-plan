@@ -1,10 +1,38 @@
 import {
+  getMaxId,
   handleSetActiveCategory,
   handleUpdateTransactionDetails,
-  handleDeleteTransaction
+  handleDeleteTransaction,
+  handleAddTransaction
 } from "../reducer";
 
 describe("categoryReducer", () => {
+  describe("getMaxId", () => {
+    it("returns -1 with no args", () => {
+      expect(getMaxId([])).toBe(-1);
+    });
+
+    it("returns -1 for an empty array", () => {
+      expect(getMaxId([])).toBe(-1);
+    });
+
+    it("returns -1 for undefined ids", () => {
+      expect(getMaxId([{}])).toBe(-1);
+    });
+
+    it("ignores non-numeric ids", () => {
+      expect(getMaxId([{ id: "abc" }])).toBe(-1);
+    });
+
+    it("converts numeric ids to numbers", () => {
+      expect(getMaxId([{ id: "3" }])).toBe(3);
+    });
+
+    it("returns the max id", () => {
+      expect(getMaxId([{ id: 3 }, { id: 4 }])).toBe(4);
+    });
+  });
+
   describe("setActiveCategory", () => {
     it("sets the new category", () => {
       const payload = {
@@ -102,6 +130,31 @@ Object {
     Object {
       "description": "feed me",
       "id": "0",
+    },
+  ],
+}
+`);
+    });
+  });
+
+  describe("addTransaction", () => {
+    it("adds a transaction", () => {
+      const state = {
+        transactions: []
+      };
+
+      const payload = { date: { month: 1, year: 2018 } };
+
+      const result = handleAddTransaction(state, payload);
+
+      expect(result).toMatchInlineSnapshot(`
+Object {
+  "transactions": Array [
+    Object {
+      "amount": 0,
+      "date": 31,
+      "description": "",
+      "id": 0,
     },
   ],
 }

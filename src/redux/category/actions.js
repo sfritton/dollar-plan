@@ -52,3 +52,15 @@ export function deleteTransaction(id) {
     payload: { id }
   };
 }
+
+export function addTransaction() {
+  return (dispatch, getState) => {
+    const state = getState();
+    const { date } = state.budget;
+
+    return dispatch({
+      type: Actions.ADD_TRANSACTION,
+      payload: { date }
+    });
+  }
+}

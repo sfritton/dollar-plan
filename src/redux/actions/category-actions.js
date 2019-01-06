@@ -20,10 +20,3 @@ export function resetCategory() {
     payload: {}
   };
 }
-
-export function addTransaction() {
-  return {
-    type: Actions.ADD_TRANSACTION,
-    payload: {}
-  };
-}

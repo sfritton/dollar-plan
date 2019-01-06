@@ -112,7 +112,7 @@ const mapDispatchToProps = dispatch => ({
   updateTransactionAmount: (amount, id) => dispatch(CategoryActions.updateTransactionAmount(amount, id)),
   deleteTransaction: id => dispatch(CategoryActions.deleteTransaction(id)),
   addTransaction: () => {
-    dispatch(OldCategoryActions.addTransaction());
+    dispatch(CategoryActions.addTransaction());
     dispatch(setEdit(true));
   },
   editTransactions: () => dispatch(setEdit(true)),
