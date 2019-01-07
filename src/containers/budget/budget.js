@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import * as BudgetActions from "Redux/budget/actions";
-import * as CategoryActions from "Redux/actions/category-actions";
+import { getBudget } from "Redux/budgets/actions";
 import * as UIActions from "Redux/ui/actions";
-import Pages from "Redux/actions/pages-enum";
 import { Page, Row, Footer } from "Components";
 import Header from "../header/header";
 import Category from "../category/category";
@@ -158,7 +157,7 @@ const mapStateToProps = state => ({
     .map(decodeDate)
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = dispatch => ({
   addCategory: groupId => dispatch(BudgetActions.addCategory(groupId)),
   addCategoryGroup: () => dispatch(BudgetActions.addCategoryGroup()),
   adjustBudget: () => dispatch(UIActions.setEdit(true)),
@@ -168,7 +167,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   cancelEdit: ({ month, year }) => {
     dispatch(UIActions.setEdit(false));
-    dispatch(BudgetActions.getBudget(month, year));
+    dispatch(getBudget(month, year));
   }
 });
 

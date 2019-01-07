@@ -5,7 +5,7 @@ import Pages from "Redux/actions/pages-enum";
 import Budget from "../budget/budget";
 import Welcome from "../welcome/welcome";
 import CategoryPage from "../category-page/category-page";
-import { getAllBudgets, setActiveBudget } from "Redux/budget/actions";
+import { getAllBudgets } from "Redux/budgets/actions";
 
 class Root extends Component {
   constructor(props) {

@@ -1,34 +1,26 @@
 import * as fs from "fs";
-import produce from 'immer';
+import produce from "immer";
 
 import Actions from "../actions/actions-enum";
-import {
-  encodeDate,
-  decodeDate,
-  compareDateStrings,
-  getClosestToDate,
-  getClosestToToday
-} from "Util/date";
+import { GET_BUDGET } from "../actionTypes";
+import { SAVE_BUDGET } from "./actionTypes";
+import { encodeDate, compareDateStrings } from "Util/date";
 
 const DATA_DIRECTORY = "data_new";
 
 const getDefaultCategory = () => ({
-  title: '',
-  notes: '',
+  title: "",
+  notes: "",
   plannedAmount: 0,
   transactions: []
 });
 
 export const getMaxObjectKey = obj =>
-  Math.max(
-    -1,
-    ...Object.keys(obj)
-      .filter(key => !isNaN(parseInt(key, 10)))
-  );
+  Math.max(-1, ...Object.keys(obj).filter(key => !isNaN(parseInt(key, 10))));
 
 export function handleGetBudget(state, { budget }) {
   return budget;
-};
+}
 
 export function handleAddCategory(state, { groupId }) {
   return produce(state, draft => {
@@ -42,7 +34,7 @@ export function handleAddCategory(state, { groupId }) {
 
     categories[maxId + 1] = getDefaultCategory();
   });
-};
+}
 
 export function handleAddCategoryGroup(state) {
   return produce(state, draft => {
@@ -57,7 +49,7 @@ export function handleAddCategoryGroup(state) {
       }
     };
   });
-};
+}
 
 export function handleSaveBudget(state) {
   const { date } = state;
@@ -101,7 +93,10 @@ export function handleUpdateCategoryGroupTitle(state, { groupId, title }) {
   });
 }
 
-export function handleUpdateCategoryDetails(state, { groupId, catId, ...details }) {
+export function handleUpdateCategoryDetails(
+  state,
+  { groupId, catId, ...details }
+) {
   return produce(state, draft => {
     const group = draft.categoryGroups[groupId];
 
@@ -112,10 +107,10 @@ export function handleUpdateCategoryDetails(state, { groupId, catId, ...details 
 }
 
 const actionHandlers = {
-  [Actions.GET_BUDGET]: handleGetBudget,
+  [GET_BUDGET]: handleGetBudget,
   [Actions.ADD_CATEGORY]: handleAddCategory,
   [Actions.ADD_CATEGORY_GROUP]: handleAddCategoryGroup,
-  [Actions.SAVE_BUDGET]: handleSaveBudget,
+  [SAVE_BUDGET]: handleSaveBudget,
   [Actions.SAVE_CATEGORY_TO_BUDGET]: handleSaveCategoryToBudget,
   [Actions.UPDATE_CATEGORY_GROUP_TITLE]: handleUpdateCategoryGroupTitle,
   [Actions.UPDATE_CATEGORY_DETAILS]: handleUpdateCategoryDetails
@@ -127,4 +122,4 @@ export default function reducer(state = {}, { type, payload }) {
   if (!handler) return state;
 
   return handler(state, payload);
-};
+}

@@ -1,61 +1,12 @@
 import * as fs from "fs";
 import produce from "immer";
 
-import Actions from "../actions/actions-enum";
-import {
-  encodeDate,
-  decodeDate,
-  compareDateStrings,
-  getClosestToDate,
-  getClosestToToday
-} from "Util/date";
+import { GET_ALL_BUDGETS, GET_BUDGET } from "../actionTypes";
+import { CREATE_NEW_BUDGET } from "./actionTypes";
+import { encodeDate } from "Util/date";
 
 const DATA_DIRECTORY = "data_new";
 
-export default function reducer(state = {}, action) {
-  const payload = action.payload;
-
-  switch (action.type) {
-    // Budget
-    case Actions.GET_ALL_BUDGETS:
-      return handleGetAllBudgets();
-    case Actions.GET_BUDGET:
-      return handleGetBudget(state, payload);
-    case Actions.CREATE_NEW_BUDGET:
-      return handleCreateNewBudget(state, payload);
-
-    // Income Category
-    case Actions.UPDATE_INCOME_CATEGORY_TITLE:
-      return handleUpdateIncomeCategoryTitle(state, payload);
-    case Actions.UPDATE_INCOME_CATEGORY_AMOUNT:
-      return handleUpdateIncomeCategoryAmount(state, payload);
-    case Actions.UPDATE_INCOME_CATEGORY_NOTES:
-      return handleUpdateIncomeCategoryNotes(state, payload);
-    case Actions.DELETE_INCOME_CATEGORY:
-      return handleDeleteIncomeCategory(state, payload);
-
-    // Expense Category
-    case Actions.DELETE_EXPENSE_CATEGORY:
-      return handleDeleteExpenseCategory(state, payload);
-
-    // Expense Sub-Category
-    case Actions.UPDATE_EXPENSE_SUB_CATEGORY_TITLE:
-      return handleUpdateExpenseSubCategoryTitle(state, payload);
-    case Actions.UPDATE_EXPENSE_SUB_CATEGORY_AMOUNT:
-      return handleUpdateExpenseSubCategoryAmount(state, payload);
-    case Actions.UPDATE_EXPENSE_SUB_CATEGORY_NOTES:
-      return handleUpdateExpenseSubCategoryNotes(state, payload);
-    case Actions.DELETE_EXPENSE_SUB_CATEGORY:
-      return handleDeleteExpenseSubCategory(state, payload);
-
-    default:
-      return state;
-  }
-}
-
-/*****************************************************************************
- * Budget
- *****************************************************************************/
 function handleGetAllBudgets() {
   checkDirectorySync(DATA_DIRECTORY);
 
@@ -66,6 +17,14 @@ function handleGetAllBudgets() {
   });
 
   return budgets;
+}
+
+function handleGetBudget(state, { budget, id }) {
+  if (id === undefined) return state;
+
+  return produce(state, draft => {
+    draft[id] = budget;
+  });
 }
 
 function handleCreateNewBudget(state, payload) {
@@ -123,291 +82,18 @@ function handleCreateNewBudget(state, payload) {
   };
 }
 
-function handleGetBudget(state, { budget, id }) {
-  if (id === undefined) return state;
+const actionHandlers = {
+  [GET_ALL_BUDGETS]: handleGetAllBudgets,
+  [GET_BUDGET]: handleGetBudget,
+  [CREATE_NEW_BUDGET]: handleCreateNewBudget
+};
 
-  return produce(state, draft => {
-    draft[id] = budget;
-  });
-}
+export default function reducer(state = {}, { type, payload }) {
+  const handler = actionHandlers[type];
 
-/*****************************************************************************
- * Income Category
- *****************************************************************************/
-function handleUpdateIncomeCategoryTitle(state, payload) {
-  if (
-    payload.catId === null ||
-    payload.catId === undefined ||
-    payload.catId < 0
-  ) {
-    return state;
-  }
+  if (!handler) return state;
 
-  const { catId, title } = payload;
-
-  const budget = { ...state.budgets[state.activeBudgetIndex] };
-  const income = { ...budget.incomes[catId], title };
-
-  budget.incomes = [...budget.incomes];
-  budget.incomes[catId] = income;
-
-  const budgets = [...state.budgets];
-  budgets[state.activeBudgetIndex] = budget;
-
-  return {
-    ...state,
-    budgets
-  };
-}
-
-function handleUpdateIncomeCategoryAmount(state, payload) {
-  const { catId, amount } = payload;
-
-  if (
-    catId === null ||
-    catId === undefined ||
-    catId < 0 ||
-    isNaN(amount) ||
-    amount < 0
-  ) {
-    return state;
-  }
-
-  const budget = { ...state.budgets[state.activeBudgetIndex] };
-  const income = {
-    ...budget.incomes[catId],
-    plannedAmount: amount
-  };
-
-  budget.incomes = [...budget.incomes];
-  budget.incomes[catId] = income;
-
-  const budgets = [...state.budgets];
-  budgets[state.activeBudgetIndex] = budget;
-
-  return {
-    ...state,
-    budgets
-  };
-}
-
-function handleUpdateIncomeCategoryNotes(state, payload) {
-  const { catId, notes } = payload;
-
-  if (
-    catId === null ||
-    catId === undefined ||
-    catId < 0 ||
-    notes === undefined
-  ) {
-    return state;
-  }
-
-  const budget = { ...state.budgets[state.activeBudgetIndex] };
-  const income = {
-    ...budget.incomes[catId],
-    notes
-  };
-
-  budget.incomes = [...budget.incomes];
-  budget.incomes[catId] = income;
-
-  const budgets = [...state.budgets];
-  budgets[state.activeBudgetIndex] = budget;
-
-  return {
-    ...state,
-    budgets
-  };
-}
-
-function handleDeleteIncomeCategory(state, payload) {
-  if (
-    payload.catId === null ||
-    payload.catId === undefined ||
-    payload.catId < 0
-  ) {
-    return state;
-  }
-
-  const budget = { ...state.budgets[state.activeBudgetIndex] };
-  budget.incomes = budget.incomes.filter((income, i) => i !== payload.catId);
-
-  const budgets = [...state.budgets];
-  budgets[state.activeBudgetIndex] = budget;
-
-  return {
-    ...state,
-    budgets
-  };
-}
-
-/*****************************************************************************
- * Expense Category
- *****************************************************************************/
-function handleDeleteExpenseCategory(state, payload) {
-  if (
-    payload.catId === null ||
-    payload.catId === undefined ||
-    payload.catId < 0
-  ) {
-    return state;
-  }
-
-  const budget = { ...state.budgets[state.activeBudgetIndex] };
-  budget.expenses = budget.expenses.filter((expense, i) => i !== payload.catId);
-
-  const budgets = [...state.budgets];
-  budgets[state.activeBudgetIndex] = budget;
-
-  return {
-    ...state,
-    budgets
-  };
-}
-
-/*****************************************************************************
- * Expense Sub-Category
- *****************************************************************************/
-function handleUpdateExpenseSubCategoryTitle(state, payload) {
-  if (
-    payload.catId === null ||
-    payload.catId === undefined ||
-    payload.catId < 0 ||
-    payload.subCatId === null ||
-    payload.subCatId === undefined ||
-    payload.subCatId < 0
-  ) {
-    return state;
-  }
-
-  const { catId, subCatId, title } = payload;
-
-  const budget = { ...state.budgets[state.activeBudgetIndex] };
-  budget.expenses = [...budget.expenses];
-
-  const category = { ...budget.expenses[catId] };
-  category.subCategories = [...category.subCategories];
-  category.subCategories[subCatId] = {
-    ...category.subCategories[subCatId],
-    title
-  };
-
-  budget.expenses[catId] = category;
-
-  const budgets = [...state.budgets];
-  budgets[state.activeBudgetIndex] = budget;
-
-  return {
-    ...state,
-    budgets
-  };
-}
-
-function handleUpdateExpenseSubCategoryAmount(state, payload) {
-  if (
-    payload.catId === null ||
-    payload.catId === undefined ||
-    payload.catId < 0 ||
-    payload.subCatId === null ||
-    payload.subCatId === undefined ||
-    payload.subCatId < 0 ||
-    isNaN(payload.amount) ||
-    payload.amount < 0
-  ) {
-    return state;
-  }
-
-  const { catId, subCatId, amount } = payload;
-
-  const budget = { ...state.budgets[state.activeBudgetIndex] };
-  budget.expenses = [...budget.expenses];
-
-  const category = { ...budget.expenses[catId] };
-  category.subCategories = [...category.subCategories];
-  category.subCategories[subCatId] = {
-    ...category.subCategories[subCatId],
-    plannedAmount: amount
-  };
-
-  budget.expenses[catId] = category;
-
-  const budgets = [...state.budgets];
-  budgets[state.activeBudgetIndex] = budget;
-
-  return {
-    ...state,
-    budgets
-  };
-}
-
-function handleUpdateExpenseSubCategoryNotes(state, payload) {
-  if (
-    payload.catId === null ||
-    payload.catId === undefined ||
-    payload.catId < 0 ||
-    payload.subCatId === null ||
-    payload.subCatId === undefined ||
-    payload.subCatId < 0 ||
-    payload.notes === undefined
-  ) {
-    return state;
-  }
-
-  const { catId, subCatId, notes } = payload;
-
-  const budget = { ...state.budgets[state.activeBudgetIndex] };
-  budget.expenses = [...budget.expenses];
-
-  const category = { ...budget.expenses[catId] };
-  category.subCategories = [...category.subCategories];
-  category.subCategories[subCatId] = {
-    ...category.subCategories[subCatId],
-    notes
-  };
-
-  budget.expenses[catId] = category;
-
-  const budgets = [...state.budgets];
-  budgets[state.activeBudgetIndex] = budget;
-
-  return {
-    ...state,
-    budgets
-  };
-}
-
-function handleDeleteExpenseSubCategory(state, payload) {
-  if (
-    payload.catId === null ||
-    payload.catId === undefined ||
-    payload.catId < 0 ||
-    payload.subCatId === null ||
-    payload.subCatId === undefined ||
-    payload.subCatId < 0
-  ) {
-    return state;
-  }
-
-  const { catId, subCatId } = payload;
-
-  const budget = { ...state.budgets[state.activeBudgetIndex] };
-  budget.expenses = [...budget.expenses];
-
-  const category = { ...budget.expenses[catId] };
-  category.subCategories = category.subCategories.filter(
-    (subCat, i) => i !== subCatId
-  );
-
-  budget.expenses[catId] = category;
-
-  const budgets = [...state.budgets];
-  budgets[state.activeBudgetIndex] = budget;
-
-  return {
-    ...state,
-    budgets
-  };
+  return handler(state, payload);
 }
 
 // Helpers
