@@ -1,9 +1,15 @@
 import * as fs from "fs";
 import produce from "immer";
 
-import Actions from "../actions/actions-enum";
 import { GET_BUDGET } from "../actionTypes";
-import { SAVE_BUDGET } from "./actionTypes";
+import {
+  SAVE_BUDGET,
+  ADD_CATEGORY_GROUP,
+  UPDATE_CATEGORY_GROUP_TITLE,
+  ADD_CATEGORY,
+  UPDATE_CATEGORY_DETAILS,
+  SAVE_CATEGORY_TO_BUDGET
+} from "./actionTypes";
 import { encodeDate, compareDateStrings } from "Util/date";
 
 const DATA_DIRECTORY = "data_new";
@@ -108,12 +114,12 @@ export function handleUpdateCategoryDetails(
 
 const actionHandlers = {
   [GET_BUDGET]: handleGetBudget,
-  [Actions.ADD_CATEGORY]: handleAddCategory,
-  [Actions.ADD_CATEGORY_GROUP]: handleAddCategoryGroup,
+  [ADD_CATEGORY]: handleAddCategory,
+  [ADD_CATEGORY_GROUP]: handleAddCategoryGroup,
   [SAVE_BUDGET]: handleSaveBudget,
-  [Actions.SAVE_CATEGORY_TO_BUDGET]: handleSaveCategoryToBudget,
-  [Actions.UPDATE_CATEGORY_GROUP_TITLE]: handleUpdateCategoryGroupTitle,
-  [Actions.UPDATE_CATEGORY_DETAILS]: handleUpdateCategoryDetails
+  [SAVE_CATEGORY_TO_BUDGET]: handleSaveCategoryToBudget,
+  [UPDATE_CATEGORY_GROUP_TITLE]: handleUpdateCategoryGroupTitle,
+  [UPDATE_CATEGORY_DETAILS]: handleUpdateCategoryDetails
 };
 
 export default function reducer(state = {}, { type, payload }) {

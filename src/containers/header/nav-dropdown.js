@@ -6,10 +6,7 @@ import { encodeDate, getMonthName } from "Util/date";
 const NavList = ({ options, onSelect }) => (
   <ul className="nav-dropdown--list">
     {options.map(({ month, year }) => (
-      <li
-        className="nav-dropdown--option"
-        key={encodeDate(month, year)}
-      >
+      <li className="nav-dropdown--option" key={encodeDate(month, year)}>
         <a href="#" onClick={() => onSelect({ month, year })}>
           {`${getMonthName(month)} ${year}`}
         </a>

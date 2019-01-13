@@ -1,5 +1,11 @@
-import Actions from "../actions/actions-enum";
-import { SAVE_BUDGET } from "./actionTypes";
+import {
+  SAVE_BUDGET,
+  ADD_CATEGORY_GROUP,
+  UPDATE_CATEGORY_GROUP_TITLE,
+  ADD_CATEGORY,
+  UPDATE_CATEGORY_DETAILS,
+  SAVE_CATEGORY_TO_BUDGET
+} from "./actionTypes";
 
 // Budget
 export function saveBudget() {
@@ -12,14 +18,14 @@ export function saveBudget() {
 // Category Group
 export function addCategoryGroup() {
   return {
-    type: Actions.ADD_CATEGORY_GROUP,
+    type: ADD_CATEGORY_GROUP,
     payload: {}
   };
 }
 
 export function updateCategoryGroupTitle(groupId, title) {
   return {
-    type: Actions.UPDATE_CATEGORY_GROUP_TITLE,
+    type: UPDATE_CATEGORY_GROUP_TITLE,
     payload: { groupId, title }
   };
 }
@@ -27,50 +33,29 @@ export function updateCategoryGroupTitle(groupId, title) {
 // Category
 export function updateCategoryTitle(groupId, catId, title) {
   return {
-    type: Actions.UPDATE_CATEGORY_DETAILS,
+    type: UPDATE_CATEGORY_DETAILS,
     payload: { groupId, catId, title }
   };
 }
 
 export function updateCategoryAmount(groupId, catId, plannedAmount) {
   return {
-    type: Actions.UPDATE_CATEGORY_DETAILS,
+    type: UPDATE_CATEGORY_DETAILS,
     payload: { groupId, catId, plannedAmount }
   };
 }
 
 export function updateCategoryNotes(groupId, catId, notes) {
   return {
-    type: Actions.UPDATE_CATEGORY_DETAILS,
+    type: UPDATE_CATEGORY_DETAILS,
     payload: { groupId, catId, notes }
   };
 }
 
 export function addCategory(groupId) {
   return {
-    type: Actions.ADD_CATEGORY,
+    type: ADD_CATEGORY,
     payload: { groupId }
-  };
-}
-
-export function deleteIncomeCategory(catId) {
-  return {
-    type: Actions.DELETE_INCOME_CATEGORY,
-    payload: { catId }
-  };
-}
-
-export function deleteExpenseCategory(catId) {
-  return {
-    type: Actions.DELETE_EXPENSE_CATEGORY,
-    payload: { catId }
-  };
-}
-
-export function deleteExpenseSubCategory(catId, subCatId) {
-  return {
-    type: Actions.DELETE_EXPENSE_SUB_CATEGORY,
-    payload: { catId, subCatId }
   };
 }
 
@@ -79,7 +64,7 @@ export function saveCategoryToBudget() {
     const { category } = getState();
 
     return dispatch({
-      type: Actions.SAVE_CATEGORY_TO_BUDGET,
+      type: SAVE_CATEGORY_TO_BUDGET,
       payload: { category }
     });
   };

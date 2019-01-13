@@ -1,4 +1,9 @@
-import Actions from "../actions/actions-enum";
+import {
+  SET_ACTIVE_CATEGORY,
+  UPDATE_TRANSACTION,
+  ADD_TRANSACTION,
+  DELETE_TRANSACTION
+} from "./actionTypes";
 import { getClosestToDate } from "Util/date";
 
 export function setActiveCategory(groupId, catId) {
@@ -7,10 +12,10 @@ export function setActiveCategory(groupId, catId) {
     const category = state.budget.categoryGroups[groupId].categories[catId];
 
     return dispatch({
-      type: Actions.SET_ACTIVE_CATEGORY,
+      type: SET_ACTIVE_CATEGORY,
       payload: { groupId, catId, category }
     });
-  }
+  };
 }
 
 export function resetCategory() {
@@ -20,10 +25,10 @@ export function resetCategory() {
     const category = state.budget.categoryGroups[groupId].categories[id];
 
     return dispatch({
-      type: Actions.SET_ACTIVE_CATEGORY,
+      type: SET_ACTIVE_CATEGORY,
       payload: { groupId, catId: id, category }
     });
-  }
+  };
 }
 
 export function updateTransactionDate(targetDay, id) {
@@ -32,36 +37,32 @@ export function updateTransactionDate(targetDay, id) {
     const { month, year } = state.budget.date;
     const targetDate = new Date(year, month - 1, targetDay);
 
-    const date = getClosestToDate(
-      month,
-      year,
-      targetDate
-    ).getDate();
+    const date = getClosestToDate(month, year, targetDate).getDate();
 
     return dispatch({
-      type: Actions.UPDATE_TRANSACTION_DETAILS,
+      type: UPDATE_TRANSACTION,
       payload: { date, id }
     });
-  }
+  };
 }
 
 export function updateTransactionDescription(description, id) {
   return {
-    type: Actions.UPDATE_TRANSACTION_DETAILS,
+    type: UPDATE_TRANSACTION,
     payload: { description, id }
   };
 }
 
 export function updateTransactionAmount(amount, id) {
   return {
-    type: Actions.UPDATE_TRANSACTION_DETAILS,
+    type: UPDATE_TRANSACTION,
     payload: { amount, id }
   };
 }
 
 export function deleteTransaction(id) {
   return {
-    type: Actions.DELETE_TRANSACTION,
+    type: DELETE_TRANSACTION,
     payload: { id }
   };
 }
@@ -72,8 +73,8 @@ export function addTransaction() {
     const { date } = state.budget;
 
     return dispatch({
-      type: Actions.ADD_TRANSACTION,
+      type: ADD_TRANSACTION,
       payload: { date }
     });
-  }
+  };
 }

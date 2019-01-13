@@ -5,12 +5,10 @@ import { connect } from "react-redux";
 import {
   updateCategoryTitle,
   updateCategoryAmount,
-  updateCategoryNotes,
-  deleteIncomeCategory
+  updateCategoryNotes
 } from "Redux/budget/actions";
 import { setActiveCategory } from "Redux/category/actions";
-import * as UIActions from "Redux/ui/actions";
-import Pages from "Redux/actions/pages-enum";
+import { setCategoryPage } from "Redux/ui/actions";
 import { Row, ProgressBar, Input } from "Components";
 import { getCentString, getCentNumber, getDollarString } from "Util/currency";
 
@@ -128,7 +126,7 @@ const Category = ({
 );
 
 const mapStateToProps = (state, ownProps) => ({
-  editing: state.ui.edit,
+  editing: state.ui.editing,
   category:
     state.budget.categoryGroups[ownProps.groupId].categories[
       ownProps.categoryId
@@ -142,10 +140,9 @@ const mapDispatchToProps = (dispatch, { groupId, categoryId }) => ({
     dispatch(updateCategoryAmount(groupId, categoryId, amount)),
   updateNotes: notes =>
     dispatch(updateCategoryNotes(groupId, categoryId, notes)),
-  deleteSubCategory: () => dispatch(deleteIncomeCategory(categoryId)),
   openCategory: () => {
     dispatch(setActiveCategory(groupId, categoryId));
-    dispatch(UIActions.setPage(Pages.CATEGORY));
+    dispatch(setCategoryPage());
   }
 });
 

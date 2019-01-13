@@ -1,25 +1,25 @@
-import Actions from "../actions/actions-enum";
-import Pages from "../actions/pages-enum";
+import { BUDGET } from "./pages";
+import { SET_PAGE, SET_EDITING } from "./actionTypes";
 
-export default function reducer(
-  state = { page: Pages.BUDGET, loading: false, edit: false },
-  action
-) {
-  switch (action.type) {
-    case Actions.SET_PAGE: {
-      return {
-        ...state,
-        page: action.payload.page
-      };
-    }
-    case Actions.SET_EDIT: {
-      return {
-        ...state,
-        edit: action.payload.edit
-      };
-    }
-    default: {
-      return state;
-    }
-  }
+const initialState = { page: BUDGET, loading: false, editing: false };
+
+export function handleSetPage(state, { page }) {
+  return { ...state, page };
+}
+
+export function handleSetEditing(state, { editing }) {
+  return { ...state, editing };
+}
+
+const actionHandlers = {
+  [SET_PAGE]: handleSetPage,
+  [SET_EDITING]: handleSetEditing
+};
+
+export default function reducer(state = initialState, { type, payload }) {
+  const handler = actionHandlers[type];
+
+  if (!handler) return state;
+
+  return handler(state, payload);
 }

@@ -2,7 +2,10 @@ import React from "react";
 import "./category-group.less";
 import { connect } from "react-redux";
 
-import * as BudgetActions from "Redux/budget/actions";
+import {
+  updateCategoryGroupTitle,
+  addCategory as addCategoryAction
+} from "Redux/budget/actions";
 import { Row, GroupHeader } from "Components";
 import Category from "../category/category";
 
@@ -51,11 +54,6 @@ class CategoryGroup extends React.Component {
       categoryGroup: { title, categories },
       groupId,
       updateTitle,
-      updateSubCategoryTitle,
-      updateSubCategoryAmount,
-      updateSubCategoryNotes,
-      deleteSubCategory,
-      openSubCategory,
       addCategory
     } = this.props;
     const actualAmount = getActualAmount(categories);
@@ -88,16 +86,14 @@ class CategoryGroup extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  editing: state.ui.edit,
+  editing: state.ui.editing,
   categoryGroup: state.budget.categoryGroups[ownProps.groupId]
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  deleteCategoryGroup: () =>
-    dispatch(BudgetActions.deleteExpenseCategory(ownProps.groupId)),
   updateTitle: title =>
-    dispatch(BudgetActions.updateCategoryGroupTitle(ownProps.groupId, title)),
-  addCategory: () => dispatch(BudgetActions.addCategory(ownProps.groupId))
+    dispatch(updateCategoryGroupTitle(ownProps.groupId, title)),
+  addCategory: () => dispatch(addCategoryAction(ownProps.groupId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryGroup);

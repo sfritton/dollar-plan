@@ -1,15 +1,28 @@
-import Actions from "../actions/actions-enum";
+import { SET_PAGE, SET_EDITING } from "./actionTypes";
+import { WELCOME, BUDGET, CATEGORY } from "./pages";
 
-export function setPage(page) {
+function setPage(page) {
   return {
-    type: Actions.SET_PAGE,
+    type: SET_PAGE,
     payload: { page }
   };
 }
 
-export function setEdit(edit) {
+export function setWelcomePage() {
+  return setPage(WELCOME);
+}
+
+export function setBudgetPage() {
+  return setPage(BUDGET);
+}
+
+export function setCategoryPage() {
+  return setPage(CATEGORY);
+}
+
+export function setEditing(editing) {
   return {
-    type: Actions.SET_EDIT,
-    payload: { edit }
+    type: SET_EDITING,
+    payload: { editing }
   };
 }

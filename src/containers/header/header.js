@@ -2,9 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import "./header.less";
 
-import { setPage } from "Redux/ui/actions";
 import { getBudget } from "Redux/budgets/actions";
-import Pages from "Redux/actions/pages-enum";
+import { setWelcomePage } from "Redux/ui/actions";
 import NavDropdown from "./nav-dropdown";
 import {
   hasMonthStarted,
@@ -51,7 +50,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getBudget: (month, year) => dispatch(getBudget(month, year)),
-  createNewBudget: () => dispatch(setPage(Pages.WELCOME))
+  createNewBudget: () => dispatch(setWelcomePage())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

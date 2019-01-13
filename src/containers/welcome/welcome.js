@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./welcome.less";
 
-import Pages from "Redux/actions/pages-enum";
 import { createNewBudget } from "Redux/budgets/actions";
-import { setPage, setEdit } from "Redux/ui/actions";
+import { setWelcomePage, setEditing } from "Redux/ui/actions";
 import { Button, Dropdown, Page } from "Components";
 import { encodeDate, decodeDate, getMonthName, months } from "Util/date";
 
@@ -48,8 +47,8 @@ class Welcome extends Component {
       dispatch(createNewBudget(month, year));
     }
 
-    dispatch(setEdit(true));
-    dispatch(setPage(Pages.BUDGET));
+    dispatch(setEditing(true));
+    dispatch(setWelcomePage());
   }
 
   render() {

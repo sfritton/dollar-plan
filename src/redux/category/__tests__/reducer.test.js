@@ -1,7 +1,7 @@
 import {
   getMaxId,
   handleSetActiveCategory,
-  handleUpdateTransactionDetails,
+  handleUpdateTransaction,
   handleDeleteTransaction,
   handleAddTransaction
 } from "../reducer";
@@ -61,7 +61,7 @@ Object {
     });
   });
 
-  describe("updateTransactionDetails", () => {
+  describe("updateTransaction", () => {
     it("does nothing if the transaction does not exist", () => {
       const state = {
         transactions: []
@@ -69,7 +69,7 @@ Object {
 
       const payload = { id: "0", description: "feed me" };
 
-      const result = handleUpdateTransactionDetails(state, payload);
+      const result = handleUpdateTransaction(state, payload);
 
       expect(result).toBe(state);
     });
@@ -81,7 +81,7 @@ Object {
 
       const payload = { id: "0", description: "feed me" };
 
-      const result = handleUpdateTransactionDetails(state, payload);
+      const result = handleUpdateTransaction(state, payload);
 
       expect(result).toMatchInlineSnapshot(`
 Object {

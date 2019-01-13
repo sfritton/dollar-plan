@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import * as BudgetActions from "Redux/budget/actions";
 import { getBudget } from "Redux/budgets/actions";
-import * as UIActions from "Redux/ui/actions";
+import { setEditing } from "Redux/ui/actions";
 import { Page, Row, Footer } from "Components";
 import Header from "../header/header";
 import Category from "../category/category";
@@ -142,7 +142,7 @@ class Budget extends Component {
 }
 
 const mapStateToProps = state => ({
-  editing: state.ui.edit,
+  editing: state.ui.editing,
   isBudgetLoaded: !!state.budget.date,
   date: state.budget.date,
   incomes: state.budget.categoryGroups
@@ -160,13 +160,13 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   addCategory: groupId => dispatch(BudgetActions.addCategory(groupId)),
   addCategoryGroup: () => dispatch(BudgetActions.addCategoryGroup()),
-  adjustBudget: () => dispatch(UIActions.setEdit(true)),
+  adjustBudget: () => dispatch(setEditing(true)),
   saveBudget: () => {
-    dispatch(UIActions.setEdit(false));
+    dispatch(setEditing(false));
     dispatch(BudgetActions.saveBudget());
   },
   cancelEdit: ({ month, year }) => {
-    dispatch(UIActions.setEdit(false));
+    dispatch(setEditing(false));
     dispatch(getBudget(month, year));
   }
 });

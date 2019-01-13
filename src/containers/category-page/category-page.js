@@ -3,10 +3,9 @@ import { connect } from "react-redux";
 
 import { Page, Row, GroupHeader, Footer, Transaction } from "Components";
 import Header from "../header/header";
-import { setPage, setEdit } from "Redux/ui/actions";
+import { setBudgetPage, setEditing } from "Redux/ui/actions";
 import * as CategoryActions from "Redux/category/actions";
 import { saveCategoryToBudget, saveBudget } from "Redux/budget/actions";
-import Pages from "Redux/actions/pages-enum";
 
 class CategoryPage extends React.Component {
   render() {
@@ -90,7 +89,7 @@ class CategoryPage extends React.Component {
         key={transaction.id}
         month={month}
         transaction={transaction}
-        edit={editing}
+        editing={editing}
         updateDate={date => updateTransactionDate(date, transaction.id)}
         updateDescription={desc =>
           updateTransactionDescription(desc, transaction.id)}
@@ -104,7 +103,7 @@ class CategoryPage extends React.Component {
 const mapStateToProps = state => ({
   month: state.budget.date.month,
   category: state.category,
-  editing: state.ui.edit,
+  editing: state.ui.editing,
   income: state.category.groupId === "income",
   groupTitle: state.budget.categoryGroups[state.category.groupId].title
 });
@@ -119,18 +118,18 @@ const mapDispatchToProps = dispatch => ({
   deleteTransaction: id => dispatch(CategoryActions.deleteTransaction(id)),
   addTransaction: () => {
     dispatch(CategoryActions.addTransaction());
-    dispatch(setEdit(true));
+    dispatch(setEditing(true));
   },
-  editTransactions: () => dispatch(setEdit(true)),
+  editTransactions: () => dispatch(setEditing(true)),
   saveTransactions: () => {
-    dispatch(setEdit(false));
+    dispatch(setEditing(false));
     dispatch(saveCategoryToBudget());
     dispatch(saveBudget());
   },
-  goToBudget: () => dispatch(setPage(Pages.BUDGET)),
+  goToBudget: () => dispatch(setBudgetPage()),
   reset: () => {
     dispatch(CategoryActions.resetCategory());
-    dispatch(setEdit(false));
+    dispatch(setEditing(false));
   }
 });
 
