@@ -7,6 +7,7 @@ import { encodeDate } from "Util/date";
 
 const DATA_DIRECTORY = "data_new";
 
+// TODO: add tests, refactor create new budget
 function handleGetAllBudgets() {
   checkDirectorySync(DATA_DIRECTORY);
 
