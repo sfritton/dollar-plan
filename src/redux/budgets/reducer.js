@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import produce from "immer";
 
+import createReducer from "../helpers/createReducer";
 import { GET_ALL_BUDGETS, GET_BUDGET } from "../actionTypes";
 import { CREATE_NEW_BUDGET } from "./actionTypes";
 import { encodeDate } from "Util/date";
@@ -89,13 +90,9 @@ const actionHandlers = {
   [CREATE_NEW_BUDGET]: handleCreateNewBudget
 };
 
-export default function reducer(state = {}, { type, payload }) {
-  const handler = actionHandlers[type];
+const reducer = createReducer(actionHandlers);
 
-  if (!handler) return state;
-
-  return handler(state, payload);
-}
+export default reducer;
 
 // Helpers
 function checkDirectorySync(directory) {

@@ -1,5 +1,6 @@
 import produce from "immer";
 
+import createReducer from "../helpers/createReducer";
 import {
   SET_ACTIVE_CATEGORY,
   UPDATE_TRANSACTION,
@@ -56,10 +57,6 @@ const actionHandlers = {
   [ADD_TRANSACTION]: handleAddTransaction
 };
 
-export default function reducer(state = {}, { type, payload }) {
-  const handler = actionHandlers[type];
+const reducer = createReducer(actionHandlers);
 
-  if (!handler) return state;
-
-  return handler(state, payload);
-}
+export default reducer;

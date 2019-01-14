@@ -1,3 +1,4 @@
+import createReducer from "../helpers/createReducer";
 import { BUDGET } from "./pages";
 import { SET_PAGE, SET_EDITING } from "./actionTypes";
 
@@ -17,10 +18,6 @@ const actionHandlers = {
   [SET_EDITING]: handleSetEditing
 };
 
-export default function reducer(state = initialState, { type, payload }) {
-  const handler = actionHandlers[type];
+const reducer = createReducer(actionHandlers, initialState);
 
-  if (!handler) return state;
-
-  return handler(state, payload);
-}
+export default reducer;

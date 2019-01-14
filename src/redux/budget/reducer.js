@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import produce from "immer";
 
+import createReducer from "../helpers/createReducer";
 import { GET_BUDGET } from "../actionTypes";
 import {
   SAVE_BUDGET,
@@ -122,10 +123,6 @@ const actionHandlers = {
   [UPDATE_CATEGORY_DETAILS]: handleUpdateCategoryDetails
 };
 
-export default function reducer(state = {}, { type, payload }) {
-  const handler = actionHandlers[type];
+const reducer = createReducer(actionHandlers);
 
-  if (!handler) return state;
-
-  return handler(state, payload);
-}
+export default reducer;
