@@ -1,7 +1,6 @@
-// TODO: write tests
 const createReducer = (actionHandlers = {}, initialState = {}) => (
   state = initialState,
-  { type, payload }
+  { type, payload } = {}
 ) => {
   const handler = actionHandlers[type];
 
