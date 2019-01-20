@@ -8,20 +8,12 @@ import { encodeDate } from "Util/date";
 
 const DATA_DIRECTORY = "data_new";
 
-// TODO: add tests, refactor create new budget
-function handleGetAllBudgets() {
-  checkDirectorySync(DATA_DIRECTORY);
-
-  const budgets = {};
-
-  fs.readdirSync(DATA_DIRECTORY).forEach(date => {
-    budgets[date.replace(/\.json$/, "")] = { isLoaded: false };
-  });
-
-  return budgets;
+// TODO: refactor create new budget
+export function handleGetAllBudgets(state, { budgets }) {
+  return budgets || {};
 }
 
-function handleGetBudget(state, { budget, id }) {
+export function handleGetBudget(state, { budget, id }) {
   if (id === undefined) return state;
 
   return produce(state, draft => {
@@ -93,12 +85,3 @@ const actionHandlers = {
 const reducer = createReducer(actionHandlers);
 
 export default reducer;
-
-// Helpers
-function checkDirectorySync(directory) {
-  try {
-    fs.statSync(directory);
-  } catch (e) {
-    fs.mkdirSync(directory);
-  }
-}
