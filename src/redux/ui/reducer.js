@@ -4,7 +4,6 @@ import { SET_PAGE, SET_EDITING } from "./actionTypes";
 
 const initialState = { page: BUDGET, loading: false, editing: false };
 
-// TODO: add tests
 export function handleSetPage(state, { page }) {
   return { ...state, page };
 }
