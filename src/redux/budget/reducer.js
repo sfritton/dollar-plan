@@ -12,8 +12,7 @@ import {
   SAVE_CATEGORY_TO_BUDGET
 } from "./actionTypes";
 import { encodeDate, compareDateStrings } from "Util/date";
-
-const DATA_DIRECTORY = "data_new";
+import { DATA_DIRECTORY } from "../constants";
 
 const getDefaultCategory = () => ({
   title: "",

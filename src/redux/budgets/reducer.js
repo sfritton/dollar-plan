@@ -5,8 +5,7 @@ import createReducer from "../helpers/createReducer";
 import { GET_ALL_BUDGETS, GET_BUDGET } from "../actionTypes";
 import { CREATE_NEW_BUDGET } from "./actionTypes";
 import { encodeDate } from "Util/date";
-
-const DATA_DIRECTORY = "data_new";
+import { DATA_DIRECTORY } from "../constants";
 
 // TODO: refactor create new budget
 export function handleGetAllBudgets(state, { budgets }) {
