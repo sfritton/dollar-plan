@@ -1,14 +1,11 @@
-import * as fs from "fs";
 import produce from "immer";
 
 import createReducer from "../helpers/createReducer";
 import { GET_ALL_BUDGETS, GET_BUDGET } from "../actionTypes";
 import { CREATE_NEW_BUDGET } from "./actionTypes";
 import { encodeDate } from "Util/date";
-import { DATA_DIRECTORY } from "../constants";
 import { generateBudget } from "../templates";
 
-// TODO: refactor create new budget
 export function handleGetAllBudgets(state, { budgets }) {
   return budgets || {};
 }

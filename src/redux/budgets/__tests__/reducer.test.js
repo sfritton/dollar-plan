@@ -1,4 +1,8 @@
-import { handleGetAllBudgets, handleGetBudget } from "../reducer";
+import {
+  handleGetAllBudgets,
+  handleGetBudget,
+  handleCreateNewBudget
+} from "../reducer";
 
 describe("budgets reducer", () => {
   describe("get all budgets", () => {
@@ -45,6 +49,103 @@ Object {
       expect(handleGetBudget(state, payload)).toMatchInlineSnapshot(`
 Object {
   "0": Object {
+    "isLoaded": true,
+  },
+}
+`);
+    });
+  });
+
+  describe("create new budget", () => {
+    it("returns the state if the budget already exists", () => {
+      const state = { "2018-01": { isLoaded: true } };
+      const payload = { month: 1, year: 2018 };
+
+      expect(handleCreateNewBudget(state, payload)).toBe(state);
+    });
+
+    it("returns a new budget", () => {
+      const state = { "2018-01": { isLoaded: true } };
+      const payload = { month: 2, year: 2018 };
+
+      expect(handleCreateNewBudget(state, payload)).toMatchInlineSnapshot(`
+Object {
+  "2018-01": Object {
+    "isLoaded": true,
+  },
+  "2018-02": Object {
+    "categoryGroups": Object {
+      "income": Object {
+        "categories": Object {},
+        "title": "",
+      },
+    },
+    "date": Object {
+      "month": 2,
+      "year": 2018,
+    },
+    "isLoaded": true,
+  },
+}
+`);
+    });
+
+    it("returns a copy of the old budget with cleared transactions", () => {
+      const oldBudget = {
+        date: { month: 1, year: 2018 },
+        isLoaded: true,
+        categoryGroups: {
+          "0": {
+            categories: {
+              "5": {
+                transactions: [{ id: "1" }, { id: "2" }]
+              }
+            }
+          }
+        }
+      };
+      const state = { "2018-01": oldBudget };
+      const payload = { month: 2, year: 2018, oldBudget };
+
+      expect(handleCreateNewBudget(state, payload)).toMatchInlineSnapshot(`
+Object {
+  "2018-01": Object {
+    "categoryGroups": Object {
+      "0": Object {
+        "categories": Object {
+          "5": Object {
+            "transactions": Array [
+              Object {
+                "id": "1",
+              },
+              Object {
+                "id": "2",
+              },
+            ],
+          },
+        },
+      },
+    },
+    "date": Object {
+      "month": 1,
+      "year": 2018,
+    },
+    "isLoaded": true,
+  },
+  "2018-02": Object {
+    "categoryGroups": Object {
+      "0": Object {
+        "categories": Object {
+          "5": Object {
+            "transactions": Array [],
+          },
+        },
+      },
+    },
+    "date": Object {
+      "month": 2,
+      "year": 2018,
+    },
     "isLoaded": true,
   },
 }

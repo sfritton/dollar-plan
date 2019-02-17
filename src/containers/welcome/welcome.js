@@ -53,7 +53,7 @@ class Welcome extends Component {
   }
 
   render() {
-    const { budgetDates, dispatch } = this.props;
+    const { budgetDates } = this.props;
 
     const { month, year, copyOldBudget, canCopy, oldDate } = this.state;
 
