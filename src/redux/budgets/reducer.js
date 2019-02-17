@@ -18,7 +18,6 @@ export function handleGetBudget(state, { budget, id }) {
   });
 }
 
-// TODO: WIP, test this and action
 export function handleCreateNewBudget(state, { month, year, oldBudget }) {
   const date = encodeDate(month, year);
   const newBudgetExists = !!state[date];
