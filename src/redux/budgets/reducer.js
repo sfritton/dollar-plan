@@ -6,6 +6,7 @@ import { GET_ALL_BUDGETS, GET_BUDGET } from "../actionTypes";
 import { CREATE_NEW_BUDGET } from "./actionTypes";
 import { encodeDate } from "Util/date";
 import { DATA_DIRECTORY } from "../constants";
+import { generateBudget } from "../templates";
 
 // TODO: refactor create new budget
 export function handleGetAllBudgets(state, { budgets }) {
@@ -20,59 +21,25 @@ export function handleGetBudget(state, { budget, id }) {
   });
 }
 
-function handleCreateNewBudget(state, payload) {
-  const { month, year, oldMonth, oldYear } = payload;
-  const newBudgetExists = state.budgets.some(
-    ({ date }) => date.month === month && date.year === year
-  );
+// TODO: WIP, test this and action
+export function handleCreateNewBudget(state, { month, year, oldBudget }) {
+  const date = encodeDate(month, year);
+  const newBudgetExists = !!state[date];
 
-  if (newBudgetExists) {
-    return state;
-  }
+  if (newBudgetExists) return state;
 
-  const newBudget = {
-    date: { month, year },
-    incomes: [],
-    expenses: [],
-    loaded: true
-  };
+  if (!oldBudget) return { ...state, [date]: generateBudget({ month, year }) };
 
-  if (oldMonth && oldYear) {
-    let oldBudget = state.budgets.find(
-      budget => budget.date.month === oldMonth && budget.date.year === oldYear
+  const newBudget = produce(oldBudget, draft => {
+    draft.date = { month, year };
+    Object.values(draft.categoryGroups).forEach(categoryGroup =>
+      Object.values(categoryGroup.categories).forEach(
+        category => (category.transactions = [])
+      )
     );
+  });
 
-    if (oldBudget) {
-      if (!oldBudget.loaded) {
-        oldBudget = JSON.parse(
-          fs.readFileSync(
-            `${DATA_DIRECTORY}\\${encodeDate(oldMonth, oldYear)}.json`
-          )
-        );
-      }
-
-      newBudget.incomes = oldBudget.incomes.map(income => ({
-        ...income,
-        transactions: []
-      }));
-
-      newBudget.expenses = oldBudget.expenses.map(expense => ({
-        title: expense.title,
-        subCategories: expense.subCategories.map(subCat => ({
-          ...subCat,
-          transactions: []
-        }))
-      }));
-    }
-  }
-
-  const budgets = state.budgets.concat(newBudget);
-
-  return {
-    ...state,
-    budgets,
-    activeBudgetIndex: budgets.length - 1
-  };
+  return { ...state, [date]: newBudget };
 }
 
 const actionHandlers = {

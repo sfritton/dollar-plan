@@ -13,13 +13,7 @@ import {
 } from "./actionTypes";
 import { encodeDate, compareDateStrings } from "Util/date";
 import { DATA_DIRECTORY } from "../constants";
-
-const getDefaultCategory = () => ({
-  title: "",
-  notes: "",
-  plannedAmount: 0,
-  transactions: []
-});
+import { generateCategory, generateCategoryGroup } from "../templates";
 
 export const getMaxObjectKey = obj =>
   Math.max(-1, ...Object.keys(obj).filter(key => !isNaN(parseInt(key, 10))));
@@ -38,7 +32,7 @@ export function handleAddCategory(state, { groupId }) {
 
     const maxId = getMaxObjectKey(categories);
 
-    categories[maxId + 1] = getDefaultCategory();
+    categories[maxId + 1] = generateCategory();
   });
 }
 
@@ -48,12 +42,7 @@ export function handleAddCategoryGroup(state) {
 
     const maxId = getMaxObjectKey(categoryGroups);
 
-    categoryGroups[maxId + 1] = {
-      title: "",
-      categories: {
-        "0": getDefaultCategory()
-      }
-    };
+    categoryGroups[maxId + 1] = generateCategoryGroup(true);
   });
 }
 

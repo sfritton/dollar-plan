@@ -7,14 +7,7 @@ import {
   ADD_TRANSACTION,
   DELETE_TRANSACTION
 } from "./actionTypes";
-import { getClosestToToday } from "Util/date";
-
-const getDefaultTransaction = (id, targetDate) => ({
-  id,
-  amount: 0,
-  date: getClosestToToday(targetDate).getDate(),
-  description: ""
-});
+import { generateTransaction } from "../templates";
 
 export const getMaxId = (array = []) =>
   Math.max(
@@ -46,7 +39,7 @@ export function handleAddTransaction(state, { date }) {
   const id = getMaxId(state.transactions) + 1;
 
   return produce(state, draft => {
-    draft.transactions.push(getDefaultTransaction(id, date));
+    draft.transactions.push(generateTransaction(id, date));
   });
 }
 

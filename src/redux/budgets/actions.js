@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import { GET_ALL_BUDGETS, GET_BUDGET } from "../actionTypes";
-import { CREATE_NEW_BUDGET } from "../actionTypes";
+import { CREATE_NEW_BUDGET } from "./actionTypes";
 import { encodeDate } from "Util/date";
 import { DATA_DIRECTORY } from "../constants";
 
@@ -51,8 +51,29 @@ export function getBudget(month, year) {
 }
 
 export function createNewBudget(month, year, oldMonth, oldYear) {
-  return {
-    type: CREATE_NEW_BUDGET,
-    payload: { month, year, oldMonth, oldYear }
+  return (dispatch, getState) => {
+    if (!oldMonth || !oldYear)
+      return dispatch({
+        type: CREATE_NEW_BUDGET,
+        payload: { month, year }
+      });
+
+    const state = getState();
+    const id = encodeDate(oldMonth, oldYear);
+
+    if (!state.budgets[id])
+      return dispatch({
+        type: CREATE_NEW_BUDGET,
+        payload: { month, year }
+      });
+
+    if (!state.budgets[id].isLoaded) dispatch(getBudget(oldMonth, oldYear));
+
+    const newState = getState();
+
+    return dispatch({
+      type: CREATE_NEW_BUDGET,
+      payload: { month, year, oldBudget: newState.budgets[id] }
+    });
   };
 }

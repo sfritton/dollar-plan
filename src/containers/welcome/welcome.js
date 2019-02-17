@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./welcome.less";
 
-import { createNewBudget } from "Redux/budgets/actions";
-import { setWelcomePage, setEditing } from "Redux/ui/actions";
+import { createNewBudget, getBudget } from "Redux/budgets/actions";
+import { setBudgetPage, setEditing } from "Redux/ui/actions";
 import { Button, Dropdown, Page } from "Components";
-import { encodeDate, decodeDate, getMonthName, months } from "Util/date";
+import { decodeDate, getMonthName, months } from "Util/date";
 
 const currentYear = new Date().getFullYear();
 const nextTenYears = new Array(10)
@@ -48,7 +48,8 @@ class Welcome extends Component {
     }
 
     dispatch(setEditing(true));
-    dispatch(setWelcomePage());
+    dispatch(getBudget(month, year));
+    dispatch(setBudgetPage());
   }
 
   render() {
@@ -107,10 +108,14 @@ class Welcome extends Component {
 }
 
 const mapStateToProps = state => ({
-  budgetDates: state.budgets.budgets.map(({ date }) => ({
-    value: encodeDate(date.month, date.year),
-    name: `${getMonthName(date.month)} ${date.year}`
-  }))
+  budgetDates: Object.keys(state.budgets).map(encodedDate => {
+    const date = decodeDate(encodedDate);
+
+    return {
+      value: encodedDate,
+      name: `${getMonthName(date.month)} ${date.year}`
+    };
+  })
 });
 
 export default connect(mapStateToProps)(Welcome);
