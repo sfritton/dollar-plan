@@ -1,33 +1,41 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import * as BudgetActions from "Redux/actions/budget-actions";
-import * as CategoryActions from "Redux/actions/category-actions";
-import * as UIActions from "Redux/actions/ui-actions";
-import Pages from "Redux/actions/pages-enum";
-import { Page, Row, SubCategory, Category, Header, Footer } from "Components";
+import * as BudgetActions from "Redux/budget/actions";
+import { getBudget } from "Redux/budgets/actions";
+import { setEditing } from "Redux/ui/actions";
+import { Page, Row, Footer } from "Components";
+import Header from "../header/header";
+import Category from "../category/category";
+import CategoryGroup from "../category-group/category-group";
 import { getCentString } from "Util/currency";
+import { decodeDate } from "Util/date";
+import { objectToArray } from "Util";
 
 class Budget extends Component {
   render() {
-    if (!this.props.budget) {
-      return <Page header={this.renderHeader()} />;
+    const {
+      isBudgetLoaded,
+      editing,
+      incomes,
+      expenses,
+      addCategory,
+      addCategoryGroup
+    } = this.props;
+
+    if (!isBudgetLoaded) {
+      return <Page header={<Header />} />;
     }
 
     return (
-      <Page
-        header={this.renderHeader(this.props.budget.date)}
-        footer={this.renderFooter()}
-      >
+      <Page header={<Header />} footer={this.renderFooter()}>
         <section>
           <h2>Income</h2>
-          {this.renderIncomes()}
-          {this.props.edit && (
-            <Row
-              clickable
-              onClick={() =>
-                this.props.dispatch(BudgetActions.addIncomeCategory())}
-            >
+          {Object.keys(incomes).map(id => (
+            <Category key={id} income groupId="income" categoryId={id} />
+          ))}
+          {editing && (
+            <Row clickable onClick={() => addCategory("income")}>
               + add a category
             </Row>
           )}
@@ -35,14 +43,11 @@ class Budget extends Component {
 
         <section>
           <h2>Expenses</h2>
-          {this.renderExpenses()}
-          {this.props.edit && (
-            <Row
-              clickable
-              header
-              onClick={() =>
-                this.props.dispatch(BudgetActions.addExpenseCategory())}
-            >
+          {expenses.map(({ id }) => (
+            <CategoryGroup key={id} groupId={id} defaultOpen />
+          ))}
+          {editing && (
+            <Row clickable header onClick={addCategoryGroup}>
               + add a category group
             </Row>
           )}
@@ -51,108 +56,22 @@ class Budget extends Component {
     );
   }
 
-  renderHeader(date) {
-    return (
-      <Header
-        budgetDates={this.props.budgetDates || []}
-        date={date}
-        setActiveBudget={(month, year) =>
-          this.props.dispatch(BudgetActions.setActiveBudget(month, year))}
-        createNewBudget={() =>
-          this.props.dispatch(UIActions.setPage(Pages.WELCOME))}
-      />
-    );
-  }
-
   renderFooter() {
+    const { editing, adjustBudget, saveBudget, cancelEdit, date } = this.props;
+
     return (
       <Footer
         message={this.getBalanceMessage()}
-        editing={this.props.edit}
-        primaryDefault={{ label: 'Adjust budget', onClick: () => this.props.dispatch(UIActions.setEdit(true)) }}
-        primaryEditing={{ label: 'Save budget', onClick: () => {
-          this.props.dispatch(UIActions.setEdit(false));
-          this.props.dispatch(BudgetActions.saveBudget());
-        }}}
-        secondaryEditing={{ label: 'Cancel', onClick: () => {
-          const { month, year } = this.props.budget.date;
-          this.props.dispatch(UIActions.setEdit(false));
-          this.props.dispatch(BudgetActions.getBudget(month, year));
-        } }}
+        editing={editing}
+        primaryDefault={{ label: "Adjust budget", onClick: adjustBudget }}
+        primaryEditing={{ label: "Save budget", onClick: saveBudget }}
+        secondaryEditing={{ label: "Cancel", onClick: () => cancelEdit(date) }}
       />
     );
   }
 
-  renderIncomes() {
-    return this.props.budget.incomes.map((incomeCategory, i) => (
-      <SubCategory
-        key={i}
-        income
-        subCategory={incomeCategory}
-        updateTitle={title =>
-          this.props.dispatch(
-            BudgetActions.updateIncomeCategoryTitle(i, title)
-          )}
-        edit={this.props.edit}
-        updateAmount={amount =>
-          this.props.dispatch(
-            BudgetActions.updateIncomeCategoryAmount(i, amount)
-          )}
-        updateNotes={notes =>
-          this.props.dispatch(
-            BudgetActions.updateIncomeCategoryNotes(i, notes)
-          )}
-        deleteSubCategory={() =>
-          this.props.dispatch(BudgetActions.deleteIncomeCategory(i))}
-        openCategory={() => {
-          this.props.dispatch(CategoryActions.setActiveCategory(i));
-          this.props.dispatch(UIActions.setPage(Pages.CATEGORY));
-        }}
-      />
-    ));
-  }
-
-  renderExpenses() {
-    return this.props.budget.expenses.map((expenseCategory, i) => (
-      <Category
-        key={i}
-        edit={this.props.edit}
-        defaultOpen
-        category={expenseCategory}
-        deleteCategory={() =>
-          this.props.dispatch(BudgetActions.deleteExpenseCategory(i))}
-        updateTitle={title =>
-          this.props.dispatch(
-            BudgetActions.updateExpenseCategoryTitle(i, title)
-          )}
-        updateSubCategoryTitle={(subCatId, title) =>
-          this.props.dispatch(
-            BudgetActions.updateExpenseSubCategoryTitle(i, subCatId, title)
-          )}
-        updateSubCategoryAmount={(subCatId, amount) =>
-          this.props.dispatch(
-            BudgetActions.updateExpenseSubCategoryAmount(i, subCatId, amount)
-          )}
-        updateSubCategoryNotes={(subCatId, notes) =>
-          this.props.dispatch(
-            BudgetActions.updateExpenseSubCategoryNotes(i, subCatId, notes)
-          )}
-        addSubCategory={() =>
-          this.props.dispatch(BudgetActions.addExpenseSubCategory(i))}
-        deleteSubCategory={subCatId =>
-          this.props.dispatch(
-            BudgetActions.deleteExpenseSubCategory(i, subCatId)
-          )}
-        openSubCategory={subCatId => {
-          this.props.dispatch(CategoryActions.setActiveCategory(i, subCatId));
-          this.props.dispatch(UIActions.setPage(Pages.CATEGORY));
-        }}
-      />
-    ));
-  }
-
   getBalanceMessage() {
-    if (this.props.edit) {
+    if (this.props.editing) {
       return this.formatBalance(this.getPlannedBalance());
     }
 
@@ -180,35 +99,29 @@ class Budget extends Component {
   }
 
   getActualIncome() {
-    return this.props.budget.incomes.reduce(
-      (sum, income) =>
-        sum +
-        income.transactions.reduce(
-          (sum, transaction) => sum + transaction.amount,
-          0
-        ),
+    return Object.values(this.props.incomes).reduce(
+      (sum, category) => sum + this.reduceTransactions(category),
       0
     );
   }
 
+  reduceTransactions({ transactions }) {
+    return transactions.reduce((sum, { amount }) => sum + amount, 0);
+  }
+
   getPlannedIncome() {
-    return this.props.budget.incomes.reduce(
-      (sum, income) => sum + income.plannedAmount,
+    return Object.values(this.props.incomes).reduce(
+      (sum, { plannedAmount }) => sum + plannedAmount,
       0
     );
   }
 
   getActualExpenses() {
-    return this.props.budget.expenses.reduce(
-      (sum, expense) =>
+    return this.props.expenses.reduce(
+      (sum, { categories }) =>
         sum +
-        expense.subCategories.reduce(
-          (sum, subCat) =>
-            sum +
-            subCat.transactions.reduce(
-              (sum, transaction) => sum + transaction.amount,
-              0
-            ),
+        Object.values(categories).reduce(
+          (sum, category) => sum + this.reduceTransactions(category),
           0
         ),
       0
@@ -216,11 +129,11 @@ class Budget extends Component {
   }
 
   getPlannedExpenses() {
-    return this.props.budget.expenses.reduce(
-      (sum, expense) =>
+    return this.props.expenses.reduce(
+      (sum, { categories }) =>
         sum +
-        expense.subCategories.reduce(
-          (sum, subCat) => sum + subCat.plannedAmount,
+        Object.values(categories).reduce(
+          (sum, { plannedAmount }) => sum + plannedAmount,
           0
         ),
       0
@@ -229,9 +142,33 @@ class Budget extends Component {
 }
 
 const mapStateToProps = state => ({
-  edit: state.ui.edit,
-  budget: state.budgets.budgets[state.budgets.activeBudgetIndex],
-  budgetDates: state.budgets.budgets.map(budget => budget.date)
+  editing: state.ui.editing,
+  isBudgetLoaded: !!state.budget.date,
+  date: state.budget.date,
+  incomes: state.budget.categoryGroups
+    ? state.budget.categoryGroups.income.categories
+    : {},
+  expenses: objectToArray(state.budget.categoryGroups).filter(
+    ({ id }) => id !== "income"
+  ),
+  budgetDates: Object.keys(state.budgets)
+    .sort()
+    .reverse()
+    .map(decodeDate)
 });
 
-export default connect(mapStateToProps)(Budget);
+const mapDispatchToProps = dispatch => ({
+  addCategory: groupId => dispatch(BudgetActions.addCategory(groupId)),
+  addCategoryGroup: () => dispatch(BudgetActions.addCategoryGroup()),
+  adjustBudget: () => dispatch(setEditing(true)),
+  saveBudget: () => {
+    dispatch(setEditing(false));
+    dispatch(BudgetActions.saveBudget());
+  },
+  cancelEdit: ({ month, year }) => {
+    dispatch(setEditing(false));
+    dispatch(getBudget(month, year));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Budget);

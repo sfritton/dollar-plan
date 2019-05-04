@@ -1,29 +1,27 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import Pages from "Redux/actions/pages-enum";
+import { BUDGET, WELCOME, CATEGORY } from "Redux/ui/pages";
 import Budget from "../budget/budget";
 import Welcome from "../welcome/welcome";
 import CategoryPage from "../category-page/category-page";
-import { getAllBudgets, setActiveBudget } from "Redux/actions/budget-actions";
+import { getAllBudgets as getAllBudgetsAction } from "Redux/budgets/actions";
+
+const pages = {
+  [BUDGET]: Budget,
+  [WELCOME]: Welcome,
+  [CATEGORY]: CategoryPage
+};
 
 class Root extends Component {
-  constructor(props) {
-    super(props);
-    props.dispatch(getAllBudgets());
+  componentDidMount() {
+    this.props.getAllBudgets();
   }
 
   render() {
-    switch (this.props.page) {
-      case Pages.WELCOME:
-        return <Welcome />;
-      case Pages.BUDGET:
-        return <Budget />;
-      case Pages.CATEGORY:
-        return <CategoryPage />;
-      default:
-        return <Budget />;
-    }
+    const PageComponent = pages[this.props.page] || Budget;
+
+    return <PageComponent />;
   }
 }
 
@@ -31,4 +29,8 @@ const mapStateToProps = state => ({
   page: state.ui.page
 });
 
-export default connect(mapStateToProps)(Root);
+const mapDispatchToProps = dispatch => ({
+  getAllBudgets: () => dispatch(getAllBudgetsAction())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Root);

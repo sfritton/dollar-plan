@@ -1,22 +1,20 @@
 @import "../../less/colors.less";
 
-.expense-group {
-  margin-bottom: 20px;
-}
-
-.category-title, .category-amount {
+.category-title,
+.category-amount {
   width: 170px;
   margin-right: 20px;
   display: inline-block;
 }
 
 .category-amount {
+  width: 240px;
   text-align: right;
 }
 
 .category-balance {
-  width: 90px;
-  display: inline-block;
+  margin-left: 10px;
+  color: #e8e8e8;
 }
 
 .category-input {
@@ -46,4 +44,17 @@
 .category-amount-input {
   width: 70px;
   text-align: right;
+}
+
+.category-notes-input {
+  width: ~"calc(100% - 470px)";
+  margin-right: 20px;
+}
+
+.category-balance--over {
+  color: @danger-light;
+}
+
+.category-balance--extra {
+  color: @secondary-light;
 }

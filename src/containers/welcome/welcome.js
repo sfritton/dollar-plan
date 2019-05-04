@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import './welcome.less';
+import "./welcome.less";
 
-import Pages from "Redux/actions/pages-enum";
-import { createNewBudget } from "Redux/actions/budget-actions";
-import { setPage, setEdit } from "Redux/actions/ui-actions";
+import { createNewBudget, getBudget } from "Redux/budgets/actions";
+import { setBudgetPage, setEditing } from "Redux/ui/actions";
 import { Button, Dropdown, Page } from "Components";
-import { encodeDate, decodeDate, getMonthName, months } from "Util/date";
+import { decodeDate, getMonthName, months } from "Util/date";
 
 const currentYear = new Date().getFullYear();
 const nextTenYears = new Array(10)
@@ -14,7 +13,9 @@ const nextTenYears = new Array(10)
   .map((elem, i) => ({ value: i + currentYear, name: i + currentYear }));
 
 const FormSection = ({ children, invisible }) => (
-  <div className={`form-section ${invisible ? 'form-section--invisible' : ''}`}>{children}</div>
+  <div className={`form-section ${invisible ? "form-section--invisible" : ""}`}>
+    {children}
+  </div>
 );
 
 class Welcome extends Component {
@@ -39,30 +40,29 @@ class Welcome extends Component {
 
     if (copyOldBudget) {
       const decodedOldDate = decodeDate(oldDate);
-      dispatch(createNewBudget(month, year, decodedOldDate.month, decodedOldDate.year));
+      dispatch(
+        createNewBudget(month, year, decodedOldDate.month, decodedOldDate.year)
+      );
     } else {
       dispatch(createNewBudget(month, year));
     }
 
-    dispatch(setEdit(true));
-    dispatch(setPage(Pages.BUDGET));
+    dispatch(setEditing(true));
+    dispatch(getBudget(month, year));
+    dispatch(setBudgetPage());
   }
 
   render() {
-    const { budgetDates, dispatch } = this.props;
+    const { budgetDates } = this.props;
 
-    const {
-      month,
-      year,
-      copyOldBudget,
-      canCopy,
-      oldDate
-    } = this.state;
+    const { month, year, copyOldBudget, canCopy, oldDate } = this.state;
 
     return (
       <Page header={<h1>New budget</h1>}>
         <section>
-          <FormSection>Select a month and a year for the new budget</FormSection>
+          <FormSection>
+            Select a month and a year for the new budget
+          </FormSection>
 
           <FormSection>
             <Dropdown
@@ -99,9 +99,7 @@ class Welcome extends Component {
           </FormSection>
 
           <FormSection>
-            <Button onClick={this.createBudget} >
-              Create budget
-            </Button>
+            <Button onClick={this.createBudget}>Create budget</Button>
           </FormSection>
         </section>
       </Page>
@@ -110,10 +108,14 @@ class Welcome extends Component {
 }
 
 const mapStateToProps = state => ({
-  budgetDates: state.budgets.budgets.map(({ date }) => ({
-    value: encodeDate(date.month, date.year),
-    name: `${getMonthName(date.month)} ${date.year}`
-  }))
+  budgetDates: Object.keys(state.budgets).map(encodedDate => {
+    const date = decodeDate(encodedDate);
+
+    return {
+      value: encodedDate,
+      name: `${getMonthName(date.month)} ${date.year}`
+    };
+  })
 });
 
 export default connect(mapStateToProps)(Welcome);

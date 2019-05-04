@@ -1,7 +1,7 @@
 import React from "react";
 import "./transaction.less";
 
-import Row from '../row/row';
+import Row from "../row/row";
 import Input from "../input/input";
 import Button from "../button/button";
 
@@ -22,7 +22,7 @@ const TransactionDate = ({ editing, month, day, updateDate }) => {
   }
 
   return <div className="transaction">{`${month}/${day}`}</div>;
-}
+};
 
 const TransactionAmount = ({ editing, amount, updateAmount }) => {
   if (editing) {
@@ -41,9 +41,13 @@ const TransactionAmount = ({ editing, amount, updateAmount }) => {
       {`$${getCentString(amount)}`}
     </div>
   );
-}
+};
 
-const TransactionDescription = ({ editing, description, updateDescription }) => {
+const TransactionDescription = ({
+  editing,
+  description,
+  updateDescription
+}) => {
   if (editing) {
     return (
       <Input
@@ -56,16 +60,14 @@ const TransactionDescription = ({ editing, description, updateDescription }) => 
   }
 
   return (
-    <div className="transaction transaction--description">
-      {description}
-    </div>
+    <div className="transaction transaction--description">{description}</div>
   );
-}
+};
 
 const Transaction = ({
   month,
   transaction,
-  edit,
+  editing,
   updateDate,
   updateDescription,
   updateAmount,
@@ -75,20 +77,20 @@ const Transaction = ({
     <TransactionDate
       month={month}
       day={transaction.date}
-      editing={edit}
+      editing={editing}
       updateDate={updateDate}
     />
     <TransactionAmount
       amount={transaction.amount}
-      editing={edit}
+      editing={editing}
       updateAmount={updateAmount}
     />
     <TransactionDescription
       description={transaction.description}
-      editing={edit}
+      editing={editing}
       updateDescription={updateDescription}
     />
-    {edit &&
+    {editing && (
       <Button
         className="transaction--button"
         small
@@ -97,7 +99,7 @@ const Transaction = ({
       >
         Delete
       </Button>
-    }
+    )}
   </Row>
 );
 
