@@ -1,11 +1,68 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>$Plan</title>
-    <link href="https://fonts.googleapis.com/css?family=Raleway|Roboto" rel="stylesheet">
+    <title>Dollar Plan</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Raleway|Roboto"
+      rel="stylesheet"
+    />
+    <style type="text/css">
+      .loading-message {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #004c8b;
+        font-size: 24px;
+        color: #c6ff00;
+        text-align: center;
+        font-weight: bold;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      .loading-message > h1 {
+        font-size: 64px;
+        margin-top: 40vh;
+        margin-bottom: 30px;
+        color: white;
+      }
+
+      .loading-message span {
+        animation: blink 2s infinite;
+        animation-fill-mode: both;
+      }
+
+      .loading-message span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      .loading-message span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      @keyframes blink {
+        0% {
+          opacity: 0.2;
+        }
+
+        50% {
+          opacity: 1;
+        }
+
+        100% {
+          opacity: 0.2;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="content">Loading ...</div>
-    <script type="text/javascript" src="app.bundle.js"></script>
+    <div id="content">
+      <div class="loading-message">
+        <h1>Dollar Plan</h1>
+        <div>Loading <span>.</span><span>.</span><span>.</span></div>
+      </div>
+    </div>
+    <!-- <script type="text/javascript" src="app.bundle.js"></script> -->
   </body>
 </html>
