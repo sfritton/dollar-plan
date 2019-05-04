@@ -158,7 +158,7 @@ Object {
       handleSaveBudget(budget);
 
       expect(fs.writeFileSync).toHaveBeenCalledWith(
-        "data_new\\2019-01.json",
+        "data\\2019-01.json",
         JSON.stringify(budget)
       );
     });
@@ -169,7 +169,7 @@ Object {
       handleSaveBudget({ date, isLoaded: true });
 
       expect(fs.writeFileSync).toHaveBeenCalledWith(
-        "data_new\\2019-01.json",
+        "data\\2019-01.json",
         JSON.stringify({ date })
       );
     });
