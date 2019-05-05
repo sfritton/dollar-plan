@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import "./header.less";
 
 import { getBudget } from "Redux/budgets/actions";
-import { setWelcomePage } from "Redux/ui/actions";
+import { setNewBudgetPage } from "Redux/ui/actions";
 import NavDropdown from "./nav-dropdown";
 import {
   hasMonthStarted,
@@ -50,7 +50,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getBudget: (month, year) => dispatch(getBudget(month, year)),
-  createNewBudget: () => dispatch(setWelcomePage())
+  createNewBudget: () => dispatch(setNewBudgetPage())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { BUDGET, WELCOME, CATEGORY } from "Redux/ui/pages";
+import { BUDGET, NEW_BUDGET, CATEGORY } from "Redux/ui/pages";
 import Budget from "../budget/budget";
-import Welcome from "../welcome/welcome";
+import NewBudgetPage from "../new-budget-page/new-budget-page";
 import CategoryPage from "../category-page/category-page";
 import { getAllBudgets as getAllBudgetsAction } from "Redux/budgets/actions";
 
 const pages = {
   [BUDGET]: Budget,
-  [WELCOME]: Welcome,
+  [NEW_BUDGET]: NewBudgetPage,
   [CATEGORY]: CategoryPage
 };
 

@@ -1,5 +1,5 @@
 import { SET_PAGE, SET_EDITING } from "./actionTypes";
-import { WELCOME, BUDGET, CATEGORY } from "./pages";
+import { NEW_BUDGET, BUDGET, CATEGORY } from "./pages";
 
 function setPage(page) {
   return {
@@ -8,8 +8,8 @@ function setPage(page) {
   };
 }
 
-export function setWelcomePage() {
-  return setPage(WELCOME);
+export function setNewBudgetPage() {
+  return setPage(NEW_BUDGET);
 }
 
 export function setBudgetPage() {

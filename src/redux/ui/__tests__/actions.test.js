@@ -1,17 +1,17 @@
 import {
-  setWelcomePage,
+  setNewBudgetPage,
   setBudgetPage,
   setCategoryPage,
   setEditing
 } from "../actions";
 import { SET_PAGE, SET_EDITING } from "../actionTypes";
-import { WELCOME, BUDGET, CATEGORY } from "../pages";
+import { NEW_BUDGET, BUDGET, CATEGORY } from "../pages";
 
-describe("setWelcomePage", () => {
+describe("setNewBudgetPage", () => {
   it("should return a SET_PAGE action", () => {
-    expect(setWelcomePage()).toEqual({
+    expect(setNewBudgetPage()).toEqual({
       type: SET_PAGE,
-      payload: { page: WELCOME }
+      payload: { page: NEW_BUDGET }
     });
   });
 });

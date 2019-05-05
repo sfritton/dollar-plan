@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "./welcome.less";
+import "./new-budget-page.less";
 
 import { createNewBudget, getBudget } from "Redux/budgets/actions";
 import { setBudgetPage, setEditing } from "Redux/ui/actions";
@@ -18,7 +18,7 @@ const FormSection = ({ children, invisible }) => (
   </div>
 );
 
-class Welcome extends Component {
+class NewBudgetPage extends Component {
   constructor(props) {
     super(props);
     const canCopy = props.budgetDates.length > 0;
@@ -118,4 +118,4 @@ const mapStateToProps = state => ({
   })
 });
 
-export default connect(mapStateToProps)(Welcome);
+export default connect(mapStateToProps)(NewBudgetPage);
