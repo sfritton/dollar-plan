@@ -4,6 +4,7 @@ import "./header.less";
 
 import { getBudget } from "Redux/budgets/actions";
 import { setNewBudgetPage } from "Redux/ui/actions";
+import { BUDGET } from "Redux/ui/pages";
 import NavDropdown from "./nav-dropdown";
 import {
   hasMonthStarted,
@@ -28,9 +29,16 @@ const getDaysLeftMessage = date => {
   return `${getDaysLeft(month, year)} days left`;
 };
 
-const Header = ({ date, budgetDates, createNewBudget, getBudget }) => (
+const Header = ({
+  date,
+  budgetDates,
+  createNewBudget,
+  getBudget,
+  disableNav
+}) => (
   <div>
     <NavDropdown
+      isActive={!disableNav}
       selected={date}
       options={budgetDates}
       createNewBudget={createNewBudget}
@@ -41,6 +49,7 @@ const Header = ({ date, budgetDates, createNewBudget, getBudget }) => (
 );
 
 const mapStateToProps = state => ({
+  disableNav: state.ui.page !== BUDGET,
   date: state.budget.date,
   budgetDates: Object.keys(state.budgets)
     .sort()

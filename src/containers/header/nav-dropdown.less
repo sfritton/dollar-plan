@@ -19,12 +19,17 @@
 
     &:focus {
       outline: none;
-      text-decoration: underline;
     }
 
-    &:hover {
-      background: @primary-dark-hover;
-      cursor: pointer;
+    &--active {
+      &:focus {
+        text-decoration: underline;
+      }
+
+      &:hover {
+        background: @primary-dark-hover;
+        cursor: pointer;
+      }
     }
   }
 

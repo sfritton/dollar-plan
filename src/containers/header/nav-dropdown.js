@@ -45,7 +45,7 @@ export default class NavDropdown extends React.Component {
   }
 
   render() {
-    const { options, selected } = this.props;
+    const { options, selected, isActive } = this.props;
     const otherBudgets = options.filter(
       ({ month, year }) =>
         !selected || (month !== selected.month || year !== selected.year)
@@ -58,8 +58,10 @@ export default class NavDropdown extends React.Component {
     return (
       <div className="nav-dropdown">
         <button
-          onClick={() => this.toggleOpen()}
-          className="nav-dropdown--heading"
+          onClick={() => isActive && this.toggleOpen()}
+          className={`nav-dropdown--heading ${isActive
+            ? "nav-dropdown--heading--active"
+            : ""}`}
         >
           <h1>{heading}</h1>
         </button>
