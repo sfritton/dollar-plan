@@ -1,9 +1,33 @@
 import React from "react";
 import "./button.less";
 
-const Button = ({ children, secondary, small, onClick, className }) => (
+const classNames = (conditionalNames = {}, ...permanentNames) =>
+  Object.entries(conditionalNames)
+    .reduce((acc, [key, value]) => {
+      if (!value) return acc;
+
+      return [...acc, key];
+    }, permanentNames)
+    .join(" ");
+
+const Button = ({
+  children,
+  secondary,
+  outlined,
+  small,
+  onClick,
+  className
+}) => (
   <button
-    className={`btn ${secondary ? "btn-secondary" : ''} ${small ? "btn-small" : ''} ${className ? className : ''}`}
+    className={classNames(
+      {
+        "btn-secondary": secondary,
+        "btn-outline": outlined,
+        "btn-small": small
+      },
+      "btn",
+      className
+    )}
     onClick={onClick}
   >
     {children}

@@ -1,8 +1,8 @@
 import createReducer from "../helpers/createReducer";
-import { BUDGET } from "./pages";
+import { WELCOME } from "./pages";
 import { SET_PAGE, SET_EDITING } from "./actionTypes";
 
-const initialState = { page: BUDGET, loading: false, editing: false };
+const initialState = { page: WELCOME, loading: false, editing: false };
 
 export function handleSetPage(state, { page }) {
   return { ...state, page };

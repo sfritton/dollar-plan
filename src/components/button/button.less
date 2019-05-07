@@ -7,37 +7,51 @@
   padding: 10px 15px;
   border-radius: 4px;
   font-size: 16px;
+
+  &:hover {
+    cursor: pointer;
+    background: @secondary-light;
+  }
+
+  &:active {
+    box-shadow: inset 0px 3px 10px rgba(0, 0, 0, 0.25);
+    background: @secondary-dark;
+  }
 }
 
-.btn-secondary {
-  background: inherit;
+.btn-secondary,
+.btn-outline {
+  background: transparent;
   color: @secondary;
+
+  &:hover {
+    background: transparent;
+    color: @secondary-light;
+  }
+
+  &:active {
+    box-shadow: none;
+    background: transparent;
+    color: @secondary-dark;
+  }
 }
 
-.btn:hover {
-  cursor: pointer;
-  background: @secondary-light;
+.btn-outline {
+  border: 1px solid @secondary;
+
+  &:hover {
+    border-color: @secondary-light;
+  }
+
+  &:active {
+    border-color: @secondary-dark;
+  }
 }
 
-.btn-secondary:hover {
-  background: inherit;
-  color: @secondary-light;
-}
-
-.row-btn:focus, .btn:focus {
+.row-btn:focus,
+.btn:focus {
   outline: none;
   text-decoration: underline;
-}
-
-.btn:active {
-  box-shadow: inset 0px 3px 10px rgba(0, 0, 0, 0.25);
-  background: @secondary-dark;
-}
-
-.btn-secondary:active {
-  box-shadow: none;
-  background: inherit;
-  color: @secondary-dark;
 }
 
 .btn-small {
