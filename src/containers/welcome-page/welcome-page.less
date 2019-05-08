@@ -1,9 +1,64 @@
 @import "../../less/colors.less";
 
 .welcome {
+  &--fade-in {
+    animation: fadeIn 600ms 1s ease;
+    animation-fill-mode: both;
+  }
+
+  & h2 {
+    text-align: left;
+    display: block;
+    margin: 0 auto 20px;
+    max-width: 600px;
+  }
+
   &--wide-btn {
     margin: 15px auto;
     width: 300px;
     display: block;
+  }
+
+  &--typeahead {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 600px;
+    display: block;
+    width: 100%;
+  }
+
+  &--budgets-container {
+    margin: 0 auto;
+    max-width: 600px;
+    max-height: 70vh;
+    padding-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &--budget-btn {
+    flex: 0 1 calc(33% - 10px);
+    min-width: 160px;
+    margin: 5px;
+  }
+}
+
+h1.welcome--title {
+  margin-top: 20px;
+  animation: up 600ms ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes up {
+  from {
+    margin-top: 40vh;
   }
 }

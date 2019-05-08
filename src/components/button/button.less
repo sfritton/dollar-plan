@@ -7,10 +7,12 @@
   padding: 10px 15px;
   border-radius: 4px;
   font-size: 16px;
+  transition: transform 600ms ease;
 
   &:hover {
     cursor: pointer;
     background: @secondary-light;
+    transform: scale(1.02);
   }
 
   &:active {
@@ -39,12 +41,15 @@
 .btn-outline {
   border: 1px solid @secondary;
 
-  &:hover {
-    border-color: @secondary-light;
+  &:hover,
+  &:focus {
+    border-color: @primary-dark-text;
+    color: @primary-dark-text;
   }
 
   &:active {
     border-color: @secondary-dark;
+    color: @secondary-dark;
   }
 }
 
