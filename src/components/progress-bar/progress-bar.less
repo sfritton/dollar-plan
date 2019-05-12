@@ -10,30 +10,38 @@
   min-width: 10px;
   overflow: hidden;
 
-  &--full {
-    background: @secondary-dark;
-    box-shadow: none;
+  & > div {
+    height: 100%;
   }
 
-  &--null {
-    background: @null;
-    box-shadow: none;
+  &--inner,
+  &--danger {
+    transition: width 600ms ease-out;
+    animation: grow 600ms ease-out;
+  }
+
+  &--inner {
+    background: @secondary-dark;
   }
 
   &--danger {
     background: @danger;
-    box-shadow: none;
   }
 
-  & div {
-    background: @secondary-dark;
-    height: 100%;
+  &--null {
+    background: @null;
+    width: 100% !important;
   }
 
-  @media(max-width: 600px) {
+  @media (max-width: 600px) {
     width: 0;
     margin: 0;
     min-width: 0;
   }
 }
 
+@keyframes grow {
+  from {
+    width: 0;
+  }
+}

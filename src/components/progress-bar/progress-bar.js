@@ -1,28 +1,29 @@
 import React from "react";
 import "./progress-bar.less";
 
-const ProgressBar = ({ numerator, denominator, danger }) => {
+const getProgressBarClassName = ({ numerator, denominator, danger }) => {
   if (denominator <= 0 && numerator <= 0) {
-    return <div className="progress-bar progress-bar--null" />;
+    return "progress-bar--null";
   }
 
-  if (numerator <= 0) {
-    return <div className="progress-bar" />;
+  if (numerator > denominator && danger) {
+    return "progress-bar--danger";
   }
 
-  if (numerator > denominator) {
-    return (
-      <div
-        className={`progress-bar progress-bar--${danger ? "danger" : "full"}`}
-      />
-    );
-  }
+  return "progress-bar--inner";
+};
 
-  const percent = Math.floor(numerator / denominator * 100);
+const ProgressBar = ({ numerator, denominator, danger }) => {
+  const className = getProgressBarClassName({ numerator, denominator, danger });
+
+  const percent = Math.max(
+    Math.min(Math.floor(numerator / denominator * 100), 100),
+    0
+  );
 
   return (
     <div className="progress-bar">
-      <div style={{ width: `${percent}%` }} />
+      <div className={className} style={{ width: `${percent}%` }} />
     </div>
   );
 };
