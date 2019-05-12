@@ -35,7 +35,7 @@ class BudgetPicker extends Component {
           placeholder="Filter"
         />
         <div className="budget-picker--budgets-container">
-          {budgetDates.reduce((acc, { id, name, month, year }) => {
+          {budgetDates.reverse().reduce((acc, { id, name, month, year }) => {
             const matches = matchesSearchTerm({ name }, searchTerm);
             if (!matches) return acc;
 
