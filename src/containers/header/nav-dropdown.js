@@ -11,7 +11,11 @@ const NavList = ({ options, onSelect, isOpen }) => (
     <ul>
       {options.map(({ month, year }) => (
         <li className="nav-dropdown--option" key={encodeDate(month, year)}>
-          <a href="#" onClick={() => onSelect({ month, year })}>
+          <a
+            href="#"
+            tabIndex={isOpen ? undefined : -1}
+            onClick={() => onSelect({ month, year })}
+          >
             {`${getMonthName(month)} ${year}`}
           </a>
         </li>
@@ -19,7 +23,11 @@ const NavList = ({ options, onSelect, isOpen }) => (
     </ul>
     <div className="nav-dropdown--divider" />
     <div className="nav-dropdown--option">
-      <a href="#" onClick={() => onSelect("new")}>
+      <a
+        href="#"
+        onClick={() => onSelect("new")}
+        tabIndex={isOpen ? undefined : -1}
+      >
         Create new budget
       </a>
     </div>
