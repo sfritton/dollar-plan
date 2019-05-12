@@ -3,22 +3,27 @@ import React from "react";
 import "./nav-dropdown.less";
 import { encodeDate, getMonthName } from "Util/date";
 
-const NavList = ({ options, onSelect }) => (
-  <ul className="nav-dropdown--list">
-    {options.map(({ month, year }) => (
-      <li className="nav-dropdown--option" key={encodeDate(month, year)}>
-        <a href="#" onClick={() => onSelect({ month, year })}>
-          {`${getMonthName(month)} ${year}`}
-        </a>
-      </li>
-    ))}
-    <li className="nav-dropdown--divider" />
-    <li className="nav-dropdown--option">
+const NavList = ({ options, onSelect, isOpen }) => (
+  <div
+    className={`nav-dropdown--list ${isOpen ? "nav-dropdown--list--open" : ""}`}
+    aria-hidden={!isOpen}
+  >
+    <ul>
+      {options.map(({ month, year }) => (
+        <li className="nav-dropdown--option" key={encodeDate(month, year)}>
+          <a href="#" onClick={() => onSelect({ month, year })}>
+            {`${getMonthName(month)} ${year}`}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div className="nav-dropdown--divider" />
+    <div className="nav-dropdown--option">
       <a href="#" onClick={() => onSelect("new")}>
-        create new budget
+        Create new budget
       </a>
-    </li>
-  </ul>
+    </div>
+  </div>
 );
 
 export default class NavDropdown extends React.Component {
@@ -27,6 +32,25 @@ export default class NavDropdown extends React.Component {
 
     this.state = { open: false };
     this.onSelect = this.onSelect.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentDidMount() {
+    document.addEventListener("click", this.handleClick, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("click", this.handleClick, false);
+  }
+
+  handleClick(e) {
+    if (!this.state.open) return;
+
+    if (!this.listRef || this.listRef.contains(e.target)) {
+      return;
+    }
+
+    this.setState({ open: false });
   }
 
   toggleOpen() {
@@ -56,7 +80,7 @@ export default class NavDropdown extends React.Component {
       : "select a budget";
 
     return (
-      <div className="nav-dropdown">
+      <div className="nav-dropdown" ref={ref => (this.listRef = ref)}>
         <button
           onClick={() => isActive && this.toggleOpen()}
           className={`nav-dropdown--heading ${isActive
@@ -65,9 +89,11 @@ export default class NavDropdown extends React.Component {
         >
           <h1>{heading}</h1>
         </button>
-        {this.state.open && (
-          <NavList options={otherBudgets} onSelect={this.onSelect} />
-        )}
+        <NavList
+          isOpen={this.state.open}
+          options={otherBudgets}
+          onSelect={this.onSelect}
+        />
       </div>
     );
   }
