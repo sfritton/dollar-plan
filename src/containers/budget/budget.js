@@ -31,14 +31,16 @@ class Budget extends Component {
       <Page header={<Header />} footer={this.renderFooter()}>
         <section>
           <h2>Income</h2>
-          {Object.keys(incomes).map(id => (
-            <Category key={id} income groupId="income" categoryId={id} />
-          ))}
-          {editing && (
-            <Row clickable onClick={() => addCategory("income")}>
-              + add a category
-            </Row>
-          )}
+          <div className="category-cards">
+            {Object.keys(incomes).map(id => (
+              <Category key={id} income groupId="income" categoryId={id} />
+            ))}
+            {editing && (
+              <Row clickable onClick={() => addCategory("income")}>
+                + add a category
+              </Row>
+            )}
+          </div>
         </section>
 
         <section>

@@ -9,23 +9,23 @@ import {
 } from "Redux/budget/actions";
 import { setActiveCategory } from "Redux/category/actions";
 import { setCategoryPage } from "Redux/ui/actions";
-import { Row, ProgressBar, Input } from "Components";
+import { Card, ProgressBar, Input } from "Components";
 import { getCentString, getCentNumber, getDollarString } from "Util/currency";
 
-const Title = ({ editing, title, updateTitle }) => {
-  if (editing) {
-    return (
+const Title = ({ editing, title, updateTitle }) => (
+  <div className="category-title">
+    {editing ? (
       <Input
         className="category-title-input"
         value={title}
         placeholder="Category name"
         onChange={e => updateTitle(e.target.value)}
       />
-    );
-  }
-
-  return <div className="category-title">{title}</div>;
-};
+    ) : (
+      title
+    )}
+  </div>
+);
 
 const generateBalanceClass = (difference, income) => {
   const base = "category-balance";
@@ -37,51 +37,54 @@ const generateBalanceClass = (difference, income) => {
     : "category-balance--over"}`;
 };
 
-const Balance = ({ plannedAmount, actualAmount, income }) => {
-  const difference = plannedAmount - actualAmount;
-  const className = generateBalanceClass(difference, income);
-  let message;
-
+const getBalanceMessage = (difference, income) => {
   if (difference >= 0) {
-    message = `$${getDollarString(difference)} ${income ? "to go" : "left"}`;
-  } else {
-    message = `$${getDollarString(difference * -1)} ${income
-      ? "extra"
-      : "over"}`;
+    return `$${getDollarString(difference)} ${income ? "to go" : "left"}`;
   }
 
-  return <span className={className}>({message})</span>;
+  return `$${getDollarString(difference * -1)} ${income ? "extra" : "over"}`;
 };
 
-const Amount = ({
-  editing,
-  actualAmount,
-  plannedAmount,
-  income,
-  updateAmount
-}) => {
-  if (editing) {
-    return (
-      <div className="category-amount">
-        {`$${getCentString(actualAmount)} of `}
-        <Input
-          className="category-amount-input"
-          value={getCentString(plannedAmount)}
-          placeholder="0"
-          onChange={e => updateAmount(getCentNumber(e.target.value))}
-        />
-      </div>
-    );
-  }
+const Balance = ({ plannedAmount, actualAmount, income }) => {
+  if (plannedAmount === 0 && actualAmount === 0) return null;
+
+  const difference = plannedAmount - actualAmount;
+  const className = generateBalanceClass(difference, income);
+  const message = getBalanceMessage(difference, income);
+
+  return <div className={className}>{message}</div>;
+};
+
+const Amount = ({ editing, plannedAmount, updateAmount }) => (
+  <div className="category-amount">
+    {editing ? (
+      <Input
+        className="category-amount-input"
+        value={getCentString(plannedAmount)}
+        placeholder="0"
+        onChange={e => updateAmount(getCentNumber(e.target.value))}
+      />
+    ) : (
+      `$${getDollarString(plannedAmount)}`
+    )}
+  </div>
+);
+
+const Notes = ({ notes = "", editing = false, updateNotes }) => {
+  if (!editing && !notes) return null;
 
   return (
-    <div className="category-amount">
-      {`$${getDollarString(actualAmount)} of ${getDollarString(plannedAmount)}`}
-      <Balance
-        plannedAmount={plannedAmount}
-        actualAmount={actualAmount}
-        income={income}
-      />
+    <div className="category-card--notes">
+      {editing ? (
+        <Input
+          className="category-notes-input"
+          value={notes}
+          placeholder="Notes"
+          onChange={e => updateNotes(e.target.value)}
+        />
+      ) : (
+        notes
+      )}
     </div>
   );
 };
@@ -92,46 +95,53 @@ const getActualAmount = transactions =>
 const Category = ({
   editing,
   income,
-  category,
   category: { title = "", transactions, plannedAmount, notes = "" },
+  actualAmount,
   openCategory,
   updateTitle,
   updateAmount,
   updateNotes
 }) => (
-  <Row clickable={!editing} onClick={() => !editing && openCategory()}>
-    <Title editing={editing} title={title} updateTitle={updateTitle} />
-    <Amount
-      editing={editing}
-      actualAmount={getActualAmount(transactions)}
-      plannedAmount={plannedAmount}
-      updateAmount={updateAmount}
-      income={income}
-    />
-    {editing ? (
-      <Input
-        className="category-notes-input"
-        value={notes}
-        placeholder="Notes"
-        onChange={e => updateNotes(e.target.value)}
+  <Card clickable={!editing} onClick={() => !editing && openCategory()}>
+    <div
+      className={`category-card--header ${editing
+        ? "category-card--header--editing"
+        : ""}`}
+    >
+      <Title editing={editing} title={title} updateTitle={updateTitle} />
+      <Amount
+        editing={editing}
+        plannedAmount={plannedAmount}
+        updateAmount={updateAmount}
       />
-    ) : (
+    </div>
+    <div className="category-card--footer">
+      <Balance
+        plannedAmount={plannedAmount}
+        actualAmount={actualAmount}
+        income={income}
+      />
       <ProgressBar
-        numerator={getActualAmount(transactions)}
+        numerator={actualAmount}
         denominator={plannedAmount}
         danger={!income}
       />
-    )}
-  </Row>
+    </div>
+    <Notes notes={notes} updateNotes={updateNotes} editing={editing} />
+  </Card>
 );
-
-const mapStateToProps = (state, ownProps) => ({
-  editing: state.ui.editing,
-  category:
+const mapStateToProps = (state, ownProps) => {
+  const category =
     state.budget.categoryGroups[ownProps.groupId].categories[
       ownProps.categoryId
-    ]
-});
+    ];
+
+  return {
+    editing: state.ui.editing,
+    category,
+    actualAmount: getActualAmount(category.transactions)
+  };
+};
 
 const mapDispatchToProps = (dispatch, { groupId, categoryId }) => ({
   updateTitle: title =>

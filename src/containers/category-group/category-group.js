@@ -27,7 +27,7 @@ const getPlannedAmount = categories =>
   );
 
 const CategoryList = ({ categories, groupId, editing, addCategory }) => (
-  <div>
+  <div className="category-cards">
     {Object.keys(categories).map(id => (
       <Category key={id} groupId={groupId} categoryId={id} />
     ))}
