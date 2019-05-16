@@ -1,14 +1,6 @@
 import React from "react";
+import { classNames } from "Util";
 import "./button.less";
-
-const classNames = (conditionalNames = {}, ...permanentNames) =>
-  Object.entries(conditionalNames)
-    .reduce((acc, [key, value]) => {
-      if (!value) return acc;
-
-      return [...acc, key];
-    }, permanentNames)
-    .join(" ");
 
 const Button = ({
   children,

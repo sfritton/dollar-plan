@@ -6,8 +6,9 @@ import {
   updateCategoryGroupTitle,
   addCategory as addCategoryAction
 } from "Redux/budget/actions";
-import { Row, GroupHeader } from "Components";
+import { Card } from "Components";
 import Category from "../category/category";
+import CategoryGroupHeading from "./category-group-heading";
 
 const getActualAmount = categories =>
   Object.values(categories).reduce(
@@ -32,9 +33,9 @@ const CategoryList = ({ categories, groupId, editing, addCategory }) => (
       <Category key={id} groupId={groupId} categoryId={id} />
     ))}
     {editing ? (
-      <Row clickable onClick={addCategory}>
-        + add a category
-      </Row>
+      <Card clickable fullWidth onClick={addCategory}>
+        Add a category
+      </Card>
     ) : null}
   </div>
 );
@@ -56,16 +57,12 @@ class CategoryGroup extends React.Component {
       updateTitle,
       addCategory
     } = this.props;
-    const actualAmount = getActualAmount(categories);
-    const plannedAmount = getPlannedAmount(categories);
 
     return (
       <div className="expense-group">
-        <GroupHeader
+        <CategoryGroupHeading
           editing={editing}
           title={title}
-          actualAmount={actualAmount}
-          plannedAmount={plannedAmount}
           updateTitle={updateTitle}
         />
         <CategoryList

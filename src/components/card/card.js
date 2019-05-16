@@ -1,13 +1,17 @@
 import React from "react";
+import { classNames } from "Util";
 import "./card.less";
 
-const Card = ({ children, clickable, onClick }) => {
+const Card = ({ children, clickable, fullWidth, onClick }) => {
   const Tag = clickable ? "a" : "div";
 
   return (
     <Tag
       href={clickable ? "#" : ""}
-      className={`card ${clickable ? "card--btn" : ""}`}
+      className={classNames(
+        { "card--btn": clickable, "card--full-width": fullWidth },
+        "card"
+      )}
       onClick={clickable ? onClick : undefined}
     >
       {children}

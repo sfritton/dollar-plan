@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import * as BudgetActions from "Redux/budget/actions";
 import { getBudget } from "Redux/budgets/actions";
 import { setEditing } from "Redux/ui/actions";
-import { Page, Row, Footer } from "Components";
+import { Page, Card, Button, Footer } from "Components";
 import Header from "../header/header";
 import Category from "../category/category";
 import CategoryGroup from "../category-group/category-group";
@@ -36,9 +36,9 @@ class Budget extends Component {
               <Category key={id} income groupId="income" categoryId={id} />
             ))}
             {editing && (
-              <Row clickable onClick={() => addCategory("income")}>
-                + add a category
-              </Row>
+              <Card clickable fullWidth onClick={() => addCategory("income")}>
+                Add a category
+              </Card>
             )}
           </div>
         </section>
@@ -49,9 +49,7 @@ class Budget extends Component {
             <CategoryGroup key={id} groupId={id} defaultOpen />
           ))}
           {editing && (
-            <Row clickable header onClick={addCategoryGroup}>
-              + add a category group
-            </Row>
+            <Button onClick={addCategoryGroup}>Add a category group</Button>
           )}
         </section>
       </Page>
