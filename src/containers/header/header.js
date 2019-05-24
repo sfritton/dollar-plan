@@ -44,7 +44,7 @@ const Header = ({
       createNewBudget={createNewBudget}
       setActiveBudget={(month, year) => getBudget(month, year)}
     />
-    <h2 className="nav-message">{getDaysLeftMessage(date)}</h2>
+    <span className="nav-message">{getDaysLeftMessage(date)}</span>
   </div>
 );
 

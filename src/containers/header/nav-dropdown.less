@@ -5,7 +5,10 @@
   width: 280px;
   padding-right: 10px;
   margin-right: 10px;
-  border-right: 1px solid @primary-light;
+
+  @media (min-width: 600px) {
+    border-right: 1px solid @primary-light;
+  }
 
   &--heading {
     height: 60px;

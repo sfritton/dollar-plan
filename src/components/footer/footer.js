@@ -1,13 +1,8 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Button from "../button/button";
-import "./footer.less";
 
 const FooterButton = ({ onClick, label, secondary }) => (
-  <Button
-    small
-    secondary={secondary}
-    onClick={onClick}
-  >
+  <Button small secondary={secondary} onClick={onClick}>
     {label}
   </Button>
 );
@@ -19,7 +14,7 @@ const FooterButtons = ({
   secondaryDefault,
   secondaryEditing
 }) => (
-  <div className="float-right">
+  <div className="footer--buttons">
     {editing ? (
       <div>
         {secondaryEditing && <FooterButton secondary {...secondaryEditing} />}
@@ -42,8 +37,8 @@ const Footer = ({
   secondaryDefault,
   secondaryEditing
 }) => (
-  <div>
-    {message && <h2>{message}</h2>}
+  <Fragment>
+    <div className="footer--message">{message && <h2>{message}</h2>}</div>
     <FooterButtons
       editing={editing}
       primaryDefault={primaryDefault}
@@ -51,7 +46,7 @@ const Footer = ({
       secondaryDefault={secondaryDefault}
       secondaryEditing={secondaryEditing}
     />
-  </div>
+  </Fragment>
 );
 
 export default Footer;

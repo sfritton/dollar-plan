@@ -1,32 +1,36 @@
 @import "../../less/colors.less";
 
 .main {
-  overflow-x: auto;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 .nav,
 .footer {
-  position: relative;
   background: @primary-dark;
   padding: 10px;
-  min-width: 570px;
 }
 
 .nav {
-  height: 60px;
+  min-height: 60px;
   width: 100%;
   box-shadow: 0 5px 10px @shadow;
 }
 
 .footer {
-  height: 47.5px;
+  min-height: 48px;
   width: 100%;
   box-shadow: 0 -5px 10px @shadow;
+  display: flex;
+
+  &--message {
+    flex-grow: 1;
+  }
 }
 
 .content {
   padding: 15px;
-  height: calc(~"100vh - 108px");
+  flex-grow: 1;
   overflow-y: auto;
-  min-width: 570px;
 }
