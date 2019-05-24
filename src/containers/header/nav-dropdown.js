@@ -90,6 +90,7 @@ export default class NavDropdown extends React.Component {
     return (
       <div className="nav-dropdown" ref={ref => (this.listRef = ref)}>
         <button
+          tabIndex={isActive ? "0" : "-1"}
           onClick={() => isActive && this.toggleOpen()}
           className={`nav-dropdown--heading ${isActive
             ? "nav-dropdown--heading--active"

@@ -1,11 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { Page, Row, GroupHeader, Footer, Transaction } from "Components";
+import { Page, Row, ProgressBar, Footer, Transaction } from "Components";
 import Header from "../header/header";
+import { Balance } from "../category/category";
 import { setBudgetPage, setEditing } from "Redux/ui/actions";
 import * as CategoryActions from "Redux/category/actions";
 import { saveCategoryToBudget, saveBudget } from "Redux/budget/actions";
+import { getDollarString } from "Util/currency";
+import "./category-page.less";
 
 class CategoryPage extends React.Component {
   render() {
@@ -15,27 +18,38 @@ class CategoryPage extends React.Component {
       income,
       addTransaction
     } = this.props;
+    const actualAmount = this.getActualAmount();
 
     return (
       <Page header={<Header />} footer={this.renderFooter()}>
-        <section>
-          <h2>{groupTitle}</h2>
-          <GroupHeader
-            title={title}
-            actualAmount={this.getActualAmount()}
-            plannedAmount={plannedAmount}
-            income={income}
-          />
-          {notes && (
-            <Row>
-              <b>Notes:</b> {notes}
-            </Row>
-          )}
+        <div className="category-page--header">
+          <h2>
+            {groupTitle} - {title}
+          </h2>
+          ${getDollarString(plannedAmount)}
+        </div>
+        <div className="category-page--details">
+          <div className="category-page--balance">
+            <Balance
+              plannedAmount={plannedAmount}
+              actualAmount={actualAmount}
+              income={income}
+            />
+            <ProgressBar
+              numerator={actualAmount}
+              denominator={plannedAmount}
+              danger={!income}
+            />
+          </div>
+          <div className="category-page--notes">{notes}</div>
+        </div>
+        <h3 className="category-page--h3">Transactions</h3>
+        <div className="category-page--transactions">
           {this.renderTransactions()}
           <Row clickable onClick={addTransaction}>
             + Add a transaction
           </Row>
-        </section>
+        </div>
       </Page>
     );
   }

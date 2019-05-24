@@ -35,7 +35,7 @@ const getBalanceMessage = (difference, income) => {
   return `$${getDollarString(difference * -1)} ${income ? "extra" : "over"}`;
 };
 
-const Balance = ({ plannedAmount, actualAmount, income }) => {
+export const Balance = ({ plannedAmount, actualAmount, income }) => {
   if (plannedAmount === 0 && actualAmount === 0) return null;
 
   const difference = plannedAmount - actualAmount;
